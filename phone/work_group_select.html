@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>自轮运转特种设备运用管理系统</title>
+    <link rel="stylesheet" type="text/css" href="css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="css/iconfont/iconfont.css">
+</head>
+<body class="body">
+    <div id="ScrollContent">
+        <div id="controller1"></div>
+    </div>
+    
+<script src="js/appcan.js"></script>
+<script src="js/appcan.control.js"></script>
+<script src="js/gsoft.core.js"></script>
+<script src="js/public.js"></script>
+<script type ="text/javascript" src ="js/DivDisplayFrame.js"></script>
+    <script src="js/gltl_ORM/DataAccess.js"></script>
+    <script src="js/gltl_ORM/gltl_datainitrule.js"></script>
+    <script src="js/gltl_ORM/gltl_engine.js"></script>
+    <script src="js/gltl_ORM/gltl_user.js"></script>
+    <script src="js/gltl_ORM/gltl_workingproceduregroup.js"></script>
+    <script src="js/gltl_ORM/gltl_station.js"></script>
+<script type="text/javascript">
+    //获取缓存内参数
+    var public = new Public();
+    public.header('机车选择',true,true);//显示顶部：标题名，左侧icon，右侧icon
+    public.backBtn();
+        
+    var selectPageLS = JSON.parse(localStorage.getItem('selectPageLS'));
+    if (selectPageLS.type == 4) {
+        $('.header span').html('选择站点');//替换标题名
+    }else{
+        $('.header span').html(selectPageLS.convert);//替换标题名
+    };
+
+    //获取选择列表
+    appcan.ready(function() {
+        function _dealData(data, type) {
+            // alert(JSON.stringify(data));
+            var infoArry = new Array();
+            var info;
+            var empty = new DivInfo(onClickDiv,'','','<span class="text-yellow">取消选择</span>')
+            infoArry.push(empty);
+            for(var i=0;i<data.records.length;i++) {
+                if (type == 2) {
+                    info = new DivInfo(onClickDiv,"",data.records[i].ID,data.records[i].name + '_' + data.records[i].number);
+                } else {
+                    info = new DivInfo(onClickDiv,"",data.records[i].ID,data.records[i].Text);
+                };
+                infoArry.push(info);
+            }
+            var divD = new DivDisplayFrame("controller1", 8, "", infoArry);
+            divD.Load();
+
+            //统一li高度
+            var maxLiHeight = 0;
+            for (var i=0; i < $('#controller1').find('li').length; i++) {
+                liHeight = $('#controller1').find('li').eq(i).height();
+                if (liHeight > maxLiHeight) {
+                    maxLiHeight = liHeight;
+                };
+            };
+            $('#controller1').find('li').css('height',maxLiHeight + 'px');
+        }
+        var data = '';
+        data = 'type=' + selectPageLS.type + '&convert=' + selectPageLS.convert + '&bool=' + selectPageLS.bool + '&exten=' + selectPageLS.exten;
+        // alert(data);
+        // console.log(data);
+        appcan.gsoft.ajaxUtil.ajax({
+            url : '/GetDataSourceManager/getDatasource.json',
+            data : data,
+            success : function(data) {
+                _dealData(data, selectPageLS.type);
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                _getDataOffLine(selectPageLS.type, selectPageLS.convert, selectPageLS.bool, selectPageLS.exten);
+//                appcan.window.openToast('服务器连接失败,请检查网络...', '2000');
+            }
+        });
+
+        // 本地数据库
+        function _getDataOffLine(type, convert, bool, exten) {
+            var gltlDatainitrule = new gltl_datainitrule();
+            gltlDatainitrule.SetF_DIRNAME(convert);
+            gltlDatainitrule.ExecuteSQLByResult(gltlDatainitrule.GetSelectSQL(), function (json) {
+                var where = (json && json[0]) ? json[0].F_DIRWHERE : '';
+
+                function dealExten(where, exten, param) {
+                    if(!exten) return where
+                    param = param || 'F_UID'
+                    if(Array.isArray(exten)) {
+                        return where + ' OR '+param+' in ("' +exten.join("','")+'")'
+                    }
+                    return where;
+                }
+
+                if (type == '1') {
+                    var gltlUser = new gltl_user();
+                    gltlUser.SetF_UISDELETE('0');
+                    var getSelectSQL = gltlUser.GetSelectSQL(false, null, dealExten(where, exten));
+                    gltlUser.ExecuteSQLByResult(getSelectSQL, function (json) {
+                        var _rec = $.map(json, function (e) {
+                            return {
+                                ID: e.F_UID,
+                                Text: e.F_UNAME
+                            }
+                        })
+                        _dealData({records: _rec}, type);
+                    })
+                }else if(type == '2') {
+                    var gltlEngine = new gltl_engine();
+                    gltlEngine.SetF_EISDELETE('0');
+                    gltlEngine.ExecuteSQLByResult(gltlEngine.GetSelectSQL(false, null, dealExten(where, exten)), function (json) {
+                        var _rec = $.map(json, function (e) {
+                            return {
+                                ID: e.F_EID,
+                                name: e.F_ENAME,
+                                number: e.F_EPLATENUMBER,
+                                model: e.F_ESTANDARDMODEL,
+                                runningtime: e.F_ERUNNINGTIME,
+                                runningmileage: e.F_ERUNNINGMILEAGE,
+                                type: e.F_ETYPE
+                            }
+                        })
+                        _dealData({records: _rec}, type)
+                    })
+                }else if(type == '3') {
+                    var gltlUser = new gltl_workingproceduregroup();
+                    gltlUser.SetF_WPGISDELETE('0');
+                    var getSelectSQL = gltlUser.GetSelectSQL(false, null, dealExten(where, exten, 'F_WPGID'));
+                    gltlUser.ExecuteSQLByResult(getSelectSQL, function (json) {
+                        var _rec = $.map(json, function (e) {
+                            return {
+                                ID: e.F_WPGID,
+                                Text: e.F_WPGNAME
+                            }
+                        })
+                        _dealData({records: _rec}, type);
+                    })
+                } else if (type == '4') {
+                    var gltlUser = new gltl_station();
+                    gltlUser.SetF_SISDELETE('0');
+                    var getSelectSQL = gltlUser.GetSelectSQL(false, null, dealExten(where, exten, 'F_SID'));
+                    gltlUser.ExecuteSQLByResult(getSelectSQL, function (json) {
+                        var _rec = $.map(json, function (e) {
+                            return {
+                                ID: e.F_SID,
+                                Text: e.F_SNAME
+                            }
+                        })
+                        _dealData({records: _rec}, type);
+                    })
+                }
+            })
+        }
+    })
+    //点击选择动作
+    function onClickDiv() {
+        var id = window.event.srcElement.getAttribute("BussinessID");
+        var name = window.event.srcElement.getAttribute("DisplayText");
+        // alert(name);
+        appcan.window.evaluateScript(selectPageLS.pageName,'changeText(\'' + selectPageLS.id + '\',\'' + name + '\',\'' + id + '\')');
+        uexWindow.close();
+    }
+</script>
+</body>
+</html>

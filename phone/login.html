@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+    <head>
+        <title></title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="css/public.css"/>
+        <link rel="stylesheet" type="text/css" href="css/iconfont/iconfont.css">
+        <link rel="stylesheet" type="text/css" href="css/login.css"/>
+    </head>
+    <body>
+    <div class="bg">
+        <div class="login-window">
+            <img class="logo" src="img/logo.png" alt="">
+            <h1>特种设备运用管理系统</h1>
+            <div class="border-white radius text-input">
+                <div class="text-input-left">
+                    <i class="icon iconfont icon-wodefill text-white"></i>
+                </div>
+                <!-- <input id="uid" name="username" class="text-input-right text-white" type="text" value="用户名：" onfocus="if(value==''){value =''}" onblur="if(value==''){value='用户名：'}"> -->
+                <input id="uid" name="username" class="text-input-right text-white" type="text" value="用户名：" onfocus="if(value=='用户名：'){value =''}" onblur="if(value==''){value='用户名：'}">
+            </div>
+            <div class="border-white radius text-input">
+                <div class="text-input-left">
+                    <i class="icon iconfont icon-password text-white"></i>
+                </div>
+                <!-- <input id="upwd" name="password" class="text-input-right text-white" type="text" value="密码：" onfocus="if(value==''){value =''}" onblur="if(value==''){value='密码：'}"> -->
+                <input id="upwd" name="password" class="text-input-right text-white" type="text" value="密码：" onfocus="if(value=='密码：'){value ='';$(this).attr('type','password')}" onblur="if(value==''){value='密码：';$(this).attr('type','text')}">
+           </div>
+            <div class="text-input">
+                <label class="text-white" style="font-size: 1.25em;"><input id="remeberPassword" type="checkbox" />记住密码</label>
+            </div>
+            <button id="submit" class="radius">登录</button>
+            <!-- <button id="clear" class="radius">清除缓存</button>
+            <button id="chaxun" class="radius">查询缓存</button> -->
+            <!-- <div class="text-center"><span class="text-white">没有帐号？</span><a href="#" class="text-primary">联系管理员</a></div> -->
+        </div>
+    </div>
+    <script src="js/appcan.js"></script>
+    <script src="js/appcan.control.js"></script>
+    <script src="js/gsoft.core.js"></script>
+    <script src="js/md5.js"></script>
+    <script src="js/gltl_ORM/DataAccess.js"></script>
+    <script src="js/gltl_ORM/gltl_user.js"></script>
+    <script src="js/gltl_ORM/gltl_taskplan.js"></script>
+    <script src="js/gltl_ORM/gltl_engine.js"></script>
+    <script src="js/gltl_ORM/gltl_station.js"></script>
+    <script src="js/gltl_ORM/gltl_workingprocedure.js"></script>
+    <script src="js/gltl_ORM/gltl_workingproceduregroup.js"></script>
+    <script src="js/gltl_ORM/gltl_workingproceduregroupitem.js"></script>
+    <script src="js/gltl_ORM/gltl_dictionary.js"></script>
+    <script>
+        appcan.ready(function() {
+           // alert("是否连接网络："+navigator.onLine);
+          //  alert("网络连接方式为："+navigator.connection.type);
+            if (typeof uexJPush != 'undefined') {
+                // 消息推送
+                uexJPush.onReceiveNotification = function (data) {
+                    var isact = localStorage.getItem('__isAct');
+                    if (isact == '1') {
+                        uexJPush.removeLocalNotification(JSON.stringify({notificationId: JSON.parse(data).notificationId}));
+                        appcan.window.publish('callMsg', 'msg');
+                    }
+                }
+                uexJPush.onReceiveNotificationOpen = function (data) {
+                    appcan.window.open('user_info_list', 'user/user_info_list.html')
+                }
+            }
+            uexWidget.onSuspend = function () {
+                //程序挂起
+                localStorage.setItem('__isAct', '0');
+            }
+            uexWidget.onResume = function () {
+                //程序恢复
+                localStorage.setItem('__isAct', '1');
+            }
+            //本地数据库初始化
+            if (localStorage.getItem('g_DataAccessBIsOpen') != 'true') {
+                var da = new DataAccess();
+                localStorage.setItem('g_DataAccessBIsOpen', 'false');
+                da.OpenDataBase();
+            };
+            appcan.gsoft.ajaxUtil.logout();
+
+            // 记住密码功能
+            function initPassword() {
+                var name = localStorage.name;
+                var pwd = localStorage.pwd;
+                if (name || pwd ) {
+                    $('#remeberPassword').attr('checked', true);
+                    $("#uid").val(name);
+                    $("#upwd").val(pwd);
+                    $('#upwd').attr('type','password');
+                }else {
+                    $("#upwd").val('');
+                    $('#remeberPassword').attr('checked', false);
+                }
+            }
+            initPassword();
+            appcan.window.on('resume', initPassword);
+
+            // 判断设备联网状态
+            setInterval(function () {
+                appcan.device.getDeviceInfo(function (...ss) {
+                    if (ss && ss[0] && ss[0].connectStatus == -1) {
+                        localStorage.setItem('connectStatus', 'offline');
+                    }else {
+                        localStorage.setItem('connectStatus', 'online');
+                    }
+                })
+            }, 5000);
+
+//            return appcan.window.open({
+//                name: 'hello',
+//                data: 'hello.html'
+//            })
+//            localStorage.setItem("selectPageLS", JSON.stringify({
+//                type: 4,
+//                convert: '选站点'
+//            }))
+//            appcan.gsoft.ajaxUtil.login({
+//                username : '王宏伟',
+//                password : '123456'
+//            }, 'select-search.html');
+        });
+        function login() {
+            var name = $("#uid").val();
+            var pwd = $("#upwd").val();
+            // 记住密码功能
+            var isRem = $('#remeberPassword:checked').length;
+            if (isRem) {
+                localStorage.setItem('name', name);
+                localStorage.setItem('pwd', pwd);
+            }else {
+                localStorage.removeItem('pwd')
+                localStorage.removeItem('name')
+            }
+
+            // var name = localStorage.name;
+            // var pwd = localStorage.pwd;
+            if (name == "") {
+                appcan.window.openToast('账号不能为空', '2000');
+                return;
+            } else if (pwd == "") {
+                appcan.window.openToast('密码不能为空', '2000');
+                return;
+            } else {
+                localStorage.removeItem('__infoCount')
+                localStorage.removeItem('infoIdList')
+                appcan.gsoft.ajaxUtil.login({
+                    username : name,
+                    password : pwd
+                }, 'index.html');
+            }
+        }
+        appcan.button("#submit", "ani-act", function() {
+            login();
+        })
+        appcan.button("#clear", "ani-act", function() {
+            localStorage.clear();
+            sessionStorage.clear();
+        })
+        appcan.button("#chaxun", "ani-act", function() {
+            alert(JSON.stringify(localStorage));
+        })
+    </script>
+    </body>
+</html>

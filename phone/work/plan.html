@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>自轮运转特种设备运用管理系统</title>
+    <link rel="stylesheet" type="text/css" href="../css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/iconfont/iconfont.css">
+    <!-- <link rel="stylesheet" type="text/css" href="../css/logbook.css"/> -->
+</head>
+<body class="body">
+    <div id="ScrollContent">
+        <div class="block">
+            <div class="block-head text-black">
+                <span class="block-title">基础信息</span>
+                <!-- 计划提交按钮 -->
+                <i id="save_task" class="icon iconfont icon-fabu text-green"></i>
+            </div>
+            <div class='block-body'>
+                <table class="table-input">
+                    <tr>
+                        <td><span class="input-label text_necessary">计划名称:</span></td>
+                        <td colspan="3"><input id="fDpname" class="input-text" type="text" value="" /></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label text_necessary">计划日期:</span></td>
+                        <td colspan="3"><input id="fDpcreatetime"  class="input-text bor-0 input-readonly" type="text" value="" readonly="true" /></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 5em;"><span class="input-label text_necessary">计划编号:</span></td>
+                        <td style="width: calc(33.3% - 5em);"><input id="fDpcode"  class="input-text bor-0 input-readonly" type="text" value="" readonly="true" /></td>
+                        <td style="width: 5em;"><span class="input-label text_necessary">发布人:</span></td>
+                        <td style="width: calc(33.3% - 5em);"><input id="fDpcreateperson"  class="input-text bor-0 input-readonly" type="text" value="" readonly="true" /></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!-- 任务列表 -->
+        <div id="task_list">
+    		<!-- <div class="block">
+    			<div class="long_press block-head text-black">
+    				<span class="block-title">任务</span><span class="f_Tpindex">1</span>
+                    <i class="icon iconfont icon-xiangxia2 fl-r text-green"></i>
+                </div>
+                <div class="block-body">
+                    <table class="table-input">
+                        <tr>
+                            <td width="10%"><span class="input-label">任务名称:</span></td>
+                            <td width="40%"><input class="f_Tpname input-text" type="text" value="任务名称"/></td>
+                            <td width="10%"><span class="input-label">日期:</span></td>
+                            <td width="40%"><div id="date" class="f_Tpdate input-text input_select">2017.03.25 12:35</div></td>
+                        </tr>
+                        <tr>
+                            <td><span class="input-label">机车选择:</span></td>
+                            <td><div class="f_Eid input-text input_select">机车选择1</div></td>
+                            <td><span class="input-label">机车选择:</span></td>
+                            <td><div class="f_Eexid input-text input_select">机车选择2</div></td>
+                        </tr>
+                        <tr>
+                            <td><span class="input-label">正司机:</span></td>
+                            <td><div class="f_Tpdriver input-text input_select">正司机</div></td>
+                            <td><span class="input-label">值乘人员:</span></td>
+                            <td><div class="f_Tppersonone input-text input_select">值乘人员1</div></td>
+                        </tr>
+                        <tr>
+                            <td><span class="input-label">副司机:</span></td>
+                            <td><div class="f_Tpassistantdriver input-text input_select">副司机</div></td>
+                            <td><span class="input-label">值乘人员:</span></td>
+                            <td><div class="f_Tppersontwo input-text input_select">值乘人员2</div></td>
+                        </tr>
+                        <tr>
+                            <td><span class="input-label">工序组:</span></td>
+                            <td><div class="f_Wpgid input-text input_select">工序组</div></td>
+                            <td><span class="input-label">任务类型:</span></td>
+                            <td><div class="f_Wpgidextend input-text input_select">任务类型</div></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="block-foot">
+                    <table class="table-input">
+                        <tr>
+                            <td style="width: 12em;"><span class="input-label">施工地段:</span></td>
+                            <td><input class="f_Tpsection input-text" type="text" name="" id="" value="施工地段" /></td>
+                        </tr>
+                        <tr class="f_Tpgroup">
+                            <td><span class="input-label">车辆编组:</span></td>
+                            <td>41+<button>添加</button>+51</td>
+                        </tr>
+                        <tr>
+                            <td><span class="input-label">施工内容及影响范围:</span></td>
+                            <td><textarea class="f_Tpcontent input-text" rows="3">施工内容及影响范围</textarea></td>
+                        </tr>
+                    </table>
+                </div>
+    		</div> -->
+		</div>
+        <!-- 任务添加按钮 -->
+        <div id="add_task" class="add-task">
+            <i class="add_antiskid icon iconfont icon-jiahao text-green"></i>
+            <span class="text-green">添加任务</span>
+        </div>
+	</div>
+    
+    <!-- appcan -->
+    <script src="../js/appcan.js"></script>
+    <script src="../js/appcan.control.js"></script>
+    <script src="../js/appcan.tab.js"></script>
+    <script src="../js/gsoft.core.js"></script>
+    <!-- jQuery -->
+    <script src="../js/jquery/jquery1.7.1.min.js"></script>
+    <!-- logbook -->
+    <script src="../js/public.js"></script>
+    <script src="../js/SelectDateTime.js"></script>
+    <script type="text/javascript" charset="utf-8">
+    dataTimeWindow(false);
+    var fDpid = '';  //主键ID   隐藏
+    var userId = '';  //用户ID   隐藏
+    var wpRecords;
+    // 获取服务器数据
+    appcan.ready(function() {
+        var public = new Public();
+        public.header('行车计划',true,true);//显示顶部:标题名，左侧icon，右侧icon
+        public.footer();//显示底部
+        public.backBtn();
+        
+        taskHTML();
+        appcan.gsoft.ajaxUtil.ajax({
+            url : '/gltlDailyplanManager/getDailyPlan.json',
+            success : function(data) {
+                // alert(JSON.stringify(data.records[0].userName));
+                fDpid = data.records[0].fDpid;  //主键ID   隐藏
+                userId = data.records[0].userId;  //用户ID   隐藏
+                $('#fDpcode').val(data.records[0].fDpcode);  //计划编号  显示
+                $('#fDpcreateperson').val(data.records[0].userName);  //用户名  显示
+                $('#fDpname').val(data.records[0].fDpname);  //计划名称
+                $('#fDpcreatetime').val(data.records[0].fDpcreatetime);  //创建时间
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                appcan.window.openToast('服务器连接失败,请检查网络...', '2000');
+            }
+        });
+        
+        var data = 'type=3&convert=选固定工序组&bool=0&exten=' + '';
+        appcan.gsoft.ajaxUtil.ajax({
+            url : '/GetDataSourceManager/getDatasource.json',
+            data : data,
+            success : function(data) {
+                wpRecords = data.records;
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                appcan.window.openToast('服务器连接失败,请检查网络...', '2000');
+            }
+        });
+        
+    })
+    //添加任务
+    appcan.button("#add_task", "ani-act", function() {
+        taskHTML();
+    })
+    //获取页面数据
+    function planData(){
+        var planData = 'fDpid=' + fDpid + '&' +
+            'fDpcode=' + $("#fDpcode").val() + '&' +
+            'fDpname=' + $("#fDpname").val() + '&' +
+            'fDpcreateperson.userId=' + userId + '&' +
+            'fDpcreatetime=' + $("#fDpcreatetime").val() + '&';
+
+        for (var i=0; i < ($('.block').length-1); i++) {
+            planData = planData + 'gltlTaskplans[' + i + '].fTpname=' + $('.block:eq(' + (i+1) + ') .f_Tpname').val() + '&' +   //任务名称
+            'gltlTaskplans[' + i + '].fTpdate=' + $('.block:eq(' + (i+1) + ') .f_Tpdate').attr('name') + '&' +   //任务日期
+            'gltlTaskplans[' + i + '].engineOne.fEid=' + $('.block:eq(' + (i+1) + ') .f_Eid').attr('name') + '&' +    //主机车ID（车头机车）
+            'gltlTaskplans[' + i + '].personOne.userId=' + $('.block:eq(' + (i+1) + ') .f_Tpdriver').attr('name') + '&' +   //主司机
+            'gltlTaskplans[' + i + '].personTwo.userId=' + $('.block:eq(' + (i+1) + ') .f_Tpassistantdriver').attr('name') + '&' +  //副司机
+            'gltlTaskplans[' + i + '].wpGroup.fWpgid=' + $('.block:eq(' + (i+1) + ') .f_Wpgid').attr('name') + '&' +
+            'gltlTaskplans[' + i + '].wpGroupExtend.fWpgid=' + $('.block:eq(' + (i+1) + ') .f_Wpgidextend').attr('name') + '&' +
+            'gltlTaskplans[' + i + '].fTpsection=' + $('.block:eq(' + (i+1) + ') .f_Tpsection').val() + '&' +
+            'gltlTaskplans[' + i + '].fTpcontent=' + $('.block:eq(' + (i+1) + ') .f_Tpcontent').val() + '&' +
+            'gltlTaskplans[' + i + '].fTpindex=1&';
+            if ($('.block:eq(' + (i+1) + ') .f_Eexid').attr('name') != undefined && $('.block:eq(' + (i+1) + ') .f_Eexid').attr('name') != "") {
+                planData += 'gltlTaskplans[' + i + '].engineTwo.fEid=' + $('.block:eq(' + (i+1) + ') .f_Eexid').attr('name') + '&';  //副机车ID（车头机车）
+            };
+            if ($('.block:eq(' + (i+1) + ') .f_Tppersonone').attr('name') !== undefined) {
+                planData += 'gltlTaskplans[' + i + '].personThree.userId=' + $('.block:eq(' + (i+1) + ') .f_Tppersonone').attr('name') + '&'; //值乘人员
+            };
+            if ($('.block:eq(' + (i+1) + ') .f_Tppersontwo').attr('name') !== undefined) {
+                planData += 'gltlTaskplans[' + i + '].personFour.userId=' + $('.block:eq(' + (i+1) + ') .f_Tppersontwo').attr('name') + '&'; //值乘人员
+            };
+            
+            planData += 'gltlTaskplans[' + i + '].fTpgroup=' + $('.block:eq(' + (i+1) + ') .car_group1').html();
+            if($('.block:eq(' + (i+1) + ') .inputContent').val() != ""){
+               
+                planData += ($('.block:eq(' + (i+1) + ') .inputContent').val()) ;
+            }
+            planData += ($('.block:eq(' + (i+1) + ') .car_group2').html());
+            if (i !== ($('.block').length-2)) {
+                planData = planData + '&';
+            };
+        };
+        return planData
+    }
+    //提交任务
+    var ajaxFlag = true;
+    appcan.button("#save_task", "ani-act", function() {
+        // alert(JSON.stringify(planData()));
+        if(ajaxFlag){
+            for (var i=0; i < ($('.block').length-1); i++) {
+                if ($('.block:eq(' + (i+1) + ') .f_Tpdate').val() == '') {
+                    alert('请选择任务日期')
+                    return;
+                }else if ($('.block:eq(' + (i+1) + ') .f_Tpname').val() == '') {
+                    alert('请填写任务名称');
+                    return;
+                }else if ($('.block:eq(' + (i+1) + ') .f_Eid').val() == '') {
+                    alert('请选择机车1');
+                    return;
+                }else if ($('.block:eq(' + (i+1) + ') .f_Tpdriver').val() == '') {
+                    alert('请选择正司机');
+                    return;
+                }else if ($('.block:eq(' + (i+1) + ') .f_Tpassistantdriver').val() == '') {
+                    alert('请选择副司机');
+                    return;
+                }else if ($('.block:eq(' + (i+1) + ') .f_Wpgid').val() == '') {
+                    alert('请选择工序组');
+                    return;
+                }else if ($('.block:eq(' + (i+1) + ') .f_Wpgidextend').val() == '') {
+                    alert('请选择任务类型');
+                    return;
+                }
+                
+            }
+            appcan.gsoft.ajaxUtil.ajax({
+                url : '/gltlDailyplanManager/saveGltlDailyplan.json',
+                data : planData(),
+                success : function(data) {
+                    // alert(JSON.stringify(data));
+                    ajaxFlag = true;
+                    if (data.records[0].result == 'SUCCESS') {
+                        alert("任务发布成功！");
+                        appcan.window.close(-1);
+                    } else if (data.records[0].result == 'ERROR'){
+                        alert(data.records[0].message)
+                    };
+                },
+                error : function(XMLHttpRequest, textStatus, errorThrown) {
+                    appcan.window.openToast('服务器连接失败,请检查网络...', '2000');
+                }
+            });
+            ajaxFlag=false;
+        }else{
+            appcan.window.alert({
+                title: '提示',
+                content: '数据处理中，请勿重复提交！',
+                buttons: '确定'
+            });
+        }
+        
+    })
+    //任务HTML代码插入
+    function taskHTML(){
+        var num = $('#task_list .block').length;
+        var taskHTML = '<!-- 任务' + (num+1) + ' -->' +
+            '<div class="block">' +
+            '<div class="long_press block-head text-black">' +
+                '<span class="block-title">任务</span><span class="f_Tpindex" id="f_Tpindex_' + num + '"></span>' +
+                '<i class="icon iconfont fl-r text-gray icon-xiangshang2" onclick="toggle($(this))"></i>' +
+            '</div>' +
+            '<div class="block-toggle">' +
+                '<div class="block-body">' +
+                    '<table class="table-input">' +
+                        '<tr>' +
+                            '<td style="width: 5em;"><span class="input-label text_necessary">任务名称:</span></td>' +
+                            '<td style="width: calc(50% - 5em);"><input id="f_Tpname_' + num + '" class="f_Tpname input-text" type="text" value="" onchange="changeTitleName(' + num + ')"/></td>' +
+                            '<td style="width: 5em;"><span class="input-label text_necessary">日期:</span></td>' +
+                            '<td style="width: calc(50% - 5em);"><input id="f_Tpdate_' + num + '" class="f_Tpdate datatime_window input-text" type="text" value="" readonly="true" /></td>' +
+                        '</tr>' +
+                        '<tr>' +
+                            '<td><span class="input-label text_necessary">工序组:</span></td>' +
+                            '<td><input id="f_Wpgid' + num + '" class="f_Wpgid select_process1 input-text" type="text" value="" readonly="true" /></td>' +
+                            '<td><span class="input-label text_necessary">任务类型:</span></td>' +
+                            '<td><input id="f_Wpgidextend' + num + '" class="f_Wpgidextend select_process2 input-text" type="text" value="" readonly="true" /></td>' +
+                        '</tr>' +
+                        '<tr>' +
+                            '<td><span class="input-label text_necessary">正司机:</span></td>' +
+                            '<td><input id="f_Tpdriver' + num + '" class="f_Tpdriver input-text select_driver" type="text" value="" readonly="true" /></td>' +
+                            '<td><span class="input-label">值乘人员:</span></td>' +
+                            '<td><input id="f_Tppersonone' + num + '" class="f_Tppersonone input-text select_driver" type="text" value="" readonly="true" /></td>' +
+                        '</tr>' +
+                        '<tr>' +
+                            '<td><span class="input-label text_necessary">副司机:</span></td>' +
+                            '<td><input id="f_Tpassistantdriver' + num + '" class="f_Tpassistantdriver select_driver input-text" type="text" value="" readonly="true" /></td>' +
+                            '<td><span class="input-label">值乘人员:</span></td>' +
+                            '<td><input id="f_Tppersontwo' + num + '" class="f_Tppersontwo select_driver input-text" type="text" value="" readonly="true" /></td>' +
+                        '</tr>' +
+                        '<tr>' +
+                            '<td><span class="input-label text_necessary" id="f_EidName_' + num + '" style="display: none">机车1:</span></td>' +
+                            '<td><input id="f_Eid_' + num + '" class="f_Eid input-text select_otive"  type="text" value="" readonly="true" style="display: none"/></td>' +
+                            '<td><span class="input-label text_necessary" id="f_EexidName' + num + '" style="display: none">机车2:</span></td>' +
+                            '<td><input id="f_Eexid' + num + '" class="f_Eexid input-text select_otive" type="text" value="" readonly="true" style="display: none"/></td>' +
+                        '</tr>' +
+                    '</table>' +
+                '</div>' +
+                '<div class="block-foot">' +
+                    '<table class="table-input">' +
+                        '<tr>' +
+                            '<td style="width: 5em;"><span class="input-label">施工地段:</span></td>' +
+                            '<td style="width: calc(100% - 5em);"><input class="f_Tpsection input-text" type="text" name="" id="f_Tpsection' + num + '" value="" /></td>' +
+                        '</tr>' +
+                        '<tr class="f_Tpgroup">' +
+                            '<td><span class="input-label">车辆编组:</span></td>' +
+                            '<td>' +
+                                '<span class="car_group1" id="car_group1' + num + '"></span>' +
+                                '<input id="inputContent' + num + '" class="inputContent input-text" type="text" style="width:30%;" value="" />' +
+                                '<span class="car_group2" id="car_group2' + num + '"></span>' +
+                            '</td>' +
+                        '</tr>' +
+                        '<tr>' +
+                            '<td valign="top"><span class="input-label">施工内容<br />影响范围:</span></td>' +
+                            '<td><textarea class="f_Tpcontent input-text input-textarea" rows="3" id="f_Tpcontent' + num + '"></textarea></td>' +
+                        '</tr>' +
+                    '</table>' +
+                '</div>' +
+            '</div>' +
+        '</div>';
+        $('#task_list').append(taskHTML);
+        $('#f_Tpdate_' + num).val(nowTime(false,true));
+        $('#f_Tpdate_' + num).attr('name',nowTime(false,true));
+        selectPage();
+        longPress();
+    }
+    
+    /**
+     * @parm num 任务序号
+     * @return 为每个任务Title赋值
+     */
+    function changeTitleName(num){
+        var taskName = $("#f_Tpname_"+num).val();
+        $("#f_Tpindex_"+num).html("-"+taskName);
+    }
+    function longPress(){
+        $('.long_press').longPress(function(){
+            if(confirm("确认删除吗?")){
+                $(this).parents('.block').remove();
+            };
+        });
+    }
+    function toggle(object){
+        object.parents('.block').find('.block-toggle').slideToggle();
+        object.toggleClass('icon-xiangxia2 icon-xiangshang2')
+    }
+    </script>
+</body>
+</html>

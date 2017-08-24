@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>自轮运转特种设备运用管理系统</title>
+    
+    <link rel="stylesheet" type="text/css" href="../css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/iconfont/iconfont.css">
+</head>
+<body class="body">
+    <div id="ScrollContent">
+	    <!-- 基础信息 -->
+		<div class="block">
+			<div class="block-head text-black">
+				<span class="block-title">基础信息</span>
+            </div>
+            <div class="block-body">
+                <table class="table-input">
+                    <tr>
+                        <td style="width:5em;"><span class="input-label">姓名:</span></td>
+                        <td style="width:calc(50% - 5em);"><span class="select_otive input-text text-gray bor-0" id="fUname">姓名</span></td>
+                        <td style="width:5em;"><span class="input-label">性别:</span></td>
+                        <td style="width:calc(50% - 5em);"><span class="input-text text-gray bor-0" id="fUsex">性别</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label">人员类型:</span></td>
+                        <td><span class="input-text text-gray bor-0" id="dtype">人员类型</span></td>
+                        <td><span class="input-label">政治面貌:</span></td>
+                        <td><span class="input-text text-gray bor-0" id="dfUpoliticalstatus">政治面貌</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label">工作单位:</span></td>
+                        <td><span class="input-text text-gray bor-0" id="ddepartment">工作单位</span></td>
+                        <td><span class="input-label">等级:</span></td>
+                        <td><span class="input-text text-gray bor-0" id="ddutie">等级</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label">工号:</span></td>
+                        <td><span class="input-text text-gray bor-0" id="workNumber">工号</span></td>
+                        <td><span class="input-label">学历:</span></td>
+                        <td><span class="input-text text-gray bor-0" id="education">学历</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label">驾驶证号:</span></td>
+                        <td><span class="input-text text-gray bor-0" id="drivingNumber">驾驶证号</span></td>
+                        <td><span class="input-label">驾照类型:</span></td>
+                        <td><span class="input-text text-gray bor-0" id="ddrivinglicense">驾照类型</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label">入职日期:</span></td>
+                        <td><span class="input-text text-gray bor-0" id="fUworktime">入职日期</span></td>
+                        <td><span class="input-label">职务:</span></td>
+                        <td><span class="input-text text-gray bor-0" id="duty">职务</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label">身份证号:</span></td>
+                        <td colspan="3"><span class="select_otive input-text text-gray bor-0" id="fUidcar">身份证号</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label">电话号码:</span></td>
+                        <td colspan="3"><span class="input-text text-gray bor-0" id="fUphone">电话号码</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label">联系地址:</span></td>
+                        <td colspan="3"><span class="input-text text-gray bor-0" id="fUaddress">联系地址</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!-- 基础信息 -->
+        <div class="block">
+            <div class="block-head text-black">
+                <span class="block-title">关键信息</span>
+            </div>
+            <div class='block-body'>
+                <table class="table-input">
+                    <tr>
+                        <td style="width:7.5em;">
+                            <span class="input-label">驾驶证</span>
+                            <span class="input-label" id="fUdrivingendtime">还剩0天到期</span>
+                            
+                        </td>
+                        <td style="width:calc(100% - 7.5em);">
+                            <ul class="photo-list">
+                                <li><img src="../img/img-none.png"/></li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="block-foot">
+                <table class="table-input">
+                    <tr>
+                        <td style="width:7.5em;">
+                            <span class="input-label">特种设备驾驶证</span>
+                            <span class="input-label" id="fUdspecialtypenedtime">还剩0天到期</span>
+                        </td>
+                        <td style="width:calc(100% - 7.5em);">
+                            <ul class="photo-list">
+                                <li><img src="../img/img-none.png"/></li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+	</div>
+    <script src="../js/appcan.js"></script>
+    <script src="../js/appcan.control.js"></script>
+    <script src="../js/gsoft.core.js"></script>
+    <script src="../js/public.js"></script>
+    <script src="js/getUserByUserId.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        var public = new Public();
+        public.header('人员信息',true,true);//显示顶部:标题名，左侧icon，右侧icon
+        public.footer();//显示底部
+        public.backBtn();
+    </script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="target-densitydpi=device-dpi,width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0,maximum-scale=1.0">
+    <title>自轮运转特种设备运用管理系统</title>
+    
+    <link rel="stylesheet" type="text/css" href="css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="css/iconfont/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="css/engine.css"/>
+    <!--------------------------机车地图-------------------------->
+    <link type="text/css" rel="stylesheet" href="engineMap/css/style.css"/>
+    <!--------------------------机车地图-------------------------->
+    <style type="text/css">
+        html{
+            font-size: 0.875rem;
+        }
+        .map-shell{
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+        .map{
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="body">
+    <div class="map-shell">
+        <!-- 机车地图容器div -->
+        <div id="mapControl" class="map"></div>
+    </div>
+    <!-- appcan -->
+    <script src="js/appcan.js"></script>
+    <script src="js/appcan.control.js"></script>
+    <script src="js/gsoft.core.js"></script>
+    <!-- jQuery -->
+    <script src="js/jquery/jquery1.7.1.min.js"></script>
+    <!-- engine -->
+    <script src="js/public.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=Zxdkwj3oSgdd0iy2pW6VgnGbEWBicsCf"></script>
+    <script type ="text/javascript" src ="engineMap/js/JL_MapControlByBaidu.js"></script>
+    <script type="text/javascript" src="engineMap/iconfont/iconfont.js"></script>
+    <script src="js/SelectDateTime.js"></script>
+    
+    <script>
+    appcan.ready(function() {
+        uexWindow.setOrientation(2);
+        
+        var plat = uexWidgetOne.getPlatform();
+        //如果是android平台，则监听返回按钮事件
+        if (plat) {
+            uexWindow.onKeyPressed = function(keyCode) {
+                if (keyCode == 0) {
+                    appcan.window.close(-1);
+                    uexWindow.setOrientation(1);
+                    //返回上一页，设置竖屏，home键在屏幕下方；
+                }
+            }
+            uexWindow.setReportKey(0, 1);
+        }
+        var userType = appcan.locStorage.getVal("userType");
+        otherInit(userType)
+    })
+    //地图
+    function otherInit(userType){
+        var engines=[];
+        var userId = localStorage.getItem('userId');
+        appcan.gsoft.ajaxUtil.ajax({
+            url : "/engineger/getAllEngineInfo.json",
+            success : function(data) {
+                localStorage.setItem('indexgetAllEngineInfo2'+userId,JSON.stringify(data));
+                var engines2 = [];
+                var engineRecords = data.records;
+                //alert(engineRecords)
+                for(var i=0;i<engineRecords.length;i++){
+                     engines2.push(engineRecords[i]);         //eId: 机车id ePlatenumber: 机车编号  eName: 机车名称 eStatue: 机车状态
+                }
+                // appcan.ready(function() {
+                var MapCenterLnt = 114.280271;   //经度
+                var MapCenterLat = 30.564934;    //纬度
+                var MapScalce = 15;              //地图缩放级别
+                var EntryImagePicPath = "img/object.pic";
+                mapControl = new JL_MapControlByBaiDu("mapControl","实时数据请求url", "历史路径数据请求url", MapCenterLnt, MapCenterLat, MapScalce, EntryImagePicPath, engines2);
+                /**
+                 * 加载地图数据
+                 */
+                mapControl.Load();
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                //appcan.window.openToast("服务器连接失败,请检查网络...", '2000');
+                var getAllEngineInfo2data = JSON.parse(localStorage.getItem('indexgetAllEngineInfo2'+userId));
+                if(getAllEngineInfo2data){
+                    var engines2 = [];
+                    var engineRecords = getAllEngineInfo2data.records;
+                    //alert(engineRecords)
+                    for(var i=0;i<engineRecords.length;i++){
+                         engines2.push(engineRecords[i]);         //eId: 机车id ePlatenumber: 机车编号  eName: 机车名称 eStatue: 机车状态
+                    }
+                    // appcan.ready(function() {
+                    var MapCenterLnt = 114.280271;   //经度
+                    var MapCenterLat = 30.564934;    //纬度
+                    var MapScalce = 15;              //地图缩放级别
+                    var EntryImagePicPath = "img/object.pic";
+                    mapControl = new JL_MapControlByBaiDu("mapControl","实时数据请求url", "历史路径数据请求url", MapCenterLnt, MapCenterLat, MapScalce, EntryImagePicPath, engines2);
+                    /**
+                     * 加载地图数据
+                     */
+                    mapControl.Load();
+                }
+            }
+        }); 
+    }
+    </script>
+    
+</body>
+</html>

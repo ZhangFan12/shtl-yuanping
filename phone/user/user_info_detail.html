@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>自轮运转特种设备运用管理系统</title>
+    <link rel="stylesheet" type="text/css" href="../css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/iconfont/iconfont.css">
+    <style>
+        .notActive {
+            background: #818483;
+            color: #fcfffe;
+            border-color: #818483;
+        }
+        input, select, textarea {
+             background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body class="body">
+<div id="ScrollContent">
+    <!-- 消息内容 -->
+    <div class="block">
+        <div class="block-head text-black">
+            <span class="block-title" id="title">消息主题</span>
+            <span class="fl-r" id="time">2017.03.16</span>
+        </div>
+        <div class='block-body text-lh3' id="content">内容信息</div>
+        <div class='block-foot text-lh3'>发布人：<span id="SendPer">李磊</span></div>
+        <button id="dealInfo" class="btn btn-block"></button>
+    </div>
+</div>
+
+<!-- appcan -->
+<script src="../js/appcan.js"></script>
+<script src="../js/appcan.control.js"></script>
+<script src="../js/appcan.tab.js"></script>
+<script src="../js/gsoft.core.js"></script>
+<!-- jQuery -->
+<!-- <script src="../js/jquery/jquery1.7.1.min.js"></script> -->
+<!-- logbook -->
+<script src="../js/DivDisplayFrame.js"></script>
+<script src="../js/InspectprojectList.js"></script>
+<!-- jQuery -->
+<script src="../js/jquery/jquery1.7.1.min.js"></script>
+<script src="../js/public.js"></script>
+<script>
+    var public = new Public();
+    public.header('消息详情', true, true);//显示顶部：标题名，左侧icon，右侧icon
+    public.footer();//显示底部
+    public.backBtn();
+
+
+    var _id = '',
+        _type = ''
+
+
+    appcan.ready(function () {
+        init();
+        appcan.window.on('resume',function () {
+//            uexWindow.reload();
+            init();
+            _id = '';
+            _type = '';
+        })
+        $(document).on('click', '#dealInfo', function (e) {
+            if (typeof goTo == 'function' && !$(this).hasClass('notActive')) {
+                goTo(_type, _id);
+            }
+        })
+    });
+
+    var _btnStr = {
+        1: '去保养',
+        2: '去保养',
+        3: '去检查',
+        4: '去确认',
+        5: '已确认',
+        6: '去审批',
+        7: '已审批'
+    }
+
+    function init() {
+        //   var urlinfo = window.location.href;
+        var sessionStorage = window.localStorage;
+        var fMpid = sessionStorage.getItem('fMpid');
+        var tit = sessionStorage.getItem('title');
+        var tim = sessionStorage.getItem('time');
+        var con = sessionStorage.getItem('content');
+        // var fMpid =  oStorage.getItem('fMpid');
+        var title = document.getElementById("title");
+        var time = document.getElementById("time");
+        var content = document.getElementById("content");
+        var SendPer = document.getElementById("SendPer");
+        appcan.gsoft.ajaxUtil.ajax({
+            url: "/MessagePushManager/getMessage.json",
+            data: "fMpid=" + fMpid,
+            success: function (data) {
+                var drives = data.record;
+                //    alert(JSON.stringify(drives));
+                if(drives==null){
+                    title.innerHTML = tit;
+                    time.innerHTML = tim;
+                    content.innerHTML = con;
+                    SendPer.innerHTML = "系统推送";
+                }else{
+                    title.innerHTML = drives.fMptitle;
+                    time.innerHTML = drives.fMpsendtime;
+                    content.innerHTML = drives.fMpcontent;
+                    if(!drives.fMpsendsource){
+                        SendPer.innerHTML = "系统推送";
+                    }else{
+                    SendPer.innerHTML = drives.fMpsendsource.loginName;
+                    }
+               }
+                var type = drives.fMptype;
+               if (type == '3' || type == '4' || type == '5') {
+                   _id = drives.fMpbusiness + ',' + drives.fMpreceive.userId;
+               }else {
+                   _id = drives.fMpbusiness;
+               }
+                _type = drives.fMptype;
+                if (~~type > 0 && ~~type < 8 && type != '5') {
+                    if(~~type == 6 || ~~type == 7){
+                        var status = drives.fMptaskstate;
+                        if(~~status == 3 || ~~status == 5 || ~~status == 7 || ~~status == 9 || ~~status == 11 ||
+                           ~~status == 10 || ~~status == 4 ){
+                            $('#dealInfo').hide();
+                        }else{
+                            $('#dealInfo').text(_btnStr[type]); 
+                        }
+                    }else{
+                       $('#dealInfo').text(_btnStr[type]); 
+                    }
+                    
+                } else {
+                    $('#dealInfo').hide();
+                }
+                if (type == '5' || type == '7' ||  drives.fMphandle == '1') {
+                    $('#dealInfo').addClass('notActive');
+                }else {
+//                    $('#dealInfo').on('click', function (e) {
+//                        if (typeof goTo == 'function') {
+//                            goTo(type, drives.fMpbusiness);
+//                        }
+//                    })
+                }
+            },                                                                                  
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                appcan.window.openToast("服务器连接失败,请检查网络...", '2000');
+            }
+        });
+        
+        //清理sessionStorage
+//        sessionStorage.removeItem('fMpid');
+//        sessionStorage.removeItem('title');
+//        sessionStorage.removeItem('time');
+//        sessionStorage.removeItem('content');
+//        sessionStorage.clear();
+    }
+</script>
+</body>
+</html>

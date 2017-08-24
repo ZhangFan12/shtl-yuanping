@@ -1,0 +1,368 @@
+.run {
+    box-sizing: border-box;
+	display: block;
+    padding-top: 1rem;
+    padding-left: 1rem;
+    padding-right: 0;
+    padding-bottom: 0;
+	width: 100%;
+	color: #999;
+}
+.run>li {
+	box-sizing: border-box;
+	display: inline-block;
+	float: left;
+	width: 50%;
+}
+.run>li:nth-child(3) {
+    width: 100%;
+}
+.run>li:last-child {
+	/*border-right: 0;*/
+}
+.run .run-box {
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    border: .0625rem dashed #ccc;
+    border-radius: .5rem;
+}
+.run .run-box1 {
+	padding: .5rem;
+}
+.run .run-box1 p {
+    font-size: 0.75em;
+	line-height: 1.5em;
+}
+.run .run-box1 p:first-child {
+	font-size: 1.5em;
+}
+.run .run-box2 {
+	display: block;
+	box-sizing: border-box;
+	padding: .5rem;
+	width: 100%;
+    font-size: 0.75em;
+	background: rgba(236, 255, 249, 0.44);
+	/*background: rgba(216,233,223,0.34);*/
+}
+.run .run-box2>li {
+	display: inline-block;
+	float: left;
+}
+.run .run-box2 .first {
+	width: 4em;
+}
+.run .run-box2 .second {
+	/*width: 60%;*/
+}
+.run .run-box2 .third {
+	/*width: 40%;*/
+    float: right;
+	font-size: 2em;
+}
+.run .run-box2>li>strong {
+	font-size: 1.5em;
+	font-weight: normal;
+}
+.run .run-box2 .icon {
+	width: 1em;
+	height: 1em;
+    font-size: 3em;
+}
+
+.locomotive {
+	line-height: 1.5em;
+    width: 100%;
+}
+.locomotive .locomotive-left {
+	/*float: left;*/
+    width: 100%;
+}
+.locomotive .locomotive-left .img {
+}
+.locomotive .locomotive-left .img li {
+    /*position: relative;*/
+    float: left;
+    display: inline-block;
+    width: 50%;
+}
+.locomotive .locomotive-left .img li:last-child {
+    border-top:  0;
+}
+.locomotive .locomotive-left img {
+    /*position: relative;*/
+    display: inline-block;
+    vertical-align: middle;
+    /*width: 180px;
+	height: 180px;*/
+	width: 6rem;
+	height: 6rem;
+}
+.locomotive .locomotive-left span {
+    /*position: relative;*/
+    margin-left: .5rem;
+    line-height: 6rem;
+    vertical-align: middle;
+}
+.locomotive .locomotive-right {
+	position: relative;
+    height: 100%;
+	/*float: right;*/
+	/*width: 78%;*/
+	/*width: calc(100% - 15em);*/
+}
+.locomotive .locomotive-right .container-box {
+	width: 100%;
+	height: 100%;
+	overflow-x: scroll;
+}
+#container {
+    /*width: 100%;*/
+    height: 18em;
+}
+.locomotive .locomotive-right .locomotive-right-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.locomotive .locomotive-right .locomotive-right-legend {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.locomotive-right-legend li {
+    display: inline-block;
+    position: relative;
+    float: left;
+    margin-left: 2em;
+}
+.locomotive-right-legend li:before {
+    display: block;
+    position: absolute;
+    top: 0.25em;
+    left: -1.5em;
+    width: 1em;
+    height: 1em;
+    content: '';
+    background-color: #e9ab4b;
+}
+.locomotive-right-legend li:first-child:before {
+    background-color: #02a650;
+}
+.locomotive-right-legend li:last-child:before {
+    background-color: #f95665;
+}
+.block .driver {
+	padding: 1.5em;
+}
+.calender-box {
+	display: inline-block;
+	width: 100%;
+	/*width: 33%;*/
+}
+.calender-box .calender-legend {
+	width: 100%;
+	padding: 0.75em 1em;
+	/*background: #e6e6e6;*/
+	border-radius: 0 0 0.5em 0.5em;
+}
+.calender-box .calender-legend .legend-today {
+    position: relative;
+    margin-left: 1.5em;
+}
+.calender-box .calender-legend .legend-today:before {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: -1.5em;
+    width: 1em;
+    height: 1em;
+    content: '';
+    background-color: #e9ab4b;
+    border: 1px solid #fff;
+    border-radius: 1em;
+}
+.calender-box .calender-legend .legend-out {
+	float: right;
+    position: relative;
+    margin-left: 1em;
+}
+.calender-box .calender-legend .legend-out:before {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: -1.5em;
+    width: 1em;
+    height: 1em;
+    content: '';
+    background-color: #02a650;
+    border: 1px solid #fff;
+    border-radius: 1em;
+}
+.driver-message-text {
+    padding: 0 1em;
+    font-size: 1em;
+    line-height: 4em;
+    vertical-align: middle;
+    border-top: 1px solid #cfcfcf;
+}
+.driver-message-text span {
+	display: inline-block;
+    margin-top: -0.25em;
+    margin-right: .125em;
+    font-size: 2em;
+    vertical-align: middle;
+}
+.block-head {
+    position: relative;
+}
+.car-btn {
+    position: absolute;
+    right: 1em;
+    top: 0.5em;
+}
+.car-btn .btn {
+    float: right;
+    font-size: 0.75em;
+    color: #02A650;
+    background-color: #ffffff;
+}
+.car-btn .btn:first-child {
+    border-left: 0;
+}
+.car-btn .active {
+    color: #ffffff;
+    background-color: #02a650;
+}
+
+.oneline-list>li>h3 {
+	height: 3em;
+	line-height: 3em;
+}
+.oneline-list>li {
+	margin-left: 0;
+	padding-left: 4.5em;
+	padding-top: 0;
+}
+.oneline-list>li>img {
+	top: 0.6em;
+	width: 2em;
+	left: 1em;
+}
+.oneline-list>li>span {
+	top: 1.25em;
+}
+.driver-message-table{
+    width: 100%;
+    text-align: center;
+    border-right:1px solid #cfcfcf;
+    border-bottom:1px solid #cfcfcf;
+}
+.driver-message-table thead{
+    background: #e1f6ed;
+}
+.driver-message-table th,
+.driver-message-table td {
+    padding: 0.75em;
+    border-left:1px solid #cfcfcf;
+    border-top:1px solid #cfcfcf
+}
+.user-message{
+    position: relative;
+    margin: 0.75em 0;
+    background-color: #ffffff;
+}
+.user-message>.user-message-body{
+    padding-top: 1.25em;
+    padding-bottom: 3.5em;
+    background-image: url('../img/user-message-img.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+.user-message>.user-message-body>img{
+    display: block;
+    margin: 0 auto;
+    width: 8em;
+    height: 8em;
+    border-radius: 8em;
+}
+.user-message>.user-message-body>button{
+    position: absolute;
+    top: 1.25em;
+    right: 1.25em;
+    color: #ffffff;
+    padding: 0 1em;
+    font-size: 0.875em;
+    line-height: 2.5em;
+    background-color: transparent;
+    border: 1px solid #ffffff;
+    border-radius: 0.5em;
+    outline:none;
+}
+.user-message>.user-message-body>button>i{
+    margin-right: 0.25em;
+    font-size: 1.5em;
+    line-height: 1em;
+    vertical-align: middle;
+}
+.user-message>.user-message-footer{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.70);
+}
+.user-message>.user-message-footer>span{
+    margin: 0 1em;
+    line-height: 2.5em;
+}
+.user-message>.user-message-footer>span>i{
+    margin-right: 0.25em;
+    font-size: 1.5em;
+    vertical-align: middle;
+}
+/* 2017年4月25日 修改index样式 */
+
+.flex {
+	display: flex;
+	background: none;
+}
+.flex .flex-left {
+	background-color: #fff;
+    margin-right: .75em;
+	min-width: 400px;
+
+}
+.flex .flex-right {
+	flex: 1;
+	background-color: #fff;
+
+}
+.flex .driver-right {
+	flex: 1;
+	background-color: #fff;
+    margin-right: .75em;
+
+}
+.flex .driver-left {
+	flex: 2;
+	background-color: #fff;
+    margin-right: .75em;
+
+}
+.block .block-body, .block .block-foot {
+	height: 90%;
+}
+#engine_echart {
+	height: 100%;
+}
+.color-green {
+	color: #02a650;
+}
+/*.block .block-body, .block .block-foot>div {*/
+	/*height: 100%;*/
+/*}*/
+/*.block .block-body, .block .block-foot>div>div {*/
+	/*height: 100%;*/
+/*}*/

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+        <title></title>
+        <link rel="stylesheet" href="../study/test/css/restoreTest.css">
+        <link rel="stylesheet" type="text/css" href="../css/public.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/iconfont/iconfont.css">
+         <script src="../js/appcan.js"></script>
+        <script src="../js/appcan.control.js"></script>
+        <script src="../js/gsoft.core.js"></script>
+        <script type="text/javascript" src="../study/test/js/jquery-1.7.2.min.js"></script>
+        <script src="../js/public.js"></script>
+        <script type="text/javascript" src="../study/test/js/restoreTest.js"></script>
+        
+    </head>
+    <body class="body">
+        <div id="ScrollContent">
+            <div id="restore_div"></div>
+        </div>       
+    </body>
+    <script type="text/javascript">
+    var public = new Public();
+    public.header('消息详情',true,true);//显示顶部：标题名，左侧icon，右侧icon
+    public.footer();//显示底部
+    public.backBtn();
+    
+    appcan.ready(function(){
+        var farid=appcan.gsoft.parameterUtils.getPageParams();
+        var restore_test = new RestoreTest("restore_div",farid);          
+    });
+    </script>
+</html>

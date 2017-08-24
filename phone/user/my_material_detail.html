@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>自轮运转特种设备运用管理系统</title>
+    
+    <link rel="stylesheet" type="text/css" href="../css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/iconfont/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="../css/logbook.css"/>
+    <style>
+        input, select, textarea {
+             background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body class="body">
+    <div id="ScrollContent">
+        <!-- 任务 -->
+        <div class="block" id="task">
+            <div class="block-head text-black">
+                <span class="block-title">领料详情</span>
+            </div>
+            <div class="block-body">
+                <table class="table-input">
+                    <tr>
+                        <td><span class="input-label">物料名称:</span></td>
+                        <td colspan="3"><input class="input-text" id="material01" type="text" value="" readonly="true" /></td>
+                    </tr>
+                    <tr>
+                        <td style="width:5em;"><span class="input-label">数量:</span></td>
+                        <td style="width:calc(50% - 5em);"><input class="input-text" type="text" id="material05" value="" readonly="true" /></td>
+                        <td style="width:5em;"><span class="input-label">领料时间:</span></td>
+                        <td style="width:calc(50% - 5em);"><input class="input-text" id="material02" type="text" value="" readonly="true" /></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label">机车编号:</span></td>
+                        <td><input class="input-text" type="text" value="" id="material03" readonly="true" /></td>
+                        <td><span class="input-label">机车名称:</span></td>
+                        <td><input class="input-text" type="text" value="" id="material04" readonly="true" /></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="block-foot">
+                <table class="table-input">
+                    <tr>
+                        <td style="width:5em;" valign="top"><span class="input-label">用途:</span></td>
+                        <td style="width:calc(100% - 5em);"><textarea class="input-textarea" rows="6" id="material06" readonly="true"></textarea></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- appcan -->
+    <script src="../js/appcan.js"></script>
+    <script src="../js/appcan.control.js"></script>
+    <script src="../js/gsoft.core.js"></script>
+    <!-- jQuery -->
+    <script src="../js/jquery/jquery1.7.1.min.js"></script>
+    <script src="../js/public.js"></script>
+    <script src="js/my_material.js"></script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>自轮运转特种设备运用管理系统</title>
+    <link rel="stylesheet" type="text/css" href="../css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/iconfont/iconfont.css">
+    
+</head>
+<body class="body" onload="init();">
+    <div id="ScrollContent">
+        <!-- <div id="controller" class="clear" align="center" style = "border-style: solid; width:100%; height:768px;"></div> -->
+        <div class="block-search">
+            <input id="search_input" class="search-input" type="text" value="请输入司机名字" onfocus="javascript:if(this.value=='请输入司机名字')this.value='';" onblur="if(value==''){value='请输入司机名字'}" />
+            <span class="search-btn"><i class="icon iconfont icon-sousuo icon-right"></i></span>
+        </div>
+        <div class="block">
+            <ul id="drive_list" class="block-body drive-list clear">
+                <!-- <li>
+                    <div>
+                        <img src="#" />
+                        <h5>张铭</h5>
+                        <div class="clear">
+                            <button class="btn">个人信息</button>
+                            <button class="btn">出乘信息</button>
+                            <button class="btn">成绩单</button>
+                        </div>
+                    </div>
+                </li> -->
+            </ul>
+        </div>
+    </div>
+    <script src="../js/appcan.js"></script>
+    <script src="../js/appcan.control.js"></script>
+    <script src="../js/gsoft.core.js"></script>
+    <script src="../js/public.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        var public = new Public();
+        public.header('司机信息',true,true);//显示顶部：标题名，左侧icon，右侧icon
+        public.footer();//显示底部
+        public.backBtn();
+        
+        $('#search_input').keypress(function(ev){
+            if(ev.which == 13){
+                var keyWord = $(this).val();
+                //字符串方法indexOf
+                var len = $('#drive_list li').length;
+                var arr = [];
+                for(var i=0;i<len;i++){
+                    //如果字符串中不包含目标字符会返回-1
+                    var name = $('#drive_list li').eq(i).find('h5').html();
+                    if(name.indexOf(keyWord)>=0){
+                        arr.push(i);
+                        $('#drive_list li').eq(i).show();
+                    }else{
+                        $('#drive_list li').eq(i).hide();
+                    }
+                }
+            }
+        });
+        
+        $('#search_input').change(function(ev){
+                var keyWord = $(this).val();
+                //字符串方法indexOf
+                var len = $('#drive_list li').length;
+                var arr = [];
+                for(var i=0;i<len;i++){
+                    //如果字符串中不包含目标字符会返回-1
+                    var name = $('#drive_list li').eq(i).find('h5').html();
+                    if(name.indexOf(keyWord)>=0){
+                        arr.push(i);
+                        $('#drive_list li').eq(i).show();
+                    }else{
+                        $('#drive_list li').eq(i).hide();
+                    }
+                }
+        });
+
+        var driveListHTML = '';
+        function init() {
+            var infoArry = new Array();
+        }
+        appcan.ready(function() {
+            appcan.gsoft.ajaxUtil.ajax({
+            url : '/GetDataSourceManager/getLoginUserByGroup.json',
+            success : function(data) {
+                var records=data.records;
+                // alert(JSON.stringify(records));
+                for (var i = 0; i < records.length; i++) {
+                    var index = i % 4;
+                    driveListHTML += "<li><div>";
+                    if (records[i].path) {
+                        driveListHTML += "<img src=" + appcan.gsoft.serverUrl + '/common/photo/getPhoto.json?path=' + records[i].path+" />";
+                    } else{
+                        driveListHTML += "<img src='../img/drive-img-default.png' />";
+                    };
+                    driveListHTML += "<h5>"+records[i].name+"</h5>"
+                            +"<div class='clear'>"
+                                +"<button class='btn' onclick=personalInfo('"+records[i].id+"')>个人信息</button>"
+                                +"<button class='btn' onclick=rideInfo('"+records[i].id+"')>出乘信息</button>"
+                                +"<button class='btn' onclick=schoolReport('"+records[i].id+"')>成绩单</button>"
+                            +"</div>"
+                        +"</div></li>";
+                }
+                $('#drive_list').append(driveListHTML);
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                appcan.window.openToast('服务器连接失败,请检查网络...', '2000');
+                }
+            }); 
+        })
+        function personalInfo(fUid){//个人信息
+            // var sessionStorage = window.sessionStorage;
+            localStorage.setItem('fUid', fUid);
+            // appcan.openWinWithUrl('user_message','user_message.html');
+            console.log(localStorage.getItem('fUid'));
+            appcan.window.open({
+                 name:'user_message',
+                 dataType:0,
+                 aniId:10,
+                 data:'user_message.html',
+                 type:4
+            });
+        }
+        
+        function rideInfo(fUid){//出乘信息
+            // appcan.openWinWithUrl('drive_message','drive_message.html');
+            // var sessionStorage = window.sessionStorage;   
+            // sessionStorage.setItem('fUid', fUid);
+            
+            localStorage.setItem('fUid', fUid);
+            console.log(localStorage.getItem('fUid'));
+            appcan.window.open({
+                 name:'drive_message',
+                 dataType:0,
+                 aniId:10,
+                 data:'drive_message.html',
+                 type:4
+            });
+        }
+        
+        function schoolReport(fUid){//成绩单
+            // appcan.openWinWithUrl('study_result_list','study_result_list.html');
+            // var sessionStorage = window.sessionStorage;   
+            // sessionStorage.setItem('loginUserId', fUid);
+            
+            localStorage.setItem('fUid', fUid);
+            appcan.window.open({
+                 name:'study_result_list',
+                 dataType:0,
+                 aniId:10,
+                 data:'study_result_list.html',
+                 type:4
+            });
+        }
+         
+</script>
+    </script>
+</body>
+</html>

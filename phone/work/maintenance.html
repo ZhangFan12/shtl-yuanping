@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/iconfont/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="../css/logbook.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/pictureUpload/css/IMGUP.css"/>
+    
+</head>
+<body>
+
+<body class="body">
+    <div id="ScrollContent">
+        <!-- 基础信息 -->
+        <div class="block">
+            <div class="block-head text-black">
+                <span class="block-title">基础信息</span>
+            </div>
+            <div class='block-body'>
+                <table class="table-input">
+                    <tr>
+                        <td style="width:5em;"><span class="input-label text_necessary">机车编号:</span></td>
+                        <td style="width:calc(100% -5em)"><input id="engine" class="input-text" placeholder="选择机车" type="text" onclick="chooseDrive()" readonly="true"></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label text_necessary">维保类型:</span></td>
+                        <td><select selectedindex="0" id="maintenance_type" class="input-text" onchange="mtype_change(this)">
+                            <option value=0></option>
+                            <option value=1>日常检查</option>
+                            <option value=2>周期保养</option>
+                            <option value=3>临时维修</option>
+                            <option value=4>重点大修</option>
+                        </select></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div id="engine_detail" style="display: none;">
+            <div class="block">
+                <div class="block-head text-black">
+                    <span class="block-title">设备信息</span>
+                </div>
+                <div class="block-body">
+                    <table class="table-input">
+                        <tr>
+                            <td style="width:5em;"><span class="input-label">设备名称:</span></td>
+                            <td style="width:calc(50% - 5em)"><input id="device_name" class="input-text text-gray input-readonly" placeholder="" type="text" readonly="true"></td>
+                            <td style="width:5em;"><span class="input-label">累计里程:</span></td>
+                            <td style="width:calc(50% - 5em)"><input id="total_mileage" placeholder="" type="text" readonly="true" class="input-text text-gray input-readonly" /></td>
+                        </tr>
+                        <tr>
+                            <td><span class="input-label">设备编号:</span></td>
+                            <td><input id="device_num" placeholder="" type="text" readonly="true" class="input-text text-gray input-readonly" /></td>
+                            <td><span class="input-label">累计时间:</span></td>
+                            <td><input id="total_time" placeholder="" type="text" readonly="true" class="input-text text-gray input-readonly" /></td>
+                        </tr>
+                        <tr>
+                            <td><span class="input-label">维保部位:</span></td>
+                            <td><select selectedindex="1" id="repair_part_type" onchange="reparttype_change()" class="input-text">
+                                <option value=1>整车</option>
+                                <option value=2>零部件</option>
+                            </select></td>
+                        </tr>
+                        <tr id="tr_repair">
+                            <td id="td_repair_part1"><span class="input-label text_necessary">零部件:</span></td>
+                            <td id="td_repair_part2"><select selectedindex="0" id="repair_part" class="input-text" >
+                            </select></td>
+                            <td><span class="input-label text_necessary">维修/更换</span></td>
+                            <td><select selectedindex="0" id="repair_replace" class="input-text">
+                                <option value=1>维修</option>
+                                <option value=2>更换</option>
+                            </select></td>
+                        </tr>
+                        <tr>
+                            <td><span class="input-label">规格类型:</span></td>
+                            <td><input id="device_type" placeholder="" type="text" readonly="true" class="input-text text-gray input-readonly" /></td>
+                            <td id="td_repair_type1"><span class="input-label text_necessary">修别:</span></td>
+                            <td id="td_repair_type2"><select selectedindex="0" id="repair_type" class="input-text">
+                                <option value=1>车轴探伤</option>
+                                <option value=2>车钩探伤</option>
+                                <option value=3>制动校验</option>
+                                <option value=4>换季保养</option>
+                            </select></td>
+                        </tr>
+                        <tr>
+                            <td id="tr_maintenance_unit"><span class="input-label text_necessary">承修单位:</span></td>
+                            <td id="tr_maintenance_unit2"><select selectedindex="0" id="maintenance_unit" class="input-text" >
+                            </select></td>
+                            <td id="tr_tmp_type"><span class="input-label text_necessary">临修类型:</span></td>
+                            <td id="tr_tmp_type2"><select selectedindex="0" value="2" id="tmp_type" onchange="tmptype_change()" class="input-text">
+                                <option value=1>维外</option>
+                                <option value=2>自修</option>
+                            </select></td>
+                        </tr>
+                        <tr id="tr_check_user">
+                            <td><span class="input-label">审批人:</span></td>
+                            <td><select selectedindex="0" id="check_user" class="input-text">
+                            </select></td>
+                        </tr>
+                        <tr>
+                            <td valign="top"><span id="div_reanson" class="input-label">原因:</span></td>
+                            <td colspan="3"><textarea id="reason" class="input-textarea" rows="3"></textarea></td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="pic_upload" class="block-foot" style="display: none">
+                    <table class="table-input">
+                        <tr>
+                            <td style="width:5em;"><span class="input-label">照片上传:</span></td>
+                            <td style="width:calc(100% - 5em);">
+                                <!--图片预览容器-->
+                                <div class="div_upload">
+                                    <div class="div_imglook">
+                                    <div id="uploadPicture" class="lookimg bor-0">
+                                        <img src="../img/photo-active.png">
+                                    </div>
+                                </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <!-- 隐藏内容 -->
+                <div style="display: none">设备ID:<input id="device_id" placeholder="" type="text" >设备类型:<input id="d_type" placeholder="" type="text" ></div>
+            </div>
+            <button id="submit_apply" class="btn btn-block">提交申请</button>
+        </div>
+        <!-- 日常检查 -->
+        <div id="dailyCheck" style="display: none">
+            <div class="block">
+                <div class="block-head text-black">
+                    <span class="block-title">设备信息</span>
+                </div>
+                <div class="block-body">
+                    <table class="table-input">
+                        <tr>
+                            <td style="width:5em;"><span class="input-label">设备名称:</span></td>
+                            <td style="width:calc(50% -5em)"><input id="device_name1" class="input-text text-gray input-readonly" placeholder="" type="text" readonly="true"></td>
+                            <td style="width:5em;"><span class="input-label">规格类型:</span></td>
+                            <td style="width:calc(50% -5em)"><input id="device_type1" placeholder="" type="text" readonly="true" class="input-text text-gray input-readonly" /></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="block">
+                <div id="listview1" class="block-head text-black">
+                    <span class="block-title">检查项目</span>
+                    <label id="llistview1" class="fl-r">
+                        <input type="checkbox"></input>
+                        <span>全选</span>
+                    </label>
+                </div>
+                <ul id="listview2" class="task-implement-list font-size0875"></ul>
+            </div>
+            <button id="submit_check" class="btn btn-block">检查确认</button>
+        </div>
+    </div>
+</body>
+<script src="../js/appcan.js"></script>
+<script src="../js/appcan.control.js"></script>
+<script src="../js/gsoft.core.js"></script>
+<!--<script src="../js/public.js"></script>-->
+<script src="../js/pictureUpload/jquery-1.7.2.min.js"></script>        
+<script src="../js/pictureUpload/IMGUP.js"></script>
+<script src="../js/pictureUpload/pictrueUpload.js"></script>
+<script src="../js/public.js"></script>
+<script src="../js/gltl_ORM/DataAccess.js"></script>
+<script src="../js/gltl_ORM/gltl_user.js"></script>
+<script src="../js/gltl_ORM/gltl_usergroup.js"></script>
+<script src="../js/gltl_ORM/gltl_enginemaintian.js"></script>
+<script src="../js/gltl_ORM/gltl_engine.js"></script>
+<script src="../js/gltl_ORM/gltl_enginerepair.js"></script>
+<script src="../js/gltl_ORM/gltl_enginerepairextend.js"></script>
+<script src="../js/gltl_ORM/gltl_flownode.js"></script>
+<script src="../js/gltl_ORM/gltl_messagepush.js"></script>
+<script src="../js/gltl_ORM/gltl_maintianproject.js"></script>
+<script src="../js/gltl_ORM/gltl_dictionary.js"></script>
+<!--<script src="../js/maintenance.js"></script>-->
+<script>
+    appcan.ready(function () {
+        var public = new Public();
+        public.header('日常维保',true,true);//显示顶部:标题名，左侧icon，右侧icon
+        public.footer();//显示底部
+        // public.backBtn();
+        
+        var currUserId = localStorage.getItem('userId');
+        
+        //监听返回事件，填写页面缓存
+        $('.back-btn').click(function(){
+            var cacheInfo = JSON.stringify(cachePageMTApply());
+            localStorage.setItem('cachePageMTApply'+currUserId,cacheInfo);
+            //alert("1="+localStorage.getItem('cachePageMTApply'));
+            appcan.window.close(-1);
+        })
+        uexWindow.setReportKey(0,1);// 拦截后退按钮
+        uexWindow.onKeyPressed = function(){ 
+            var cacheInfo =   JSON.stringify(cachePageMTApply());
+            localStorage.setItem('cachePageMTApply'+currUserId,cacheInfo);
+            appcan.window.close(-1);
+        };
+        
+        loadUsers();//加载审核人
+        loadMaintenanceUnit();//加载维修单位
+        initUpload("div_upload");
+        
+        var cachePageMTApplyInfo = JSON.parse(localStorage.getItem('cachePageMTApply'+currUserId));
+        if(cachePageMTApplyInfo){
+            var engineId = cachePageMTApplyInfo.codemapDetail.device_id;
+            var mType = cachePageMTApplyInfo.codemapDetail.maintenance_type;
+            loadEngineParts(engineId,cachePageMTApplyInfo.codemapDetail.repair_part);
+            getPageCodeMapDetail(engineId,mType,cachePageMTApplyInfo);
+            
+            $("#engine").val(cachePageMTApplyInfo.codemapDetail.engine);
+            $("#maintenance_type").val(mType);//维保类型
+            $("#reason").val(cachePageMTApplyInfo.codemapDetail.reason);//原因
+            $("#repair_type").val(cachePageMTApplyInfo.codemapDetail.repair_type);//修别
+            $("#tmp_type").val(cachePageMTApplyInfo.codemapDetail.tmp_type);//临修维修类型
+            $("#maintenance_unit").val(cachePageMTApplyInfo.codemapDetail.maintenance_unit);//承修单位
+        }
+        
+        var pageParams = appcan.gsoft.parameterUtils.getPageParams();
+        //alert(pageParams);
+        if(pageParams){
+            var engineId = pageParams.split(",")[0];
+            var mType = pageParams.split(",")[1];
+            $("#maintenance_type").val(mType);
+            loadEngineParts(engineId);
+            getPageCodeMapDetail(engineId,mType);
+            
+        }
+        
+    });
+    /*===================上传图片====================*/
+
+    /**
+     * 提交申请
+     */
+    var ajaxFlag = true;
+    appcan.button("#submit_apply", "ani-act", function () {
+         var engine = $("#engine").val();
+         var mType = $("#maintenance_type").val();
+         var rType = $("#repair_type").val();
+         var tmpType = $("#tmp_type").val();
+         var company = $("#maintenance_unit").val();
+         var eType = $("#d_type").val();
+         var eid = $("#device_id").val();
+         var remark = $("#reason").val();
+         var flowReceiver = $("#check_user").val();
+         var repairPartID = $("#repair_part").val();
+         var repairPartType = $("#repair_part_type").val();
+         if(repairPartType == '2'){
+             if(!repairPartID){
+                 appcan.window.alert({
+                            title: '提示',
+                            content: '零部件不能为空',
+                            buttons: '确定'
+                        });
+                  return false;
+             }
+         }
+         var repairReplace = $("#repair_replace").val();
+         if(ajaxFlag){
+             appcan.gsoft.ajaxUtil.ajax({
+             url: "/eMainTainManager/applyEMainTain.json",
+             data: "mType=" + mType + "&rType=" + rType + "&tmpType="+ tmpType + "&company=" + company + "&eType=" + eType + "&eid=" + eid + "&remark=" + remark + "&flowReceiver=" + flowReceiver+ "&repairPartID=" + repairPartID+ "&repairPartType=" + repairPartType+ "&repairReplace=" + repairReplace,
+             success: function (data) {
+                 if(data.record){
+                     var code = data.record.code;
+                     if(code == '999999'){
+                         appcan.window.alert({
+                            title: '提示',
+                            content: data.record.message,
+                            buttons: '确定'
+                        });
+                        ajaxFlag = true;
+                     }else{
+                         var flowNo =  data.record.flowNo;
+                             //照片上传
+                             getFilePaths(flowNo,1,"div_upload",function(){
+                                 //打开一个确认框 
+                                appcan.window.confirm({
+                                    title:'提示',
+                                    content:data.record.message,
+                                    buttons:['确定'],
+                                    callback:function(err,data,dataType,optId){
+                                        /*
+                                        if(err){
+                                            //如果出错了
+                                            return;
+                                        }*/
+                                        //var cacheInfo =   JSON.stringify(cachePageMTApply());
+                                        //localStorage.setItem('cachePageMTApply',cacheInfo);
+                                        var currUserId = localStorage.getItem('userId');
+                                        localStorage.removeItem('cachePageMTApply'+currUserId);
+                                        //关闭当前窗口
+                                        appcan.window.close({aniId:17,animDuration:1000}); 
+                                        ajaxFlag = true;
+                                    }
+                                });
+                             });
+                            
+                            //在线模式同时给本地数据库同步
+                            maintenance_syncdata();
+                     }
+                     
+                 }
+             },
+             error : function(XMLHttpRequest, textStatus, errorThrown) {
+                    //离线则存储在本地sqllite数据库，置标志为 0-本地未上传
+                    ajaxFlag=true;
+                    
+                    local_submit_apply();
+                }
+             });
+             ajaxFlag=false;
+         }
+    });
+    /**
+     * 确认检查
+     */
+    ajaxFlag = true;
+    appcan.button("#submit_check", "ani-act", function () {
+        var recordItems = [];
+        if($("#listview2").find('input').attr('checked')==undefined) {
+            appcan.window.alert({
+                title: '提示',
+                content: '请选择检查项目',
+                buttons: '确定'
+            });
+            return;
+        }
+        $("#listview2").find('input[type="checkbox"]:checked').each(function(){
+            var id = $(this).attr('id');
+            recordItems.push(id);
+               //alert(id);
+        });
+        var recordItem = recordItems.toString();
+        var engineID = $("#device_id").val();
+        if(ajaxFlag){
+            appcan.gsoft.ajaxUtil.ajax({
+                url: "/ipRecordManager/saveIPRecord.json",
+                data: "engineID="+engineID+"&recordItem="+recordItem,
+                success: function (data) {
+                    appcan.window.confirm({
+                        title:'提示',
+                        content:'日常检查成功',
+                        buttons:['确定'],
+                        callback:function(err,data,dataType,optId){
+                            
+                            if(err){
+                                //如果出错了
+                                return;
+                            }
+                            //var cacheInfo =   JSON.stringify(cachePageMTApply());
+                            //localStorage.setItem('cachePageMTApply',cacheInfo);
+                            var currUserId = localStorage.getItem('userId');
+                            localStorage.removeItem('cachePageMTApply'+currUserId);
+                            //关闭当前窗口
+                            appcan.window.close({
+                                aniId:17,
+                                animDuration:1000
+                            });
+                            ajaxFlag=true;
+                        }
+                    });
+                 }
+             });
+             ajaxFlag=false;
+         }
+    });
+    /**
+     * 维保类型监听
+     */
+    function mtype_change(e) {
+        var engine = $("#engine").val();
+        if (appcan.gsoft.stringUtils.isEmpty(engine)) {
+            divControl(reason,0);
+            return;
+        }
+        $("#engine_detail").show();
+        $("#dailyCheck").hide();
+        var reason = e.value;
+        divControl(reason,1);
+
+    }
+    
+    /**
+     * 临修维修类型监听
+     */
+    function tmptype_change() {
+        var type = $("#tmp_type").val();
+        switch (parseInt(type)) {
+            case 1:
+                $("#tr_maintenance_unit").show();
+                $("#tr_maintenance_unit2").show();
+                break;
+            case 2:
+                $("#tr_maintenance_unit").hide();
+                $("#tr_maintenance_unit2").hide();
+                break;
+        }
+
+    }
+    
+    /**
+     * 维保部位监听
+     */
+    function reparttype_change() {
+        var type = $("#repair_part_type").val();
+        switch (parseInt(type)) {
+            case 1:
+                $("#tr_repair").hide();
+                break;
+            case 2:
+                $("#tr_repair").show();
+                var engineId = $("#device_id").val();
+                if(engineId){
+                    loadEngineParts(engineId);
+                }
+                break;
+        }
+
+    }
+    
+    function divControl(reason,status){
+        switch (parseInt(reason)) {
+            case 0:
+                $("#engine_detail").hide();
+                break;
+            case 1:
+                if(status==1){
+                     $("#engine_detail").hide();
+                     dailyCheck();
+                }
+                break;
+            case 2:
+                $("#div_reanson").hide();
+                $("#reason").hide();
+                $("#div_repair").hide();
+                $("#pic_upload").hide();
+                $("#tr_tmp_type").hide();
+                $("#tr_tmp_type2").hide();
+                $("#td_repair_type1").hide();
+                $("#td_repair_type2").hide();
+                $("#tr_maintenance_unit").show();
+                $("#tr_maintenance_unit2").show();
+                reparttype_change();
+                break;
+            case 3:
+                $("#div_reanson").show();
+                $("#reason").show();
+                $("#div_repair").hide();
+                $("#pic_upload").show();
+                $("#td_repair_type1").show();
+                $("#td_repair_type2").show();
+                $("#tr_tmp_type").show();
+                $("#tr_tmp_type2").show();
+                tmptype_change();
+                reparttype_change();
+                break;
+            case 4:
+                $("#div_reanson").hide();
+                $("#reason").hide();
+                $("#div_repair").show();
+                $("#tr_tmp_type").hide();
+                $("#tr_tmp_type2").hide();
+                $("#td_repair_type1").show();
+                $("#td_repair_type2").show();
+                $("#pic_upload").hide();
+                $("#td_repair_type1").show();
+                $("#td_repair_type2").show();
+                $("#tr_maintenance_unit").show();
+                $("#tr_maintenance_unit2").show();
+                reparttype_change();
+                break;
+        }
+    }
+    
+    /**
+     * 机车选择
+     */
+    function chooseDrive() {
+        //弹出一个简单的demo窗口,并打开appcan.cn
+        var page_Name = pageName();
+        selectPageLS(page_Name, 'engine', 2, '任务选车', 1, '');
+        uexWindow.openPopover('locomotive_select','0','../locomotive_select.html','',0,0,'','','','0',0);
+        // appcan.window.openPopover({
+            // name: 'demo',
+            // dataType: 0,
+            // url: '../select2.html',
+            // top: 100,
+            // left: 0,
+            // width: 1800,
+            // height: 1000,
+        // });
+        //把demo窗口显示到所有窗口最上面
+        // appcan.window.bringPopoverToFront('demo');
+
+    }
+    /**
+     * 设备信息回显
+     */
+    function setEngine(data) {
+        $("#engine").val(data.number);
+        $("#device_name").val(data.name);
+        $("#device_name1").val(data.name);
+        $("#device_num").val(data.number);
+        $("#device_type").val(data.model);
+        $("#device_type1").val(data.model);
+        var mileage = '0';
+        if(!data.runningmileage){
+            mileage = data.runningmileage;
+        }
+        var time = '0';
+        if(!data.runningtime){
+            time = data.runningtime;
+        }
+        $("#total_mileage").val(mileage);
+        $("#total_time").val(time);
+        $("#device_id").val(data.ID);
+        $("#d_type").val(data.type);
+        var mType = $("#maintenance_type").val();
+        if(mType==0){
+            return;
+        }else if(mType==1){
+            dailyCheck();
+        }else{
+           $("#engine_detail").show();
+           divControl(mType,0);
+           loadEngineParts(data.ID);
+        }
+        
+    }
+    /**
+     * 日常检查
+     */
+    function dailyCheck(){
+        var eType = $("#d_type").val();
+        appcan.gsoft.ajaxUtil.ajax({
+            url: "/inspectProjectManager/getInspectProjectByType.json",
+            data: "ipType=1&engineType="+eType,
+            success: function (data) {
+                var records = data.records;
+                if(records ==''){
+                  appcan.window.alert({
+                            title: '提示',
+                            content: '请联系管理员为该机车维护日常检查项',
+                            buttons: '确定'
+                        });  
+                   //关闭当前窗口
+                  // appcan.window.close({aniId:17,animDuration:1000});
+                }
+                $("#listview1").click(function(){
+                     if($("#listview1").find('input[type="checkbox"]').is(':checked')){
+                        $("#listview2").find('input[type="checkbox"]').each(function(){
+                            $(this).prop("checked", true);
+                        });
+                     }else{                                        
+                        $("#listview2").find('input[type="checkbox"]').each(function(){
+                            $(this).prop("checked", false);
+                        });
+                     }
+                })
+                $("#listview1 input").change(function(){
+                    if($("#listview1").find('input[type="checkbox"]').is(':checked')){
+                        $("#listview2").find('input[type="checkbox"]').each(function(){
+                            $(this).prop("checked", true);
+                        });
+                    }else{                                        
+                        $("#listview2").find('input[type="checkbox"]').each(function(){
+                            $(this).prop("checked", false);
+                        });
+                    }
+                });
+                
+                var listData = '';
+                for (var i in records) {
+                    var record = records[i];
+                    // record.id
+                    // record.index
+                    // record.mark
+                    listData += '<li><label>' +
+                            '<input type ="checkbox" id="'+record.id+'" />' +
+                            '<span>' + record.index + '、' + record.mark + '</span>' +
+                        '</label></li>';
+                }
+                $('#listview2').html(listData);
+                $("#dailyCheck").show();
+            }
+        });
+    }
+    /**
+     * 加载审核人
+     */
+    function loadUsers() {
+        $("#tr_check_user").hide();
+        appcan.gsoft.ajaxUtil.ajax({
+            url: "/gltlUserManager/getDirectLeader.json",
+            data: "",
+            success: function (data) {
+                var users = data.records;
+                if(users){
+                    for (var i = 0; i < users.length; i++) {
+                        var op = '<option value=' + users[i].userId + '>' + users[i].fUname + '</option>';
+                        $("#check_user").append(op);
+                    }
+                }else{
+                    appcan.window.confirm({
+                        title:'提示',
+                        content:'未找到下一步审批人，请检查工作组维护信息',
+                        buttons:['确定'],
+                        callback:function(err,data,dataType,optId){
+                            if(err){ return;}
+                            appcan.window.close({aniId:17,animDuration:1000});
+                        }
+                    });
+                }
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                getDirectLeader();
+                
+            }
+        });
+    }
+
+    /**
+     * 加载维修单位
+     */
+    function loadMaintenanceUnit() {
+        appcan.gsoft.ajaxUtil.ajax({
+            url: "/codemapManager/getConvert.json",
+            data: "name=maintenance_unit",
+            success: function (data) {
+                //alert(JSON.stringify(data.record));
+                var units = data.record;
+                for (key in units) {
+                    if (units.hasOwnProperty(key)){
+                        var op = '<option value=' + key + '>' + units[key] + '</option>';
+                        $("#maintenance_unit").append(op);
+                    }
+                }
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                var op = '<option value=\'1\'>百度公司</option>';
+                $("#maintenance_unit").append(op);
+            }
+        });
+    }
+    
+    /**
+     * 加载机车部件
+     */
+    function loadEngineParts(fEid,repairPartID) {
+        $("#repair_part option").remove();
+        appcan.gsoft.ajaxUtil.ajax({
+            url: "/GltlEnginepartsManager/getGltlEnginepartsByEid.json",
+            data: "fEid="+fEid,
+            success: function (data) {
+                //alert(JSON.stringify(data.record));
+                var parts = data.records;
+                if(parts && parts.length!=0){
+                    for (var i = 0; i < parts.length; i++) {
+                        var op = '<option value=' + parts[i].fEpid + '>' + parts[i].fEpname + '</option>';
+                        $("#repair_part").append(op);
+                    }
+                }
+                if(repairPartID){
+                    $("#repair_part").val(repairPartID);
+                }
+            }
+        });
+    }
+    
+    //维保申请页面缓存
+    function cachePageMTApply(){
+        //获取当前页面数据为JSON格式
+        var cachJsonArray = {};
+        var codemapDetail = {};//维保信息
+        codemapDetail.engine = $("#engine").val();//机车编号
+        codemapDetail.device_id = $("#device_id").val();//机车ID
+        codemapDetail.maintenance_type = $("#maintenance_type").val();//维保类型
+        codemapDetail.reason = $("#reason").val();//原因
+        codemapDetail.repair_type = $("#repair_type").val();//修别
+        codemapDetail.tmp_type = $("#tmp_type").val();//临修维修类型
+        codemapDetail.maintenance_unit = $("#maintenance_unit").val();//承修单位
+        codemapDetail.repair_part = $("#repair_part").val();//维保零部件
+        codemapDetail.repair_part_type = $("#repair_part_type").val();//维保部位
+        codemapDetail.repair_replace = $("#repair_replace").val();//维修/更换
+        //var codemapDetail = {'currLoginUser':appcan.locStorage.getVal("userId");};//当前登录用户
+        cachJsonArray = {'codemapDetail':codemapDetail};
+        return cachJsonArray;
+    }
+    
+    //页面信息回显
+    function getPageCodeMapDetail(engineId,mType,cachePageMTApplyInfo){
+            appcan.gsoft.ajaxUtil.ajax({
+                url: "/gltlEngineManager/getGltlEngine.json",
+                data: "fEid="+engineId,
+                success: function (result) {
+                    var engine = result.record;
+                    //alert(JSON.stringify(result.record));
+                    $("#engine").val(engine.fEplatenmber);
+                    $("#device_name").val(engine.fEname);
+                    $("#device_num").val(engine.fEplatenmber);
+                    $("#device_type").val(engine.fEstandardmodel);
+                    $("#device_name1").val(engine.fEname);
+                    $("#device_type1").val(engine.fEstandardmodel);
+                    var mileage = '0';
+                    if(!engine.ferunningmileage){
+                        mileage = engine.ferunningmileage;
+                    }
+                    var time = '0';
+                    if(!engine.ferunningtime){
+                        time = engine.ferunningtime;
+                    }
+                    $("#total_mileage").val(mileage);
+                    $("#total_time").val(time);
+                    $("#device_id").val(engine.fEid);
+                    $("#d_type").val(engine.fetype);
+                    
+                    if(mType==0){
+                        return;
+                    }else if(mType==1){
+                        dailyCheck();
+                    }else{
+                       $("#engine_detail").show();
+                       divControl(mType,0);
+                    }
+                    
+                    if(cachePageMTApplyInfo){
+                        $("#engine").val(cachePageMTApplyInfo.codemapDetail.engine);
+                        $("#maintenance_type").val(mType);//维保类型
+                        $("#reason").val(cachePageMTApplyInfo.codemapDetail.reason);//原因
+                        $("#repair_type").val(cachePageMTApplyInfo.codemapDetail.repair_type);//修别
+                        $("#tmp_type").val(cachePageMTApplyInfo.codemapDetail.tmp_type);//临修维修类型
+                        $("#maintenance_unit").val(cachePageMTApplyInfo.codemapDetail.maintenance_unit);//承修单位
+                        $("#repair_part").val(cachePageMTApplyInfo.codemapDetail.repair_part);//维保零部件
+                        $("#repair_part_type").val(cachePageMTApplyInfo.codemapDetail.repair_part_type);//维保部位
+                        $("#repair_replace").val(cachePageMTApplyInfo.codemapDetail.repair_replace);//维修/更换
+                    }
+                    
+                    reparttype_change();
+                }
+            });
+    }
+
+	/*本地存储sqllite*/
+    function local_submit_apply(){
+        var engine = $("#engine").val();
+        var mType = $("#maintenance_type").val();
+        var rType = $("#repair_type").val();
+        var tmpType = $("#tmp_type").val();
+        var company = $("#maintenance_unit").val();
+        var eType = $("#d_type").val();
+        var eid = $("#device_id").val();
+        var remark = $("#reason").val();
+        var flowReceiver = $("#check_user").val();
+        
+        var userId = localStorage.getItem('userId');
+        var realname = localStorage.getItem('realname');
+        var currDate = getNowFormatDate();
+        var guid = new GUID();
+        if(mType == '2'){
+            var emt = new gltl_enginemaintian();
+            var emtID = guid.newGUID();
+            emt.SetF_EMID(emtID);
+            emt.SetF_UID(userId);
+            emt.SetF_EMSTARTTIME(currDate);
+            emt.SetF_EMSTATE(1);
+            emt.SetF_OUTKEYID(eid);
+            emt.SetF_EMTYPE(~~eType);
+            emt.SetF_EMCOMPANY(company);
+            emt.SetF_BISUPLOAD(0);
+            var mp = new gltl_maintianproject();
+            mp.SetF_ETYPE(~~eType);
+            mp.SetF_MPTYPE(1);
+            mp.ExecuteSQLByResult(mp.GetSelectSQL(), function (mpjson) {
+                if(mpjson && mpjson.length == 0){
+                    appcan.window.openToast("机车保养计划不存在", '2000');
+                    return;
+                }
+                
+                mp.FillEntry(mpjson[0]);
+                emt.SetF_MPID(mp.GetF_MPID());
+                emt.SetF_EMCOST(0);
+                var eng = new gltl_engine();
+                eng.SetF_EID(eid);
+                eng.ExecuteSQLByResult(eng.GetSelectSQL(), function (engjson){
+                    if(engjson && engjson.length == 0){
+                        appcan.window.openToast("机车不存在", '2000');
+                        return;
+                    }
+                    
+                    eng.FillEntry(engjson[0]);
+                    emt.SetF_EMCURRENTM(eng.GetF_ERUNNINGMILEAGE());
+                    
+                    var emtGetInsertSQL = emt.GetInsertSQL();
+                    
+                    var fn = new gltl_flownode();
+                    var flowNo = "MT"+guid.newNumber();
+                    fn.SetF_FWNID(guid.newGUID());
+                    fn.SetF_BUSINESSID(emtID);
+                    fn.SetF_FWNSTATE(1);
+                    fn.SetF_FWNSENDER(userId);
+                    fn.SetF_FWNSENDEE(flowReceiver);
+                    //fn.SetF_MPID();
+                    fn.SetF_ISSUCCESS(1);
+                    fn.SetF_FWORDERNUMBER(flowNo);
+                    fn.SetF_FWINDEX(1);
+                    fn.SetF_BISUPLOAD(0);
+                    
+                    var fnGetInsertSQL = fn.GetInsertSQL();
+                    
+                    var msgh = new gltl_messagepush();
+                    var msg_title = engine + getMTRPTitle(mType,'1');
+                    var msg_content = msg_title +",申请人:"+realname+",申请单号:"+flowNo+",申请时间:"+currDate;
+                    msgh.SetF_MPID(guid.newGUID());
+                    msgh.SetF_MPCONTENT(msg_content);
+                    msgh.SetF_MPTITLE(msg_title);
+                    msgh.SetF_MPINDEX(1);
+                    msgh.SetF_MPISREAD(0);
+                    msgh.SetF_MPBUSINESS(flowNo);
+                    msgh.SetF_MPSENDSOURCE(userId);
+                    msgh.SetF_MPRECEIVE(flowReceiver);
+                    msgh.SetF_MPSENDTIME(currDate);
+                    msgh.SetF_MPREADTIME('');
+                    msgh.SetF_MPTASKSTATE('1');
+                    msgh.SetF_MPTYPE(6);
+                    msgh.SetF_MPHANDLE('0');
+                    msgh.SetF_BISUPLOAD(0);
+                    
+                    var msghGetInsertSQL = msgh.GetInsertSQL();
+                    
+                    var dataAccHelper = new DataAccess();
+                    var exesql = new Array();
+                    exesql.push(emtGetInsertSQL);
+                    exesql.push(fnGetInsertSQL);
+                    exesql.push(msghGetInsertSQL);
+                    dataAccHelper.ExecuteSQLByTrans(exesql, function (error) {
+                        if(error!= "0"){
+                            appcan.window.alert({
+                                title: '提示',
+                                content: '数据库错误',
+                                buttons: '确定'
+                            });
+                        }else{
+                           appcan.window.confirm({
+                                title:'提示',
+                                content:'交易成功，维保单号为'+flowNo,
+                                buttons:['确定'],
+                                callback:function(err,data,dataType,optId){
+                                    var currUserId = localStorage.getItem('userId');
+                                    localStorage.removeItem('cachePageMTApply'+currUserId);
+                                    //关闭当前窗口
+                                    appcan.window.close({aniId:17,animDuration:1000}); 
+                                }
+                           });  
+                        }
+                    });
+                    
+                    
+                });
+                
+            });
+            
+        }else if(mType == '3' || mType == '4'){
+            var er = new gltl_enginerepair();
+            var erID = guid.newGUID();
+            er.SetF_ERID(erID);
+            er.SetF_EID(eid);
+            er.SetF_ERSTARTTIME(currDate);
+            er.SetF_UID(userId);
+            er.SetF_ERRUN(0);
+            er.SetF_ERTYPE(~~mType);
+            er.SetF_ERCASE(remark);
+            er.SetF_ERSTYLE(rType);
+            er.SetF_ERSTATUE(1);
+            er.SetF_BISUPLOAD(0);
+            var erGetInsertSQL = er.GetInsertSQL();
+            
+            if(tmpType){
+                var ertend = new gltl_enginerepairextend();
+                ertend.SetF_EREID(guid.newGUID());
+                ertend.SetF_ERID(erID);
+                ertend.SetF_EREFIELDNAME("tmpType");
+                ertend.SetF_EREFIELDTYPE(2);
+                ertend.SetF_EREFIELDVALUE(tmpType);
+                ertend.SetF_EREFIELDINDEX(1);
+                ertend.SetF_EREFIELDGROUP(1);
+                ertend.SetF_BISUPLOAD(0);
+                var ertendSQL = ertend.GetInsertSQL();
+                ertend.ExecuteSQL(ertendSQL);
+            }
+            if(company){
+               var ertend = new gltl_enginerepairextend();
+                ertend.SetF_EREID(guid.newGUID());
+                ertend.SetF_ERID(erID);
+                ertend.SetF_EREFIELDNAME("company");
+                ertend.SetF_EREFIELDTYPE(2);
+                ertend.SetF_EREFIELDVALUE(company);
+                ertend.SetF_EREFIELDINDEX(1);
+                ertend.SetF_EREFIELDGROUP(1);
+                ertend.SetF_BISUPLOAD(0);
+                var ertendSQL = ertend.GetInsertSQL();
+                ertend.ExecuteSQL(ertendSQL); 
+            }
+            
+            var fn = new gltl_flownode();
+            var flowNo = "RP"+guid.newNumber();
+            fn.SetF_FWNID(guid.newGUID());
+            fn.SetF_BUSINESSID(erID);
+            fn.SetF_FWNSTATE(1);
+            fn.SetF_FWNSENDER(userId);
+            fn.SetF_FWNSENDEE(flowReceiver);
+            fn.SetF_ISSUCCESS(1);
+            fn.SetF_FWORDERNUMBER(flowNo);
+            fn.SetF_FWINDEX(1);
+            fn.SetF_BISUPLOAD(0);
+            var fnGetInsertSQL = fn.GetInsertSQL();
+            
+            var msgh = new gltl_messagepush();
+            var msg_title = engine + getMTRPTitle(mType,'1');
+            var msg_content = msg_title +",申请人:"+realname+",申请单号:"+flowNo+",申请时间:"+currDate;
+            msgh.SetF_MPID(guid.newGUID());
+            msgh.SetF_MPCONTENT(msg_content);
+            msgh.SetF_MPTITLE(msg_title);
+            msgh.SetF_MPINDEX(1);
+            msgh.SetF_MPISREAD(0);
+            msgh.SetF_MPBUSINESS(flowNo);
+            msgh.SetF_MPSENDSOURCE(userId);
+            msgh.SetF_MPRECEIVE(flowReceiver);
+            msgh.SetF_MPSENDTIME(currDate);
+            msgh.SetF_MPREADTIME('');
+            msgh.SetF_MPTASKSTATE('1');
+            msgh.SetF_MPTYPE(6);
+            msgh.SetF_MPHANDLE('0');
+            msgh.SetF_BISUPLOAD(0);
+            
+            var msghGetInsertSQL = msgh.GetInsertSQL(); 
+            
+            var dataAccHelper = new DataAccess();
+            var exesql = new Array();
+            exesql.push(erGetInsertSQL);
+            exesql.push(fnGetInsertSQL);
+            exesql.push(msghGetInsertSQL);
+            dataAccHelper.ExecuteSQLByTrans(exesql, function (error) {
+                if(error!= "0"){
+                    appcan.window.alert({
+                        title: '提示',
+                        content: '数据库错误',
+                        buttons: '确定'
+                    });
+                }else{
+                   appcan.window.confirm({
+                        title:'提示',
+                        content:'交易成功，维保单号为'+flowNo,
+                        buttons:['确定'],
+                        callback:function(err,data,dataType,optId){
+                            var currUserId = localStorage.getItem('userId');
+                            localStorage.removeItem('cachePageMTApply'+currUserId);
+                            //关闭当前窗口
+                            appcan.window.close({aniId:17,animDuration:1000}); 
+                        }
+                   });  
+                }
+            });
+        }
+        
+        
+    }
+    
+    function getMTRPTitle(mType,status){
+        var title = '';
+        if(mType == '2'){
+            if(status == '1' || status == '2' || status == '3'|| status == '4' || status == '5'){
+                title = "的周期保养申请";
+            }else if(status == '6' || status == '8' || status == '9' || status == '10' || status == '11'){
+                title = "的周期保养验收申请";
+            }
+        }else if(mType == '3'){
+            if(status == '1' || status == '2' || status == '3'|| status == '4' || status == '5'){
+                title = "的大修申请";
+            }else if(status == '6' || status == '8' || status == '9' || status == '10' || status == '11'){
+                title = "的大修验收申请";
+            }
+        }else if(mType == '4'){
+            if(status == '1' || status == '2' || status == '3'|| status == '4' || status == '5'){
+                title = "的临修申请";
+            }else if(status == '6' || status == '8' || status == '9' || status == '10' || status == '11'){
+                title = "的临修验收申请";
+            }
+        }
+        
+        return title;
+    }
+    
+    //本地数据库获取当前用户的直接上级，该方法仅用于维保申请流程和验收流程；
+    //司机的上级是同工作组的工队长，工队长的上级是负责人
+    function getDirectLeader(){
+        var userId = localStorage.getItem('userId');
+        var userType = localStorage.getItem('userType');
+        if(userType == '1'){//司机
+            /* 测试代码
+            var us = new gltl_user();
+            us.SetF_UID(userId);
+            us.ExecuteSQLByResult(us.GetSelectSQL(), function (usjson) {
+                us.FillEntry(usjson[0]);
+                var usgroup = new gltl_usergroup();
+                usgroup.SetF_UGID(us.GetF_UGID());
+                usgroup.ExecuteSQLByResult(usgroup.GetSelectSQL(), function (usgroupjson){
+                    usgroup.FillEntry(usgroupjson[0]);
+                    var members = usgroup.GetF_UGMEMBER();
+                });
+            });
+            */
+            
+            var selectSQL1 = 'select * from gltl_usergroup where F_UGID in '+
+                             '(select F_UGID from gltl_user where F_UID = \''+userId+'\')';
+            var usgroup = new gltl_usergroup();
+            usgroup.ExecuteSQLByResult(selectSQL1, function (usgroupjson) {
+                if(usgroupjson && usgroupjson.length != 0){
+                    usgroup.FillEntry(usgroupjson[0]);
+                    var members = usgroup.GetF_UGMEMBER();
+                    if(members){
+                        var memberArr = members.split(",");
+                        for(var i = 0 ;i < memberArr.length;i++){
+                            var member = memberArr[i];
+                            var selectSQL2 = 'select * from gltl_user '+
+                                             'where F_UTYPE in (select F_DID from gltl_dictionary where F_DINDEX = \'2\') '+
+                                             'and F_UID = \''+member+'\'';
+                            var us = new gltl_user();
+                            us.ExecuteSQLByResult(selectSQL2, function (usjson) {
+                                if(usjson && usjson.length != 0){
+                                    us.FillEntry(usjson[0]);
+                                    var op = '<option value=' + us.GetF_UID() + '>' + us.GetF_UNAME() + '</option>';
+                                    $("#check_user").append(op);
+                                    return;
+                                }
+                                
+                            });
+                        }
+                    }else{
+                        return;
+                    }
+                    
+                } 
+            });
+           
+        }else if(userType == '2'){//工队长
+            var selectSQL = 'select * from gltl_user where F_UID in ('+
+                            'select F_UGMEMBER from gltl_usergroup where F_UGID in ('+
+                            'select F_UGPID from gltl_usergroup where F_UGID in ('+
+                            'select F_UGID from gltl_user where F_UID = '+userId+')))';
+            
+            var us = new gltl_user();
+            us.ExecuteSQLByResult(selectSQL, function (usjson) {
+                us.FillEntry(usjson[0]);
+                var op = '<option value=' + us.GetF_UID() + '>' + us.GetF_UNAME() + '</option>';
+                $("#check_user").append(op);
+                return;
+            });
+        }
+    }
+    
+    //在线模式同时给本地数据库同步
+    function maintenance_syncdata(){
+        
+        var emt = new gltl_enginemaintian();
+        emt.DownLoadEx();
+                            
+        var fn = new gltl_flownode();
+        fn.DownLoadEx();
+                            
+        var msgh = new gltl_messagepush();
+        msgh.DownLoadEx();
+                            
+        var er = new gltl_enginerepair();
+        er.DownLoadEx();
+                            
+        var ertend = new gltl_enginerepairextend();
+        ertend.DownLoadEx();
+    }
+    
+    /*获取当前的日期时间 格式yyyy-MM-dd HH:MM:SS*/
+    function getNowFormatDate() {
+        var date = new Date();
+        var seperator1 = "-";
+        var seperator2 = ":";
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+                + " " + date.getHours() + seperator2 + date.getMinutes()
+                + seperator2 + date.getSeconds();
+        return currentdate;
+    }
+</script>
+</html>

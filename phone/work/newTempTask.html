@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>自轮运转特种设备运用管理系统</title>
+    <link rel="stylesheet" type="text/css" href="../css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/iconfont/iconfont.css">
+    <!-- <link rel="stylesheet" type="text/css" href="../css/logbook.css"/> -->
+</head>
+<body class="body">
+    <div id="ScrollContent">
+        <!-- 任务列表 -->
+        <div id="task_list">
+            <div class="block">
+            <div class="long_press block-head text-black">
+                <span class="block-title">任务</span><span class="f_Tpindex" id="f_Tpindex_' + num + '"></span>
+                <i id="save_task" class="icon iconfont icon-fabu text-green"></i>
+            </div>
+            <div class="block-toggle">
+                <div class="block-body">
+                    <table class="table-input">
+                        <tr>
+                            <td style="width: 5em;"><span class="input-label text_necessary">任务名称:</span></td>
+                            <td style="width: calc(50% - 5em);"><input id="f_Tpname" class="f_Tpname input-text" type="text" value=""/></td>
+                            <td style="width: 5em;"><span class="input-label text_necessary">日期:</span></td>
+                            <td style="width: calc(50% - 5em);"><input id="f_Tpdate" class="f_Tpdate datatime_window input-text" type="text" value="" readonly="true" /></td>
+                        </tr>
+                        <tr>
+                            <td><span class="input-label text_necessary">工序组:</span></td>
+                            <td><input id="f_Wpgid" class="f_Wpgid select_process1 input-text" type="text" value="" readonly="true" /></td>
+                            <td><span class="input-label text_necessary">任务类型:</span></td>
+                            <td><input id="f_Wpgidextend" class="f_Wpgidextend select_process2 input-text" type="text" value="" readonly="true" /></td>
+                        </tr>
+                        <tr>
+                            <td><span class="input-label text_necessary">正司机:</span></td>
+                            <td><input id="f_Tpdriver" class="f_Tpdriver input-text" type="text" value="" readonly="true" /></td>
+                            <td><span class="input-label">值乘人员:</span></td>
+                            <td><input id="f_Tppersonone" class="f_Tppersonone input-text select_driver" type="text" value="" readonly="true" /></td>
+                        </tr>
+                        <tr>
+                            <td><span class="input-label text_necessary">副司机:</span></td>
+                            <td><input id="f_Tpassistantdriver" class="f_Tpassistantdriver select_driver input-text" type="text" value="" readonly="true" /></td>
+                            <td><span class="input-label">值乘人员:</span></td>
+                            <td><input id="f_Tppersontwo" class="f_Tppersontwo select_driver input-text" type="text" value="" readonly="true" /></td>
+                        </tr>
+                        <tr>
+                            <td><span class="input-label text_necessary" id="f_EidName" style="display: none">机车1:</span></td>
+                            <td><input id="f_Eid" class="f_Eid input-text select_otive"  type="text" value="" readonly="true" style="display: none"/></td>
+                            <td><span class="input-label text_necessary" id="f_EexidName" style="display: none">机车2:</span></td>
+                            <td><input id="f_Eexid" class="f_Eexid input-text select_otive" type="text" value="" readonly="true" style="display: none"/></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="block-foot">
+                    <table class="table-input">
+                        <tr>
+                            <td style="width: 5em;"><span class="input-label">施工地段:</span></td>
+                            <td style="width: calc(100% - 5em);"><input class="f_Tpsection input-text" type="text" name="" id="f_Tpsection" value="" /></td>
+                        </tr>
+                        <tr class="f_Tpgroup">
+                            <td><span class="input-label">车辆编组:</span></td>
+                            <td>
+                                <span class="car_group1" id="car_group1"></span>
+                                <input id="inputContent" class="inputContent input-text" type="text" style="width:30%;" value="" />
+                                <span class="car_group2" id="car_group2"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top"><span class="input-label">施工内容<br />影响范围:</span></td>
+                            <td><textarea class="f_Tpcontent input-text input-textarea" rows="3" id="f_Tpcontent"></textarea></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    
+    <!-- appcan -->
+    <script src="../js/appcan.js"></script>
+    <script src="../js/appcan.control.js"></script>
+    <script src="../js/appcan.tab.js"></script>
+    <script src="../js/gsoft.core.js"></script>
+    <!-- jQuery -->
+    <script src="../js/jquery/jquery1.7.1.min.js"></script>
+    <!-- logbook -->
+    <script src="../js/public.js"></script>
+    <script src="../js/SelectDateTime.js"></script>
+    <script type="text/javascript" charset="utf-8">
+    dataTimeWindow(false);
+    var fDpid = '';  //主键ID   隐藏
+    var userId = '';  //用户ID   隐藏
+    var wpRecords;
+    // 获取服务器数据
+    appcan.ready(function() {
+        var loginName = appcan.locStorage.getVal("loginName");
+        //回显当前日期
+        $("#f_Tpdriver").val(loginName);
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1): date.getMonth() + 1;
+        var day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+        var dateStr = year + "-" + month + "-" + day;
+        document.getElementById('f_Tpdate').value = dateStr;
+        
+        var public = new Public();
+        public.header('临时出车',true,true);//显示顶部:标题名，左侧icon，右侧icon
+        public.footer();//显示底部
+        public.backBtn();
+        
+        selectPage();
+        var data = 'type=3&convert=选固定工序组&bool=0&exten=' + '';
+        appcan.gsoft.ajaxUtil.ajax({
+            url : '/GetDataSourceManager/getDatasource.json',
+            data : data,
+            success : function(data) {
+                wpRecords = data.records;
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                appcan.window.openToast('服务器连接失败,请检查网络...', '2000');
+            }
+        });
+        
+    })
+    //获取页面数据
+    function planData(){
+        var planData = 
+            'fTpname=' + $("#f_Tpname").val() + '&' +
+            'fTpdate=' + $("#f_Tpdate").val() + '&' +
+            'wpGroup.fWpgid=' + $("#f_Wpgid").attr('name') + '&' +
+            'wpGroupExtend.fWpgid=' + $("#f_Wpgidextend").attr('name') + '&' +
+            'personOne.userId=' + appcan.locStorage.getVal("userId") + '&' +
+            'personTwo.userId=' + $("#f_Tpassistantdriver").attr('name') + '&' +
+            
+            'engineOne.fEid=' + $("#f_Eid").attr('name') + '&' +
+            'fTpsection=' + $("#f_Tpsection").val() + '&' +
+            'fTpcontent=' + $("#f_Tpcontent").val()+ '&';
+           // planData += 'fTpgroup=' + $("#car_group1").html();
+            if ($("#f_Tppersonone").attr('name') != undefined) {
+                planData += 'personThree.userId=' + $("#f_Tppersonone").attr('name') + '&'
+            };
+            if ($("#f_Tppersontwo").attr('name') != undefined) {
+                planData += 'personFour.userId=' + $("#f_Tppersontwo").attr('name') + '&'
+            };
+            if($("#f_Eexid").attr('name') != undefined && $("#f_Eexid").attr('name') != "") {
+                planData += 'engineTwo.fEid=' + $("#f_Eexid").attr('name') + '&'
+            }
+            planData += 'fTpgroup=' + $("#car_group1").html();
+            if($("#inputContent").val() != ""){
+                 planData += $("#inputContent").val();
+            }
+            planData += ($("#car_group2").html());
+        return planData
+    }
+
+    //提交任务
+        var ajaxFlag = true;
+        appcan.button("#save_task", "ani-act", function() {
+            if(ajaxFlag){
+                    if ($("#f_Tpdate").val() == '') {
+                        alert('请选择任务日期')
+                        return;
+                    }else if ($("#f_Tpname").val() == '') {
+                        alert('请填写任务名称');
+                        return;
+                    }else if ($("#f_Eid").val() == '') {
+                        alert('请选择机车1');
+                        return;
+                    }else if ($("#f_Tpdriver").val() == '') {
+                        alert('请选择正司机');
+                        return;
+                    }else if ($("#f_Tpassistantdriver").val() == '') {
+                        alert('请选择副司机');
+                        return;
+                    }else if ($("#f_Wpgid").val() == '') {
+                        alert('请选择工序组');
+                        return;
+                    }else if ($("#f_Wpgidextend").val() == '') {
+                        alert('请选择任务类型');
+                        return;
+                    }
+                    
+                appcan.gsoft.ajaxUtil.ajax({
+                    url : '/gltlTempTaskplanManager/saveTempTask.json',
+                    data : planData(),
+                    success : function(data) {
+                        ajaxFlag = true;
+                        var record = data.records[0]
+                        if (record.result == 'SUCCESS') {
+                            var taskId = record.task.fTpid;
+                            localStorage.setItem('taskId',taskId);
+                            appcan.window.close(-1);
+                            appcan.window.open({
+                                name:'tmpTask_implement',
+                                dataType:0,
+                                data:'tmpTask_implement.html'
+                            });
+                        } else if (data.records[0].result == 'ERROR'){
+                            alert(data.records[0].message)
+                        };
+                    },
+                    error : function(XMLHttpRequest, textStatus, errorThrown) {
+                        appcan.window.openToast('服务器连接失败,请检查网络...', '2000');
+                    }
+                });
+                ajaxFlag=false;
+            }else{
+                appcan.window.alert({
+                    title: '提示',
+                    content: '数据处理中，请勿重复提交！',
+                    buttons: '确定'
+                });
+            }
+        })
+    </script>
+</body>
+</html>

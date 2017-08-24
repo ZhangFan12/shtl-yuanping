@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>自轮运转特种设备运用管理系统</title>
+    
+    <link rel="stylesheet" type="text/css" href="../css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/iconfont/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="../css/logbook.css"/>
+</head>
+<body class="body">
+    <div id="ScrollContent">
+        <!-- 任务列表 -->
+        <div id="task_list">
+            <div class="block">
+                <div class="block-head text-black">
+                    <span class="block-title">任务-</span><span id="data0"></span>
+                    <!-- <i class="icon iconfont icon-xiangxia2 fl-r text-green"></i> -->
+                </div>
+                <div class="block-body">
+                    <table class="table-input">
+                        <tr>
+                            <td style="width:5em;"><span class="input-label">任务名称:</span></td>
+                            <td style="width:calc(50% - 5em);"><span id="data1" class="input-text text-gray bor-0"></span></td>
+                            <td style="width:5em;"><span class="input-label">日期:</span></td>
+                            <td style="width:calc(50% - 5em);"><span id="data2" class="input-text text-gray bor-0"></span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="input-label">机车选择:</span></td>
+                            <td><span id="data3" class="input-text text-gray bor-0"></span></td>
+                            <td><span class="input-label">机车选择:</span></td>
+                            <td><span id="data4" class="input-text text-gray bor-0"></span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="input-label">正司机:</span></td>
+                            <td><span id="data5" class="input-text text-gray bor-0"></span></td>
+                            <td><span class="input-label">值乘人员:</span></td>
+                            <td><span id="data7" class="input-text text-gray bor-0"></span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="input-label">副司机:</span></td>
+                            <td><span id="data6" class="input-text text-gray bor-0"></span></td>
+                            <td><span class="input-label">值乘人员:</span></td>
+                            <td><span id="data8" class="input-text text-gray bor-0"></span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="input-label">工序组:</span></td>
+                            <td><span id="data9" class="input-text text-gray bor-0"></span></td>
+                            <td><span class="input-label">任务类型:</span></td>
+                            <td><span id="data10" class="input-text text-gray bor-0"></span></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="block-foot">
+                    <table class="table-input">
+                        <tr>
+                            <td style="width:5em;"><span class="input-label">施工地段:</span></td>
+                            <td style="width:calc(100% - 5em);"><span id="data11" class="input-text text-gray bor-0"></span></td>
+                        </tr>
+                        <tr class="f_Tpgroup">
+                            <td><span class="input-label">车辆编组:</span></td>
+                            <td><span id="data12" class="input-text text-gray bor-0"></span></td>
+                        </tr>
+                        <tr>
+                            <td valign="top"><span class="input-label">施工内容<br />影响范围:</span></td>
+                            <td><span id="data13" class="input-text text-gray bor-0" style="height: 4em;">施工内容及影响范围</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- 工序组 -->
+        
+        <!-- <div class="block">
+            <div class="block-head text-black">
+                <span class="block-title">工序组</span>
+            </div>
+            <ul id="working" class="working-list clear">
+            </ul>
+            <div class="block-head vice-head">
+                <span class="text-green">重要提示:</span>
+            </div>
+            <div id="fDsname" class="block-body working-important">
+                <p>此处为重要提示</p>
+            </div>
+        </div> -->
+        
+        
+        <div class="block">
+            <div class="block-head text-black">
+                <span class="block-title">工序组</span>
+                <!-- <i class="icon iconfont fl-r text-gray icon-xiangxia2" onclick="toggle($(this))"></i> -->
+            </div>
+            <!-- <div class="block-toggle"> -->
+            <div>
+                <ul id="working" class="working-list clear">
+                </ul>
+                <table width="100%">
+                    <tr>
+                        <td width="50%" class='bor-r'>
+                            <div class="block-head">
+                                <span class="text-green">历史记录:</span>
+                                <i id="btn_history" class="icon iconfont icon-bianji text-green" name="编辑"></i>
+                            </div>
+                            <!-- <div id="workingLog" class="block-body working-history"><p><span class="now_time">2017-03-23 15:41</span>&nbsp;<span class="wp_name">工序名称</span></p><br /><p><span class="now_time">2017-01-23 15:41</span>&nbsp;<span class="wp_name">工序名称</span></p><br /></div> -->
+                            <div id="workingLog" class="block-body working-history"><p>此处为工序历史记录</p></div>
+                        </td>
+                        <td width="50%">
+                            <div class="block-head vice-head">
+                                <span class="text-green">重要提示:</span>
+                            </div>
+                            <div id="fDsname" class="block-body working-important">
+                                <p>此处为重要提示</p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!-- 确认按钮 -->
+        <button id="confirm" class="btn btn-block">确认任务</button>
+    </div>
+    <!-- appcan -->
+    <script src="../js/appcan.js"></script>
+    <script src="../js/appcan.control.js"></script>
+    <script src="../js/appcan.tab.js"></script>
+    <script src="../js/gsoft.core.js"></script>
+    <!-- jQuery -->
+    <script src="../js/jquery/jquery1.7.1.min.js"></script>
+    <!-- logbook -->
+    <script src="../js/public.js"></script>
+    <script src="../js/gltl_ORM/DataAccess.js"></script>
+    <script src="../js/gltl_ORM/gltl_engine.js"></script>
+    <script src="../js/gltl_ORM/gltl_dailyplan.js"></script>
+    <script src="../js/gltl_ORM/gltl_taskplan.js"></script>
+    <script src="../js/gltl_ORM/gltl_user.js"></script>
+    <script type="text/javascript" charset="utf-8">
+    appcan.ready(function() {
+        var public = new Public();
+        public.header('任务确认',true,true);//显示顶部:标题名，左侧icon，右侧icon
+        public.footer();//显示底部
+        public.backBtn();
+        
+        //获取初始数据
+        var taskId = localStorage.getItem('taskId');
+        var buttonShow = '';//按钮显示
+        var callbackStatus = '';//回传值
+        // alert(taskId);
+        appcan.gsoft.ajaxUtil.ajax({
+            url : '/gltlTaskplanManager/getTaskDetailInfo.json',
+            data : 'id=' + taskId,
+            success : function(data) {
+                // alert(JSON.stringify(data.records[0]));
+                // alert(JSON.stringify(data.records[0].taskInfo));
+                buttonShow = data.records[0].buttonShow;
+                if(buttonShow == 0){$('#confirm').css('display','none');}
+                
+                callbackStatus = data.records[0].callbackStatus;
+                $('#data0').html(data.records[0].taskInfo.fTpname);//任务名称
+                $('#data1').html(data.records[0].taskInfo.fTpname);//任务名称
+                $('#data2').html(data.records[0].taskInfo.fTpdate);//日期
+                $('#data3').html(data.records[0].taskInfo.engineOne.fEplatenmber);//机车编号1
+                $('#data5').html(data.records[0].taskInfo.personOne.fUname);//正司机
+                $('#data6').html(data.records[0].taskInfo.personTwo.fUname);//副司机
+               // alert(JSON.stringify(data.records[0].taskInfo));
+                if (data.records[0].taskInfo.engineTwo !== null) {
+                    $('#data4').html(data.records[0].taskInfo.engineTwo.fEplatenmber);//机车编号2
+                };
+                if (data.records[0].taskInfo.personFour !== null) {
+                    $('#data8').html(data.records[0].taskInfo.personFour.fUname);//值乘人员
+                };
+                if (data.records[0].taskInfo.personThree !== null) {
+                    $('#data7').html(data.records[0].taskInfo.personThree.fUname);//值乘人员
+                };
+                
+                $('#data9').html(data.records[0].taskInfo.wpGroup.fWpgname);//工序组
+                $('#data10').html(data.records[0].taskInfo.wpGroupExtend.fWpgname);//任务类型
+                $('#data11').html(data.records[0].taskInfo.fTpsection);//施工地段
+                $('#data12').html(data.records[0].taskInfo.fTpgroup);//车辆编组
+                $('#data13').html(data.records[0].taskInfo.fTpcontent);//施工内容及影响范围                //获取工序
+                
+                //获取工序
+                var workingHTML = '';
+                var dangerSouce = data.records[0].dangerSouce;
+                // alert(JSON.stringify(data.records[0]))
+                for (var i=0; i < data.records[0].workGroup.length; i++) {
+                    if (i == 0) {
+                        workingHTML = workingHTML + '<li name="' + data.records[0].workGroup[i].fWpid + '"><img data-name="'+data.records[0].workGroup[i].fWpindex+'" src="../img/workGroup/active/'+data.records[0].workGroup[i].fWpindex+'.png" /><span class="text-green">' + data.records[0].workGroup[i].fWpname + '</span></li>';
+                        var num = 0;
+                        var fDsnameHTML = '';
+                        for (var j=0; j < dangerSouce.length; j++) {
+                          if (dangerSouce[j].fWpid == data.records[0].workGroup[i].fWpid) {
+                              num += 1;
+                              fDsnameHTML = fDsnameHTML + '<p>' + num + '、' + dangerSouce[j].fDsname + '</p><br />';
+                          };
+                        };
+                        document.getElementById("fDsname").innerHTML = fDsnameHTML;
+                    }else{
+                        workingHTML = workingHTML + '<li name="' + data.records[0].workGroup[i].fWpid + '"><img data-name="'+data.records[0].workGroup[i].fWpindex+'" src="../img/workGroup/'+data.records[0].workGroup[i].fWpindex+'.png" /><span class="text-gray">' + data.records[0].workGroup[i].fWpname + '</span></li>';
+                    };
+                    
+                };
+                document.getElementById("working").innerHTML = workingHTML;
+                
+                //工序组添加历史记录
+                $("#working li").longPress(function(){
+                    var wpName = $(this).children('span').html();
+                    var wpId = $(this).attr('name');
+                    var tanchuang = confirm('确认添加该 【' + wpName + '】 工序吗？');
+                    if (tanchuang == true){
+                        if ($('#workingLog').text() == '此处为工序历史记录') {
+                            $('#workingLog').text('');
+                        };
+                        var workingLogHTML = '<div class="gxDivArea"><p name="' + wpId + '"><i class="logDel icon iconfont icon-guanbi2" onclick="removeHistoryRecord($(this));"></i><span class="now_time">' + nowTime() + '</span><span class="wp_name">' + wpName + '</span></p></div>'
+                        $('#workingLog').append(workingLogHTML);
+                    }
+                });
+                
+                //获取危险源数据
+                $("#working li").click(function(){
+                    var wpId = $(this).attr('name');
+                    var fDsnameHTML = '';
+                    var num = 0;
+                    
+                    //工序高亮
+                    var thisLi = $(this).parent().children();
+                    for (var i=0; i < thisLi.length; i++) {
+                      var name = thisLi.eq(i).children('img').attr('data-name');
+                      if (i == $(this).index()) {
+                          thisLi.eq(i).children('img').attr('src','../img/workGroup/active/'+name+'.png');
+                          thisLi.eq(i).children('span').removeClass(' text-gray');
+                          thisLi.eq(i).children('span').addClass(' text-green');
+                      }else{
+                          thisLi.eq(i).children('img').attr('src','../img/workGroup/'+name+'.png');
+                          thisLi.eq(i).children('span').removeClass(' text-green');
+                          thisLi.eq(i).children('span').addClass(' text-gray');
+                      };
+                    }; 
+                    
+                    // alert(wpId);
+                    for (var i=0; i < dangerSouce.length; i++) {
+                        // alert(dangerSouce[i].fWpid == wpId);
+                      if (dangerSouce[i].fWpid == wpId) {
+                          num += 1;
+                          fDsnameHTML = fDsnameHTML + '<p>' + num + '、' + dangerSouce[i].fDsname + '</p><br />';
+                      };
+                    };
+                    document.getElementById("fDsname").innerHTML = fDsnameHTML;
+                });
+                // alert(data.records[0].taskInfo.fTpname);//任务名称
+                // alert(data.records[0].taskInfo.fTpdate);//日期
+                // alert(data.records[0].taskInfo.engineOne.fEplatenmber);//机车编号1
+                // alert(data.records[0].taskInfo.engineTwo.fEplatenmber);//机车编号2
+                // alert(data.records[0].taskInfo.personOne.fUname);//正司机
+                // alert(data.records[0].taskInfo.personTwo.fUname);//副司机
+                // alert(data.records[0].taskInfo.personThree.fUname);//值乘人员
+                // alert(data.records[0].taskInfo.personFour.fUname);//值乘人员
+                // alert(data.records[0].taskInfo.wpGroup.fWpgname);//工序组
+                // alert(data.records[0].taskInfo.wpGroupExtend.fWpgname);//任务类型
+                // alert(data.records[0].taskInfo.fTpsection);//施工地段
+                // alert(data.records[0].taskInfo.fTpgroup);//车辆编组
+                // alert(data.records[0].taskInfo.fTpcontent);//施工内容及影响范围  
+                // alert(data.records[0].workGroup[0].fWpid);//工序
+                // alert(data.records[0].workGroup[0].fWpname);//工序
+                // alert(data.records[0].dangerSouce[0].fWpid);//危险源
+                // alert(data.records[0].dangerSouce[0].fDsname);//危险源  
+                                    
+                // alert(JSON.stringify(data.records[0].workGroup));
+                // alert(JSON.stringify(data.records[0].dangerSouce));
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                appcan.window.openToast('服务器连接失败,请检查网络...', '2000');
+            }
+        });
+        var ajaxFlag = true;
+        appcan.button("#confirm", "ani-act", function() {
+            if(ajaxFlag){
+                // alert(callbackStatus);
+                appcan.gsoft.ajaxUtil.ajax({
+                    url : '/gltlTaskplanManager/updateGltlTaskplanStatus.json',
+                    data : 'id=' + taskId + '&status=' + callbackStatus,
+                    success : function(data) {
+                        //alert(data.record.html);
+                        ajaxFlag = true;
+                        if(data.record.html == 'SUCCESS'){
+                            $('#confirm').css('display','none');
+                            alert('任务确认成功');
+                            confirm_syncData();
+                        }
+                    },
+                    error : function(XMLHttpRequest, textStatus, errorThrown) {
+                        appcan.window.openToast('服务器连接失败,请检查网络...', '2000');
+                    }
+                });
+                ajaxFlag=false;
+            }else{
+                appcan.window.alert({
+                    title: '提示',
+                    content: '数据处理中，请勿重复提交！',
+                    buttons: '确定'
+                });
+            }
+        })
+    });
+    
+    function confirm_syncData(){
+        var eng = new gltl_engine();
+        eng.DownLoadEx();
+                            
+        var dplan = new gltl_dailyplan();
+        dplan.DownLoadEx();
+        
+        var task = new gltl_taskplan();
+        task.DownLoadEx();
+        
+        var user = new gltl_user();
+        user.DownLoadEx();
+    }
+    function toggle(object){
+        object.parents('.block').find('.block-toggle').slideToggle();
+        object.toggleClass('icon-xiangxia2 icon-xiangshang2')
+    }
+    
+    </script>
+</body>
+</html>

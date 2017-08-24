@@ -1,0 +1,92 @@
+html{font-size: 2vh;}
+.icon {
+    display: inline-block;
+    margin-left: 0.25rem;
+    width: 1em;
+    height: 1em;
+    font-size: 1.75em;
+    line-height: 1.375em;
+    vertical-align: middle;
+}
+.bg {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-image: url("../img/bg.jpg");
+    background-repeat:no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+.logo {
+    width: 100%;
+}
+.login-window {
+    position: fixed;
+    top: calc(50% - 16.5rem);
+    width: 100%;
+    padding: 0 3rem;
+    font-size: 0.875em;
+    background-size: 100% 100%;
+}
+.login-window .logo {
+    display: block;
+    width: 50%;
+    margin: 0 auto;
+}
+.login-window h1{
+    font-size: 2.25em;
+    color: #ffffff;
+    font-weight: 100;
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+}
+.login-window .text-input {
+    display:block;
+    width:100%;
+    margin-bottom: 1rem;
+    margin-bottom: 2.3vh;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    padding: 1.2vh 1.4vw;
+    font-size: 1em;
+    vertical-align: middle;
+    border-width: .0625rem;
+}
+.login-window .text-input .text-input-left i {
+    padding-top: .25rem;
+}
+.login-window .text-input .text-input-left {
+    display: inline;
+    position: absolute;
+}
+.login-window .text-input-right {
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 1.5em;
+    line-height: 2em;
+    border:0;
+    background-color: transparent;
+    outline:none;
+    padding-left: 2.5rem;
+}
+.login-window button {
+    cursor: pointer;
+    display:block;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    width: 100%;
+    font-size: 1.75em;
+    color: #02a650;
+    border:0;
+    background-color: #ffffff;
+    outline:none;
+}
+.login-window input[type=checkbox] {
+    zoom: 150%;
+    margin-right: .5rem;
+}
+
+/*通用*/
+.radius {border-radius: 1rem;}
+.border-primary {border: 1px solid #02a650;}
+.border-white {border: 1px solid #fff;}

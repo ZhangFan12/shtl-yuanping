@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>自轮运转特种设备运用管理系统</title>
+    
+    <link rel="stylesheet" type="text/css" href="../css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/iconfont/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="../css/logbook.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/pictureUpload/css/IMGUP.css"/>
+</head>
+<body class="body">
+    <div id="ScrollContent">
+        <!-- 基本信息 -->
+        <div class="block">
+            <div class="block-head text-black">
+                <span class="block-title">基础信息</span>
+                <!-- 提交按钮 -->
+                <i id="submit" class="icon iconfont icon-fabu text-green"></i>
+                <button id="submit2" class="btn" style="display: none;">回库检查</button>
+            </div>
+            <div class='block-body text-lh3'>
+                <table class="table-input">
+                    <tr>
+                        <td style="width:5em;"><span class="input-label">任务名称:</span></td>
+                        <td style="width:calc(50% - 5em);"><input id="fTpname" class="input-text input-readonly" type="text" value="" readonly="true" /></td>
+                        <td style="width:5em;"><span class="input-label">任务日期:</span></td>
+                        <td style="width:calc(50% - 5em);"><input id="fTpdate" class="input-text input-readonly" type="text" value="" readonly="true" /></td>
+                    </tr>
+                    <tr>
+                        <td style="width:5em;"><span class="input-label">任务编号:</span></td>
+                        <td style="width:calc(33.3% - 5em);"><input id="fTpnumber" class="input-text input-readonly" type="text" value="" readonly="true" /></td>
+                        <td><span class="input-label">日志日期:</span></td>
+                        <td><input id="runlineDate" class="datatime_window2 input-text" type="text" value="" readonly="true" /></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label ">车辆编组:</span></td>
+                        <td><input id="fTpgroup" class="input-text input-readonly" type="text" value="" readonly="true" /></td>
+                        <td><span id="fTpworknumber_span" class="input-label">计划编号:</span></td>
+                        <td><input id="fTpworknumber" class="input-text input-readonly" type="text" value="" readonly="true" /></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label">施工地段:</span></td>
+                        <td colspan="5"><input id="fTpsection"  class="input-text input-readonly" type="text" value="" readonly="true" /></td>
+                    </tr>
+                    <tr>
+                        <td valign="top"><span class="input-label">施工内容<br />影响范围:</span></td>
+                        <td colspan="5">
+                            <textarea id="fTpcontent" class="input-texticon-guanbi2 input-readonly input-textarea" rows="2" cols="100" readonly="true"></textarea>
+                        </td>
+                    </tr>
+                </table>
+                <input type="text" value="" style="display:none;" />
+            </div>
+        </div>
+        <div class="block">
+            <div class="block-head text-black">
+                <span class="block-title">基础信息</span>
+                <i class="icon iconfont fl-r text-gray icon-xiangxia2" onclick="toggle($(this))"></i>
+            </div>
+            <div class="block-body text-lh3 block-toggle">
+                <table class="table-input">
+                    <tr>
+                        <td style="width:5em;"><span class="input-label text_necessary">主司机:</span></td>
+                        <td style="width:calc(50% - 5em);"><input id="fTppersonne1"  class="select_driver input-text" type="text" value="" readonly="true" /></td>
+                        <td style="width:5em;"><span class="input-label text_necessary">副司机:</span></td>
+                        <td style="width:calc(50% - 5em);"><input id="fTppersonne2"  class="select_driver input-text" type="text" value="" readonly="true" /></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label">值乘人员:</span></td>
+                        <td><input id="fRlioperationor"  class="select_driver input-text" type="text" name="" value="" readonly="true" /></td>
+                        <td><span class="input-label">值乘人员:</span></td>
+                        <td><input id="fRlisteward"  class="select_driver input-text" type="text" name="" value="" readonly="true" /></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label">调度号:</span></td>
+                        <td colspan="3"><input id="fRlicommand"  class="input-text" type="text" value="" /></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label text_necessary">出库时间:</span></td>
+                        <td colspan="3"><input id="fRlistarttime"  class="datatime_window input-text" type="text" name="" value="" readonly="true" /></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="block">
+            <div class="block-head text-black">
+                <span class="block-title">基础信息</span>
+                <i class="icon iconfont fl-r text-gray icon-xiangxia2" onclick="toggle($(this))"></i>
+            </div>
+            <div class="antiskid-shell clear block-toggle">
+                <div id="antiskid_add">
+                    <div class="antiskid">
+                        <table>
+                            <tr>
+                                <td style="width:7em;"><span class="input-label text_necessary">防溜安设时间:</span></td>
+                                <td style="width:calc(90% - 7em);"  colspan="3"><input id="fEpatime_1_0"  class="datatime_window input-text" type="text" name="" value="" readonly="true" /></td>
+                                <td style="width:10%;" rowspan="2" style="text-align: center;">
+                                    <!--<button class="add_antiskid" value="1">添加</button>-->
+                                    <i class="add_antiskid icon iconfont icon-jiahao" id="1"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="input-label">安设人员:</span></td>
+                                <td style="width:calc(45% - 7em);"><input id="fEpaopertaor_1_0" class="input-text" value=""/></td>
+                                <td style="width:7em;"><span class="input-label">确认人员:</span></td>
+                                <td style="width:calc(45% - 7em);"><input id="fEpaapprover_1_0" class="input-text" value=""/></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div id="antiskid_remove">
+                    <div class="antiskid">
+                        <table>
+                            <tr>
+                                <td style="width:7em;"><span class="input-label text_necessary">防溜撤除时间:</span></td>
+                                <td style="width:calc(90% - 7em);" colspan="3"><input id="fEpatime_0_0"  class="datatime_window input-text" type="text" name="" value="" readonly="true" /></td>
+                                <td style="width:10%;" rowspan="2">
+                                    <!--<button class="add_antiskid" value="0">添加</button>-->
+                                    <i class="add_antiskid icon iconfont icon-jiahao" id="0"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="input-label">撤除人员:</span></td>
+                                <td style="width:calc(45% - 7em);"><input id="fEpaopertaor_0_0" class="input-text" value="" /></td>
+                                <td style="width:7em;"><span class="input-label">确认人员:</span></td>
+                                <td style="width:calc(45% - 7em);"><input id="fEpaapprover_0_0" class="input-text" value="" /></td>
+                            </tr> 
+                        </table>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <!-- 工序组 -->
+        <div id="work_group">
+            <div id="work_group1" class="block">
+                <div class="block-head text-black">
+                    <span class="block-title">工序组</span>
+                    <i class="icon iconfont fl-r text-gray icon-xiangxia2" onclick="toggle($(this))"></i>
+                </div>
+                <div class="block-toggle">
+                    <ul id="working" class="working-list clear">
+                        <!-- <li>
+                            <img src="../img/workGroup/active/1.png" />
+                            <span class="text-green">工序</span>
+                        </li>
+                        <li>
+                            <img src="../img/workGroup/active/1.png" />
+                            <span class="text-green">工序</span>
+                        </li> -->
+                    </ul>
+                    <table width="100%">
+                        <tr>
+                            <td width="50%" class='bor-r'>
+                                <div class="block-head">
+                                    <span class="text-green">历史记录:</span>
+                                    <i id="btn_history" class="icon iconfont icon-bianji text-green" name="编辑"></i>
+                                </div>
+                                <!-- <div id="workingLog" class="block-body working-history"><p><span class="now_time">2017-03-23 15:41</span>&nbsp;<span class="wp_name">工序名称</span></p><br /><p><span class="now_time">2017-01-23 15:41</span>&nbsp;<span class="wp_name">工序名称</span></p><br /></div> -->
+                                <div id="workingLog" class="block-body working-history"><p>此处为工序历史记录</p></div>
+                            </td>
+                            <td width="50%">
+                                <div class="block-head vice-head">
+                                    <span class="text-green">重要提示:</span>
+                                </div>
+                                <div id="fDsname" class="block-body working-important">
+                                    <p>此处为重要提示</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div id="work_group2" class="block" style="display: none;">
+                <div class="block-head">
+                    <span class="text-green">历史记录:</span>
+                </div>
+                <div class="block-body" id="work_group_history" style="padding-top: 1em;">工序组历史记录</div>
+            </div>
+        </div>
+        <!-- 添加站点 -->
+        <div class="block">
+            <div class="block-head text-black">
+                <span class="block-title">站点信息</span>
+                <i id="btn_addsite" class="icon iconfont icon-bianji text-green" name="编辑"></i>
+            </div>
+            <div style="width: 100%;overflow-x: auto;">
+            <ul id="station" class="addsite clear">
+                <!-- <li>
+                    <div class="addsite-head">武汉站</div>
+                    <div class="addsite-body">
+                        <table>
+                            <tr>
+                                <td width="30%">进站时间:</td>
+                                <td width="70%"><input class="addsite-right" value="2017-03-10 11:30" readonly="true" /></td>
+                            </tr>
+                            <tr>
+                                <td>出站时间:</td>
+                                <td><input class="addsite-right" value="2017-03-10 11:30" readonly="true" /></td>
+                            </tr>
+                        </table>
+                    </div>
+                </li> -->
+                <li onclick="addStation($(this))">
+                    <div class="addsite-add">
+                        <i class="icon iconfont icon-jiahao"></i>
+                        <p>添加站点</p>
+                    </div>
+                </li>
+            </ul>
+            </div>
+            <!-- <ul class="addsite-list"><li></li><li></li><li></li><li></li></ul> -->
+        </div>
+        <!-- 备注信息 -->
+        <div class="block">
+            <div class="block-head text-black">
+                <span class="block-title">备注信息</span>
+                <i class="icon iconfont fl-r text-gray icon-xiangxia2" onclick="toggle($(this))"></i>
+            </div>
+            <div id="note" class="block-body block-toggle">
+                <table id="memo" class="table-input memo">
+                    <tr>
+                        <td style="width:5em;"><span class="input-label text_necessary">入库时间:</span></td>
+                        <td style="width:calc(50% - 5em);"><input id="rksj" class="datatime_window input-text" type="text" name="" value="" readonly="true" style="width:calc(100% - 2.5em)" /></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label text_necessary">当次时间:</span></td>
+                        <td><input id="fRlirunningtime" class="input-text" type="number" value="" style="width:calc(100% - 2.5em)" /> 小时</td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label text_necessary">当次公里:</span></td>
+                        <td><input id="fRlirunningmileage" class="input-text" type="number" value="" style="width:calc(100% - 2.5em)" /> 公里</td>
+                    </tr>
+                    <tr>
+                        <td valign="top"><span class="input-label">车辆及<br />安全装备<br />状况:</span></td>
+                        <td colspan="3"><textarea id="clanzbzk" class="input-text input-textarea" rows="3"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td valign="top"><span class="input-label">安全预想:</span></td>
+                        <td colspan="3"><textarea id="aqyx" class="input-text input-textarea" rows="3" cols="100"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td valign="top"><span class="input-label">添乘检查<br />意见:</span></td>
+                        <td colspan="3"><textarea id="tcjcyj" class="input-text input-textarea" rows="3" cols="100"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td valign="top"><span class="input-label">揭示导入:</span></td>
+                        <td colspan="3"><textarea id="jsdr" class="input-text input-textarea" rows="3" cols="100"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label">调度命令:</span></td>
+                        <!--<td colspan="3"><textarea id="ddml" class="input-text input-textarea" rows="3" cols="100"></textarea></td>-->
+                        <td style="width:calc(100% - 5em);">
+                            <!--图片预览容器-->
+                            <div class="div_upload_0">
+                                <div class="div_imglook">
+                                <div id="uploadPicture" class="uploadPictureClass lookimg bor-0">
+                                    <img src="../img/photo-active.png">
+                                </div>
+                            </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <table class="table-input memo noteClass" id="noteID_0">
+                    <tr>
+                        <td style="width:5em;"><span class="input-label">备注:</span></td>
+                        <td style="width:calc(50% - 5em);"><textarea id="jsdr" class="input-text input-textarea" rows="3" cols="100"></textarea></td>
+                        <td style="width:10%;">
+                            <i class="add_note add-note icon iconfont icon-jiahao"></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label">上传图片:</span></td>
+                        <!--<td colspan="3"><textarea id="ddml" class="input-text input-textarea" rows="3" cols="100"></textarea></td>-->
+                        <td colspan="2">
+                            <!--图片预览容器-->
+                            <div class="div_upload_1">
+                                <div class="div_imglook">
+                                <div id="uploadPicture" class="uploadPictureClass lookimg bor-0">
+                                    <img src="../img/photo-active.png">
+                                </div>
+                            </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!-- 提交按钮 -->
+        <!-- <button id="save" class="btn btn-block">保存</button> -->
+    </div>
+
+    <!-- appcan -->
+    <script src="../js/appcan.js"></script>
+    <script src="../js/appcan.control.js"></script>
+    <script src="../js/appcan.tab.js"></script>
+    <script src="../js/gsoft.core.js"></script>
+    <!-- jQuery -->
+    <script src="../js/jquery/jquery1.7.1.min.js"></script>
+    <script src="../js/pictureUpload/IMGUP.js"></script>
+    <script src="../js/pictureUpload/complexPictrueUpload.js"></script>
+    <!-- logbook -->
+    <script src="../js/SelectDateTime.js"></script>
+    <script src="../js/gltl_ORM/DataAccess.js"></script>
+    <script src="../js/gltl_ORM/gltl_user.js"></script>
+    <script src="../js/gltl_ORM/gltl_taskplan.js"></script>
+    <script src="../js/gltl_ORM/gltl_engine.js"></script>
+    <script src="../js/gltl_ORM/gltl_runlineinstance.js"></script>
+    <script src="../js/gltl_ORM/gltl_runlineparking.js"></script>
+    <script src="../js/gltl_ORM/gltl_runlineinstanceextend.js"></script>
+    <script src="../js/gltl_ORM/gltl_runlineinstanceitem.js"></script>
+    <script src="../js/gltl_ORM/gltl_workingprocedurelog.js"></script>
+    <script src="../js/gltl_ORM/gltl_workingprocedure.js"></script>
+    <script src="../js/gltl_ORM/gltl_dangersource.js"></script>
+    
+    <script src="../js/public.js"></script>
+    <script src="../js/logbook.js"></script>
+</body>
+</html>

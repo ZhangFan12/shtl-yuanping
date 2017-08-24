@@ -1,0 +1,199 @@
+.antiskid-shell table td {
+    padding: 0.5em;
+}
+.antiskid-shell table td:first-child,
+.antiskid-shell table td:nth-child(3) {
+    padding-right: 0;
+}
+.antiskid-shell table td:nth-child(2),
+.antiskid-shell table td:nth-child(4) {
+    padding-left: 0;
+}
+.antiskid {
+    font-size: 0.875em;
+    padding: 1em;
+    border-right: 1px solid #cfcfcf;
+    border-bottom: 1px solid #cfcfcf;
+}
+#antiskid_add .antiskid {
+    border-right: 0;
+}
+.antiskid table {
+    width: 100%;
+}
+#antiskid_remove {
+    float: left;
+    display:inline-block;
+    width: 100%;
+}
+#antiskid_add {
+    float: right;
+    display:inline-block;
+    width: 100%;
+}
+.working-list {
+    margin: 0 -1px;
+    border-left: 1px solid #cfcfcf;
+    border-bottom: 1px solid #cfcfcf;
+    
+}
+.working-list li {
+    box-sizing: border-box;
+    overflow:hidden;
+    display: inline-block;
+    float: left;
+    margin-bottom: -1px;
+    width: 25%;
+    text-align: center;
+    border-right: 1px solid #cfcfcf;
+    border-bottom: 1px solid #cfcfcf;
+}
+.working-list img {
+    display: block;
+    margin: .5em auto;
+    width: 30%;
+}
+.working-list span {
+    display: block;
+    font-size: 0.875em;
+    margin-bottom: .5em;
+    white-space: nowrap;
+}
+.block .working-history {
+    overflow:auto;
+    padding: 1em 2em;
+    height: 15em;
+}
+.block .working-history p {
+    position: relative;
+    line-height: 2.5em;
+}
+.wp_name {
+    margin-left: 3em;
+}
+.block .working-important {
+    overflow:auto;
+    padding: 1em 2em;
+    height: 15em;
+    color: #e9ab4b;
+}
+.block .working-important p {
+    font-size: 1.5em;
+    line-height: 1em;
+}
+.addsite {
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 0.75em;
+    border: 1px solid #02A650;
+    border-left: 0;
+    border-right: 0;
+}
+.addsite button {
+    display: block;
+    width: 100%;
+    margin: 0.28em 0;
+    padding: 0.355em;
+    color: #FFFFFF;
+    font-size: 1.5em;
+    background-color: #02A650;
+    border: 0;
+    border-radius: 0.5rem;
+}
+.addsite li {
+    box-sizing: border-box;
+    position: relative;
+    display: inline-block;
+    float:left;
+    width: 25%;
+    border-right: 1px solid #02A650; 
+}
+/*.addsite li:last-child {
+    border-right: 0;
+}*/
+.removesite {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.removesite .icon {
+    position: absolute;
+    top: calc(50% - 0.75em);
+    left: calc(50% - 0.75em);
+    padding: 0.25em;
+    color: red;
+    font-size: 6em;
+    background-color: #fff;
+    border-radius: 1em;
+}
+.addsite .addsite-head {
+    padding: 1em 0;
+    color: #02A650;
+    font-size: 1.5em;
+    text-align: center;
+    background-color: #E6E6E6;
+    border-bottom: 1px solid #02A650;
+    -webkit-touch-callout:none;
+    -webkit-user-select:none;
+    -khtml-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+}
+.addsite .addsite-body {
+    width: 100%;
+    padding: 0.5em 1em;
+}
+.addsite .addsite-body table {
+    width: 100%;
+}
+.addsite .addsite-add {
+    text-align: center;
+}
+.addsite .addsite-add .icon{
+    display: inline-block;
+    margin: 0.155em 0;
+    font-size: 8em;
+    color: #E6E6E6;
+}
+.addsite .addsite-add p {
+    margin-bottom: 0.8em;
+    line-height: 2em;
+}
+.addsite .addsite-right {
+    margin: 0.5em 0;
+    padding: 0.5em;
+    border: 1px solid #02A650;
+    border-radius: 0.5rem;
+}
+.addsite-list {
+    padding: 0.5em;
+    text-align: center;
+}
+.addsite-list li {
+    display: inline-block;
+    margin: 0 1em;
+    width: 0.75em;
+    height: 0.75em;
+    background-color: #CCCCCC;
+    border-radius: 1em;
+}
+.shanchu-btn,
+.add_antiskid {
+    font-size: 3.5em;
+    color: #E6E6E6;
+}
+.logDel {
+    display: none;
+    position: absolute;
+    right: 0;
+    color: #e9ab4b;
+    font-size: 2em;
+    vertical-align: middle;
+}
+.block-toggle{
+    display: none;
+}

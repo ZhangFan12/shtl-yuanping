@@ -1,0 +1,66 @@
+﻿/*选择图片框样式*/
+#div_imgfile {
+    width: 130px;
+    height: 130px;
+    text-align: center;
+    line-height: 130px;
+    font-family: 微软雅黑;
+    font-size: 16px;
+    box-sizing: border-box;
+    border: 2px solid #808080;
+    cursor: pointer;
+}
+    /*选择图片框鼠标移入移出效果*/
+    #div_imgfile:hover {
+        background-color: #d1cfcf;
+    }
+
+.imgfile {
+    display: none;
+}
+
+/*这里是图片预览容器样式*/
+.div_imglook {
+    margin-top: 20px;
+}
+
+/*单个图片预览模块样式*/
+.lookimg {
+    position: relative;
+    float: left;
+    box-sizing: border-box;
+    margin: 0.5em 1em 0.5em 0;
+    width: 8.875em;
+    height: 8.875em;
+    border: 1px solid #808080;
+    border-radius: 0.5rem;
+}
+
+.lookimg img {
+    width: 100%;
+    height: 100%;
+}
+
+/*删除按钮样式*/
+.lookimg_delBtn {
+    position: absolute;
+    display: none;
+    cursor: pointer;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    color: white;
+    font-size: 0.875em;
+    text-align: center;
+    line-height: 2em;
+    opacity: 0.8;
+    background-color: #808080;
+    border-radius: 0 0 0.5rem 0.5rem;
+}
+
+    /*删除按钮移入移出效果*/
+    .lookimg_delBtn:hover {
+        opacity: 1;
+    }
+
+

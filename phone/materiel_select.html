@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>自轮运转特种设备运用管理系统</title>
+    <link rel="stylesheet" type="text/css" href="css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="css/iconfont/iconfont.css">
+    <style type="text/css">
+        .block-search .search-input{
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="body select-page">
+    <div id="ScrollContent">
+        <div class="block-search">
+            <input id="search_input" class="search-input" type="text" value="请输搜索条件" onfocus="javascript:if(this.value=='请输搜索条件')this.value='';" onblur="if(value==''){value='请输搜索条件'}" />
+            <span class="search-btn"><i class="icon iconfont icon-sousuo icon-right"></i></span>
+            <!-- <div class="item-box-div cancle-box text-yellow">取消选择</div> -->
+        </div>
+        <div id="searchList" class="search-list">
+        </div>
+    </div>
+
+    <script type="text/template" id="searchItem">
+        <div class="item-title"><%=title%><span id="<%=title%>"></span></div>
+        <div class="item-box">
+            <% for(var i=0;i<data.length;i++) { %>
+            <div class="item-box-div" data-id="<%=data[i].fMtid%>" data-fMtcode="<%=data[i].fMtcode%>" data-text='<%=JSON.stringify(data[i])%>'><%=data[i].fMtname%></div>
+            <% } %>
+        </div>
+
+</script>
+<script src="js/appcan.js"></script>
+<script src="js/appcan.control.js"></script>
+<script src="js/gsoft.core.js"></script>
+<script src="js/public.js"></script>
+<script type ="text/javascript" src ="js/DivDisplayFrame.js"></script>
+    <script src="js/gltl_ORM/DataAccess.js"></script>
+    <script src="js/gltl_ORM/gltl_datainitrule.js"></script>
+    <script src="js/gltl_ORM/gltl_engine.js"></script>
+    <script src="js/gltl_ORM/gltl_user.js"></script>
+    <script src="js/gltl_ORM/gltl_workingproceduregroup.js"></script>
+    <script src="js/gltl_ORM/gltl_station.js"></script>
+<script type="text/javascript">
+    //获取缓存内参数
+    var public = new Public();
+    public.header('物料选择',true,true);//显示顶部：标题名，左侧icon，右侧icon
+    public.backBtn();
+    
+    var selectPageLS = JSON.parse(localStorage.getItem('selectPageLS'));
+    var _dataList = {};
+    function initIndexBar() {
+        var outerWidth = $(window).width();
+        var outerHeight = $(window).height();
+        var w = 70;
+        var h = 200;
+        uexIndexBar.open(outerWidth - w - 10, h, w, outerHeight - h );
+        uexIndexBar.onTouchResult = function (opId, dataType, data) {
+            //alert(opId+":"+dataType+":"+data);
+            // appcan.logs('data=='+data);
+            location.href = "#" + data;
+        }
+    }
+    
+    //获取选择列表
+    appcan.ready(function() {
+        initIndexBar();
+        function _formateData(data) {
+            // 格式化数据
+            var _arr = [],
+                _assist = {}
+            data.map(function (e) {
+                if (!e.fEfirstword) {
+                    e.fEfirstword = '_'
+                }
+                var fEfirstword = e.fEfirstword[0];
+                _arr.push(fEfirstword);
+                if (_assist[fEfirstword]) {
+                    _assist[fEfirstword].push(e);
+                }else{
+                    _assist[fEfirstword] = [e];
+                }
+            })
+            var resArr = Array.from(new Set(_arr)).sort();
+            return resArr = resArr.map(function (e) {
+                var u = e.toUpperCase();
+                return {
+                    title: u=='_'?'':u,
+                    data: _assist[e]
+                }
+            })
+        }
+        function _dealData(data) {
+            _dataList = data.records || [];
+            // console.log(JSON.stringify(_formateData(_dataList)));
+            showList(_formateData(_dataList));
+        }
+        function showList(data) {
+            var html = $('#searchItem').html();
+            var _tpl = data.map(function (e) {
+                var _str = appcan.view.template(html)({title: e.title, data: e.data})
+                return _str
+            }).join('');
+            $('#searchList').html(_tpl);
+        }
+        
+        
+        var fMtid = appcan.locStorage.getVal('materiel_select_fMtid') || '';
+        appcan.gsoft.ajaxUtil.ajax({
+            url : '/MaterielManager/getMenuTree.json',
+            data: 'fPid=' + fMtid,
+            success : function(data) {
+                // console.log(JSON.stringify(data));
+                _dealData(data);
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                _getDataOffLine(selectPageLS.type, selectPageLS.convert, selectPageLS.bool, selectPageLS.exten);
+//                appcan.window.openToast('服务器连接失败,请检查网络...', '2000');
+            }
+        });
+        //点击选择动作
+        $(document).on('click', '.item-box-div', function (e) {
+            var _self = $(this);
+            var id = _self.attr('data-id') || '';
+            var name = _self.attr('data-text') || '';
+            
+            if (_self.attr('data-fmtcode')) {
+                appcan.locStorage.remove('materiel_select_fMtid');
+                appcan.window.evaluateScript(selectPageLS.pageName,'changeText(\'' + selectPageLS.id + '\',\'' + name + '\',\'' + id + '\')');
+                uexWindow.close();
+            } else{
+                appcan.locStorage.setVal('materiel_select_fMtid',_self.attr('data-id'));
+                appcan.openWinWithUrl('materiel_select'+id,'materiel_select.html');
+                uexWindow.close();
+            };
+        });
+        
+        $(document).on('click', '.back-btn', function (e) {
+            appcan.locStorage.remove('materiel_select_fMtid');
+        });
+        
+        uexWindow.setReportKey(0,1);// 拦截后退按钮
+        uexWindow.onKeyPressed = function(){ 
+            appcan.locStorage.remove('materiel_select_fMtid');
+            appcan.window.close(-1);
+        };
+        
+        $('#search_input').on('keyup', function (e) {
+            var val = $(this).val();
+            if (!val.trim()) {
+                showList(_formateData(_dataList));
+            }else {
+                var _data = _dataList.filter(function (e) {
+                    return e.fMtname.indexOf(val.trim()) !== -1 || e.fEfirstword && e.fEfirstword.indexOf(val.trim().toUpperCase()) !== -1;
+                })
+                showList([{data: _data}]);
+            }
+        });
+        // 本地数据库
+        // function _getDataOffLine(type, convert, bool, exten) {
+            // var gltlDatainitrule = new gltl_datainitrule();
+            // gltlDatainitrule.SetF_DIRNAME(convert);
+            // gltlDatainitrule.ExecuteSQLByResult(gltlDatainitrule.GetSelectSQL(), function (json) {
+                // var where = (json && json[0]) ? json[0].F_DIRWHERE : '';
+// 
+                // function dealExten(where, exten, param) {
+                    // if(!exten) return where
+                    // param = param || 'F_UID'
+                    // if(Array.isArray(exten)) {
+                        // return where + ' OR '+param+' in ("' +exten.join("','")+'")'
+                    // }
+                    // return where;
+                // }
+// 
+                // if (type == '1') {
+                    // var gltlUser = new gltl_user();
+                    // gltlUser.SetF_UISDELETE('0');
+                    // var getSelectSQL = gltlUser.GetSelectSQL(false, null, dealExten(where, exten));
+                    // gltlUser.ExecuteSQLByResult(getSelectSQL, function (json) {
+                        // var _rec = $.map(json, function (e) {
+                            // return {
+                                // firstW: e.F_UFIRSTWORD,
+                                // full: e.F_UFULLPINYIN,
+                                // ID: e.F_UID,
+                                // Text: e.F_UNAME
+                            // }
+                        // })
+                        // _dealData({records: _rec}, type);
+                    // })
+                // }else if(type == '2') {
+                    // var gltlEngine = new gltl_engine();
+                    // gltlEngine.SetF_EISDELETE('0');
+                    // gltlEngine.ExecuteSQLByResult(gltlEngine.GetSelectSQL(false, null, dealExten(where, exten)), function (json) {
+                        // var _rec = $.map(json, function (e) {
+                            // return {
+                                // firstW: e.F_EFIRSTWORD,
+                                // full: e.F_EFULLPINYIN,
+                                // ID: e.F_EID,
+                                // name: e.F_ENAME,
+                                // number: e.F_EPLATENUMBER,
+                                // model: e.F_ESTANDARDMODEL,
+                                // runningtime: e.F_ERUNNINGTIME,
+                                // runningmileage: e.F_ERUNNINGMILEAGE,
+                                // type: e.F_ETYPE
+                            // }
+                        // })
+                        // _dealData({records: _rec}, type)
+                    // })
+                // }else if(type == '3') {
+                    // var gltlUser = new gltl_workingproceduregroup();
+                    // gltlUser.SetF_WPGISDELETE('0');
+                    // var getSelectSQL = gltlUser.GetSelectSQL(false, null, dealExten(where, exten, 'F_WPGID'));
+                    // gltlUser.ExecuteSQLByResult(getSelectSQL, function (json) {
+                        // var _rec = $.map(json, function (e) {
+                            // return {
+                                // ID: e.F_WPGID,
+                                // Text: e.F_WPGNAME
+                            // }
+                        // })
+                        // _dealData({records: _rec}, type);
+                    // })
+                // } else if (type == '4') {
+                    // var gltlUser = new gltl_station();
+                    // gltlUser.SetF_SISDELETE('0');
+                    // var getSelectSQL = gltlUser.GetSelectSQL(false, null, dealExten(where, exten, 'F_SID'));
+                    // gltlUser.ExecuteSQLByResult(getSelectSQL, function (json) {
+                        // var _rec = $.map(json, function (e) {
+                            // return {
+                                // firstW: e.F_SFIRSTWORD,
+                                // full: e.F_SFULLPINYIN,
+                                // ID: e.F_SID,
+                                // Text: e.F_SNAME
+                            // }
+                        // })
+                        // _dealData({records: _rec}, type);
+                    // })
+                // }
+            // })
+        // }
+    })
+    function onClickDiv() {
+        var id = window.event.srcElement.getAttribute("BussinessID");
+        var name = window.event.srcElement.getAttribute("DisplayText");
+        // alert(name);
+        appcan.window.evaluateScript(selectPageLS.pageName,'changeText(\'' + selectPageLS.id + '\',\'' + name + '\',\'' + id + '\')');
+        uexWindow.close();
+    }
+</script>
+</body>
+</html>

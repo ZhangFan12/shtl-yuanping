@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+   <!-- <link rel="stylesheet" href="css/fonts/font-awesome.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="css/iconfont/iconfont.css">
+</head>
+<body class="body select-page">    
+    <div id="ScrollContent">
+        <div class="block-search">
+            <input id="search_input" class="search-input" type="text" value="请输搜索条件" onfocus="javascript:if(this.value=='请输搜索条件')this.value='';" onblur="if(value==''){value='请输搜索条件'}" />
+            <span class="search-btn"><i class="icon iconfont icon-sousuo icon-right"></i></span>
+            <div class="item-box-div cancle-box text-yellow">取消选择</div>
+        </div>
+        <div id="searchList" class="search-list">
+        </div>
+    </div>
+    <script type="text/template" id="searchItem">
+        <div class="item-title"><%=title%><span id="<%=title%>"></span></div>
+        <div class="item-box">
+            <% for(var i=0;i<data.length;i++) { %>
+            <div class="item-box-div" data-id="<%=data[i].ID%>" data-text="<%=data[i].name%>_<%=data[i].number%>"><%=data[i].number%></div>
+            <% } %>
+        </div>
+    </script>
+</body>
+<script src="js/appcan.js"></script>
+<script src="js/appcan.control.js"></script>
+<script src="js/gsoft.core.js"></script>
+<script src="js/DivDisplayFrame.js"></script>
+<script src="js/public.js"></script>
+<script src="js/gltl_ORM/DataAccess.js"></script>
+<script src="js/gltl_ORM/gltl_datainitrule.js"></script>
+<script src="js/gltl_ORM/gltl_engine.js"></script>
+<script>
+    appcan.ready(function () {
+
+        var public = new Public();
+        public.header('选择机车',true,true);//显示顶部：标题名，左侧icon，右侧icon
+        public.backBtn();
+        var _dataList = {};
+        
+        function _formateData(data) {
+            // 格式化数据
+            var _arr = [],
+                _assist = {}
+            data.map(function (e) {
+                if (!e.name) {
+                    e.name = '_'
+                }
+                var name = e.name;
+                _arr.push(name);
+                if (_assist[name]) {
+                    _assist[name].push(e);
+                }else{
+                    _assist[name] = [e];
+                }
+            })
+            var resArr = Array.from(new Set(_arr)).sort();
+            return resArr = resArr.map(function (e) {
+                return {
+                    title: e=='_'?'':e,
+                    data: _assist[e]
+                }
+            })
+        }
+        function _dealData(data, type) {
+            _dataList = data.records || [];
+            showList(_formateData(_dataList));
+        }
+        function showList(data) {
+            var html = $('#searchItem').html();
+            var _tpl = data.map(function (e) {
+                var _str = appcan.view.template(html)({title: e.title, data: e.data})
+                return _str
+            }).join('');
+            $('#searchList').html(_tpl);
+        }
+        
+        var infoArry = new Array();
+        appcan.gsoft.ajaxUtil.ajax({
+            url: "/GetDataSourceManager/getDatasource.json",
+            data: "type=2&convert=任务选车&bool=1&exten=",
+            success: function (data) {
+                //alert(JSON.stringify(data));
+                _dealData(data);
+            },
+            error: function (err) {
+                var gltlDatainitrule = new gltl_datainitrule();
+                gltlDatainitrule.SetF_DIRNAME('任务选车');
+                gltlDatainitrule.ExecuteSQLByResult(gltlDatainitrule.GetSelectSQL(), function (json) {
+                    var where = json[0].F_DIRWHERE;
+                    var gltlEngine = new gltl_engine();
+                    gltlEngine.SetF_EISDELETE('0');
+                    gltlEngine.ExecuteSQLByResult(gltlEngine.GetSelectSQL(false, null, where), function (json) {
+                        var _rec = $.map(json, function (e) {
+                            return {
+                                firstW: e.F_EFIRSTWORD,
+                                full: e.F_EFULLPINYIN,
+                                ID: e.F_EID,
+                                name: e.F_ENAME,
+                                number: e.F_EPLATENUMBER,
+                                model: e.F_ESTANDARDMODEL,
+                                runningtime: e.F_ERUNNINGTIME,
+                                runningmileage: e.F_ERUNNINGMILEAGE,
+                                type: e.F_ETYPE
+                            }
+                        })
+                        _dealData({records: _rec})
+                    })
+                })
+            }
+        });
+        
+        //点击选择动作
+        $(document).on('click', '.item-box-div', function (e) {
+            var _self = $(this);
+            var id = _self.attr('data-id') || '';
+            var name = _self.attr('data-text') || '';
+            var selectPageLS = JSON.parse(localStorage.getItem('selectPageLS'));
+            if (selectPageLS.pageName == 'maintenance') {
+                var data = _dataList.filter(function (e) {
+                    return e.ID === id;
+                })[0];
+                data = JSON.stringify(data);
+                appcan.window.evaluateScript({
+                    name: 'maintenance',
+                    scriptContent: 'setEngine(' + data + ')'
+                });
+            }else {
+                appcan.window.evaluateScript(selectPageLS.pageName,'changeText(\'' + selectPageLS.id + '\',\'' + name + '\',\'' + id + '\')');
+            }
+            uexWindow.close();
+        })
+        $('#search_input').on('keyup', function (e) {
+            var val = $(this).val();
+            if (!val.trim()) {
+                showList(_formateData(_dataList));
+            }else {
+                var _data = _dataList.filter(function (e) {
+                    return e.number.indexOf(val.trim()) !== -1;
+                })
+                showList([{data: _data}]);
+            }
+        })
+    });
+    function onClickDiv() {
+        var val = window.event.srcElement.getAttribute("BussinessID");
+        //alert(val);
+        appcan.window.evaluateScript({
+            name: 'maintenance',
+            scriptContent: 'setEngine(' + val + ')'
+        });
+        appcan.window.close(-1);
+        //appcan.window.closePopover("demo") //关闭指定的弹出窗口
+        //在demo窗口执行脚本
+    }
+</script>
+</html>

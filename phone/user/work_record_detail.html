@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>自轮运转特种设备运用管理系统</title>
+    
+    <link rel="stylesheet" type="text/css" href="../css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/iconfont/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="../css/logbook.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/pictureUpload/css/IMGUP.css"/>
+    <style>
+        input, select, textarea {
+             background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body class="body">
+    <div id="ScrollContent">
+        <!-- 任务 -->
+        <div class="block" style="display: none" id="task">
+            <div class="block-head text-black">
+                <span class="block-title">任务</span><span class="text-green" id="statue"></span>
+                <button id="#" class="btn" style="right:5em;" onclick="queryLog()">查看行车日志</button>
+            </div>
+            <div class="block-body">
+                <table class="table-input">
+                    <tr>
+                        <td style="width:5em;"><span class="input-label">任务名称:</span></td>
+                        <td style="width:calc(50% - 5em);"><input class="input-text" id="fTpname" type="text" value="任务名称" readonly="true" /></td>
+                        <td style="width:5em;"><span class="input-label">日期:</span></td>
+                        <td style="width:calc(50% - 5em);"><input class="input-text" id="fTpdate" type="text" value="日期" readonly="true" /></td>
+                    </tr>
+                    
+                   <tr>
+                        <td><span class="input-label">工序组:</span></td>
+                        <td><input class="input-text" type="text" value="工序组" id="bicycle" readonly="true" /></td>
+                        <td><span class="input-label">任务类型:</span></td>
+                        <td><input class="input-text" type="text" value="任务类型" id="taskType" readonly="true" /></td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="input-label">机车选择:</span></td>
+                        <td><input class="input-text" type="text" id="fEidNmber" value="机车选择" readonly="true" /></td>
+                        <td><span class="input-label">机车选择:</span></td>
+                        <td><input class="input-text" type="text" id="fEexidNmber" value="机车选择" readonly="true" /></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label">正司机:</span></td>
+                        <td><input class="input-text" type="text" id="fTppersonne1Name" value="正司机" readonly="true" /></td>
+                        <td><span class="input-label">值乘人员:</span></td>
+                        <td><input class="input-text" id="fRlioperationorName" type="text" value="值乘人员" readonly="true" /></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label">副司机:</span></td>
+                        <td><input class="input-text" id="fTppersonne2Name" type="text" value="副司机" readonly="true" /></td>
+                        <td><span class="input-label">值乘人员:</span></td>
+                        <td><input class="input-text" id="fRlistewardName" type="text" value="值乘人员" readonly="true" /></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="block-foot">
+                <table class="table-input">
+                    <tr>
+                        <td style="width:5em;"><span class="input-label">施工地段:</span></td>
+                        <td style="width:calc(100% - 5em);"><input class="input-text" type="text" value="施工地段" id="fTpsection" readonly="true" /></td>
+                    </tr>
+                    <tr class="f_Tpgroup">
+                        <td><span class="input-label">车辆编组:</span></td>
+                        <td><input class="input-text" type="text" value="车辆编组" id="fTpgroup" readonly="true" /></td>
+                    </tr>
+                    <tr>
+                        <td valign="top"><span class="input-label">施工内容<br />影响范围:</span></td>
+                        <td><textarea class="input-textarea" rows="3" id="fTpcontent" readonly="true">施工内容及影响范围</textarea></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!-- 工序组 -->
+        <div class="block" style="display: none" id="workingGroup">
+            <div class="block-head text-black">
+                <span class="block-title ">工序组</span>
+            </div>
+            <ul id="workingUl" class="working-list clear">
+                <li>
+                    <i class="icon iconfont icon-xinxi text-green"></i>
+                    <span class="text-green">出库</span>
+                </li>
+                <li>
+                    <i class="icon iconfont icon-xinxi text-gray"></i>
+                    <span class="text-gray">出库</span>
+                </li>
+            </ul>
+            <div class="block-head vice-head">
+                <span class="text-green">危险源识别:</span>
+            </div>
+            <div id="fDsname" class="block-body working-important">
+                <p>此处为重要提示</p>
+            </div>
+        </div>
+        <!-- 申请信息 -->
+        <div class="block" style="display: none" id="maintenance">
+            <div class="block-head text-black">
+                <span class="block-title">申请信息</span><span class="text-green" id="fEmstatus"></span>
+            </div>
+            <div class="block-body">
+                <table class="table-input">
+                    <tr>
+                        <td style="width:5em;"><span class="input-label">维保类型:</span></td>
+                        <td style="width:calc(50% - 5em);"><input class="input-text" id="maintenanceType" value="维保类型" readonly="true" /></td>
+                    </tr>
+                    <tr>
+                        <td style="width:5em;"><span class="input-label">设备名称:</span></td>
+                        <td style="width:calc(50% - 5em);"><input class="input-text" value="设备名称" id="eName" readonly="true" /></td>
+                        <td style="width:5em;"><span class="input-label">累计里程:</span></td>
+                        <td style="width:calc(50% - 5em);"><input class="input-text" value="累计行驶里程" id="ferunningmileage" readonly="true" /></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label">设备编号:</span></td>
+                        <td><input class="input-text" value="设备编号" id="nmber" readonly="true" /></td>
+                        <td><span class="input-label">累计时间:</span></td>
+                        <td><input class="input-text" value="累计行驶时间" id="ferunningtime" readonly="true" /></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label">规格类型:</span></td>
+                        <td><input class="input-text" value="规格类型" id="model" readonly="true" /></td>
+                        <td><span class="input-label">修别:</span></td>
+                        <td><input class="input-text" value="修别" id="style" readonly="true" /></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label">承修单位:</span></td>
+                        <td><input class="input-text" value="硬件保修有限公司" id="emCompany" readonly="true" /></td>
+                    </tr>
+                    <tr>
+                        <td valign="top"><span class="input-label">原因:</span></td>
+                        <td colspan="3"><textarea class="input-textarea" rows="3" id="reason" readonly="true">原因</textarea></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="block-foot" id="img_table">
+                <table class="table-input">
+                    <tr>
+                       <td style="width:5em;"><span class="input-label">照片上传:</span></td>
+                       <td style="width:calc(50% - 5em);">
+                            <div class="div_download">
+                                <div class="div_imglook">
+                                    <div id="downloadPicture" class="lookimg bor-0">
+                                        <img src="../img/img-none.png">
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!-- 日常维护:验收信息 -->
+        <div class="block" style="display: none" id="maintenanceInspection">
+            <div class="block-head text-black">
+                <span class="block-title">验收信息</span><span class="text-green">（已完成）</span>
+            </div>
+            <div class="block-body">
+                <table class="table-input">
+                    <tr>
+                        <td style="width:5em;"><span class="input-label">工作量:</span></td>
+                        <td style="width:calc(50% - 5em);"><input class="input-text" value="维修工作量" readonly="true" id="hours"/></td>
+                        <td><span class="input-label" >小时/人</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label">维修情况:</span></td>
+                        <td colspan="3"><textarea class="input-textarea" id="authRmk" rows="3" readonly="true"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label">验收意见:</span></td>
+                        <td><input class="input-text" id="authView" value="良好" readonly="true" /></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="block-foot">
+                <table class="table-input">
+                    <tr>
+                        <td style="width:5em;"><span class="input-label">照片:</span></td>
+                        <td style="width:calc(50% - 5em);">
+                            <div class="div_download">
+                                <div class="div_imglook">
+                                    <div id="downloadPicture" class="lookimg bor-0">
+                                        <img src="../img/img-none.png">
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!-- 申请流程 -->
+        <div class="block" style="display: none" id="applicationProcess">
+            <div class="block-head text-black">
+                <span class="block-title">申请流程</span>
+            </div>
+            <div class="block-body">
+                <table class="table-input">
+                    <tr>
+                        <td style="width:5em;"><span class="input-label">申请人:</span></td>
+                        <td style="width:calc(50% - 5em);"><input class="input-text" id="uName" value="申请人" readonly="true" /></td>
+                        <td style="width:5em;"><span class="input-label">申请日期:</span></td>
+                        <td style="width:calc(50% - 5em);"><input class="input-text" id="startTime" value="申请日期" readonly="true" /></td>
+                    </tr>
+                    <tr>
+                        <td style="width:5em;"><span class="input-label">审批人:</span></td>
+                        <td style="width:calc(50% - 5em);"><input class="input-text" id="flowUname" value="申请人" readonly="true" /></td>
+                        <td style="width:5em;"><span class="input-label">审批意见:</span></td>
+                        <td style="width:calc(50% - 5em);"><input class="input-text" id="auditOpinion" value="申请日期" readonly="true" /></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <!-- 日常检查 -->
+        <div style="display: none" id="dailyCheck">
+            <div class="block">
+                <div class="block-head text-black">
+                    <span class="block-title">设备信息</span>
+                </div>
+                <div class="block-body">
+                    <table class="table-input">
+                        <tr>
+                            <td style="width:5em;"><span class="input-label">设备编号:</span></td>
+                            <td style="width:calc(50% - 5em);"><input id="fEplatenmber" class="input-text text-gray" placeholder="" type="text" readonly="true"></td>
+                            <td style="width:5em;"><span class="input-label">规格类型:</span></td>
+                            <td style="width:calc(50% - 5em);"><input placeholder="" id="fEstandardmodel" type="text" readonly="true" class="input-text text-gray" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width:5em;"><span class="input-label">检查人:</span></td>
+                            <td style="width:calc(50% - 5em);"><input class="input-text text-gray" id="checkName" placeholder="" type="text" readonly="true"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="block">
+                <div id="listview1" class="block-head text-black">
+                    <span class="block-title">检查项目</span>
+                </div>
+                <ul id="listview2" class="task-implement-list font-size0875"></ul>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- appcan -->
+    <script src="../js/appcan.js"></script>
+    <script src="../js/appcan.control.js"></script>
+    <script src="../js/gsoft.core.js"></script>
+    <!-- jQuery -->
+    <script src="../js/jquery/jquery1.7.1.min.js"></script>
+    <!-- logbook -->
+    <script src="../js/public.js"></script>
+    <script src="js/work_record_detail.js"></script>
+    <script src="../js/pictureUpload/IMGUP.js"></script>
+    <script src="../js/pictureUpload/pictrueUpload.js"></script>
+</body>
+</html>

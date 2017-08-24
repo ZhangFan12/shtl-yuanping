@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="../css/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/ui-box.css">
+    <link rel="stylesheet" href="../css/ui-base.css">
+    <link rel="stylesheet" href="../css/ui-color.css">
+    <link rel="stylesheet" href="../css/appcan.icon.css">
+    <link rel="stylesheet" href="../css/appcan.control.css">
+    <link rel="stylesheet" type="text/css" href="../css/public.css"/>
+    <style>
+        @media screen and (max-width: 1500px) {
+            .info-content {
+            }
+            .info-date {
+            }
+        }
+
+        .info-content {
+        }
+
+        .info-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            /*white-space: nowrap;*/
+        }
+        .info-item {
+            width: 100%;
+            display: flex;
+        }
+        .info-img {
+            flex: 0 0 4em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+        }
+        .info-content {
+            margin: 0 .5em;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+        .info-title {
+
+        }
+        .info-content-txt {
+            margin: .4em 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: .8rem;
+        }
+        .info-date {
+            flex: 0 0 6em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: right;
+            margin-right: .4em;
+        }
+        .scroll-bar {
+            border-bottom:1px solid #BABABA;
+        }
+    </style>
+</head>
+<body class="um-vp c-wh block " ontouchstart>
+<div class="tx-c sc-bg-active" id="pullstatus0"></div>
+<div id="demo" class="">
+</div>
+<div class="tx-c sc-bg-active" id="pullstatus1"></div>
+<script src="../js/appcan.js"></script>
+<script src="../js/appcan.control.js"></script>
+<script src="../js/appcan.listview.js"></script>
+<script src="../js/appcan.optionList_cus.js"></script>
+<script src="../js/gsoft.core.js"></script>
+<script src="../js/public.js"></script>
+<script type="text/template" id="optionList">
+    <div class="scroll-bar" data-id="<%=data.fMpid%>" data-index="<%=index%>"
+         style="width: 100%;z-index:99;overflow:hidden;background-color: #ffffff;margin-left: 0px; display: -webkit-box !important;display: box !important;-webkit-box-align: center;box-align: center; min-height: 6em;height:100%;line-height:100%;">
+        <div class="info-item <%=data._isNotRead%>">
+            <div class="info-img">
+                <img src='../img/index/msg/<%=data._imgName[data.fMptype]%>.png'>
+            </div>
+            <div class="info-content">
+                <div class="info-title"><%=data.fMptitle%></div>
+                <div class="info-content-txt"><%=data.fMpcontent%></div>
+            </div>
+            <div class="info-date"><%=data.fMpsendtime%></div>
+
+        </div>
+    </div>
+</script>
+</body>
+<script>
+    var updateData = [];
+    var _currentPage = 1;
+    var lv1;
+    appcan.ready(function () {
+        lv1 = appcan.optionList({
+            selector: "#demo",
+            type: "hiddenLine",
+            id: 1,
+            duration: "300ms",
+            multiShow: false
+        });
+        lv1.setTpl($('#optionList').html());
+        appcan.frame.setBounce({
+            bounceType: '1',
+            upEndCall: function (type) {
+            },
+            downEndCall: function (type) {
+                _currentPage++;
+                init({
+                    isAdd: 1, callback: function () {
+                        appcan.frame.resetBounce(type);
+                    }
+                });
+            }
+        })
+        $(document).on('click', '.scroll-bar', function (e) {
+            var $2 = $(this);
+            var _context = $2.find('.info-content').text();
+            var _time = $2.find('.info-date').text();
+            var _title = $2.find('.info-title').text();
+            test($2.data('id'), !!$2.find('.info-isNotRead').length, _context, _time, _title);
+            setTimeout(function () {
+                message({noPop: 1});
+            })
+            if ($2.find('.info-isNotRead').length) {
+                $2.find('.info-isNotRead').removeClass('info-isNotRead');
+            }
+        })
+        init();
+    })
+    function init(option) {
+        option = option || {};
+
+        appcan.gsoft.ajaxUtil.ajax({
+            url: "/MessagePushManager/getPagerMessagesById.json",
+            data: 'pageSize=10&currentPage='+ _currentPage,
+            success: function (data) {
+                var drives = data.records || {};
+                if (!drives.length) {
+                    appcan.frame.setBounce({
+                        bounceType: '1',
+                        downEndCall: function (type) {
+                            appcan.frame.resetBounce(type);
+                        }
+                    })
+                }
+
+                var _imgName = {
+                    1: 'cycle-reminder',
+                    2: 'cycle-reminder',
+                    3: 'cycle-reminder',
+                    4: 'task-reminder',
+                    5: 'task-reminder',
+                    6: 'process-node',
+                    7: 'process-node',
+                    8: 'file-notification',
+                    9: 'file-notification',
+                }
+                var count = 0;
+                var _dataList = [],
+                    _dataTpl = {
+                        _imgName: _imgName,
+                        content: '',
+                        height: "1.5em",
+                        hideOption: {
+                            content: "删除",
+                            style: {
+                                fontSize: "1.5em",
+                                background: "red"
+                            },
+                            onClick: deleteOne
+                        }
+                };
+                for (var i = 0; i < drives.length; i++) {
+//                    alert(JSON.stringify(drives[i]));
+                    if (drives[i].fMpisread != 1) {
+                        count++;
+                    }
+                    var _isNotRead = drives[i].fMpisread == 1 ? '' : 'info-isNotRead';
+                    _dataList.push($.extend({}, _dataTpl, drives[i], {_isNotRead: _isNotRead }))
+                }
+//                localStorage.setItem('__infoCount', count);
+                //      alert(driverTr);
+                if(_dataList.length) {
+                    if (option.isAdd) {
+                        lv1.add(_dataList, 1);
+                    } else {
+                        lv1.set(_dataList);
+                    }
+                }
+                lv1.on("click", function (e) {
+                })
+                if (option.callback && typeof option.callback === 'function') {
+                    option.callback();
+                }
+//                    driverTable.innerHTML = driverTr;
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                appcan.window.openToast("服务器连接失败,请检查网络...", '2000');
+            }
+        });
+    }
+
+    //点击跳转
+    /*
+     $('.secondNav-list').children('li').click(function(){
+     alert(1);
+     appcan.openWinWithUrl('user_info_detail','user_info_detail.html');
+     })*/
+
+    function deleteOne(e, i) {
+        var item = $(e.currentTarget).parent("li");
+        var id = item.find('.scroll-bar').data('id');
+        appcan.gsoft.ajaxUtil.ajax({
+            url: "/MessagePushManager/RemoveMessage.json",
+            data: 'fMpid=' + id,
+            success: function (data) {
+                setTimeout(function () {
+                    message({noPop: 1});
+                })
+                item.remove();
+                appcan.window.openToast("删除成功", '2000');
+            }
+        })
+    }
+
+    function test(id, isNotRead, content, time, title) {
+//        alert(typeof saveMessageById == 'function');
+        if (isNotRead && typeof saveMessageById == 'function') {
+            saveMessageById(id);
+        }
+        var sessionStorage = window.localStorage;
+        sessionStorage.setItem('fMpid', id);
+        sessionStorage.setItem('content', content);
+        sessionStorage.setItem('time', time);
+        sessionStorage.setItem('title', title);
+        appcan.window.open({
+            name: 'user_info_detail_' + id,
+            data: "user_info_detail.html",
+            dataType: 0,
+            type: 0,
+            aniId: 2
+        })
+//        window.location.href = "user_info_detail.html";
+    }
+</script>
+</html>

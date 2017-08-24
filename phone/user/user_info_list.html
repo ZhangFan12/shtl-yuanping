@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>自轮运转特种设备运用管理系统</title>
+    <link rel="stylesheet" type="text/css" href="../css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/iconfont/iconfont.css">
+</head>
+<body class="body">
+<div id="ScrollContent">
+    <div id="listView"></div>
+    <!-- 列表 -->
+    <div class="block">
+        <ul class="secondNav-list" id="driver"></ul>
+    </div>
+</div>
+
+<!-- appcan -->
+<script src="../js/appcan.js"></script>
+<script src="../js/appcan.control.js"></script>
+<!--<script src="../js/appcan.tab.js"></script>-->
+<script src="../js/gsoft.core.js"></script>
+<!-- jQuery -->
+<!-- <script src="../js/jquery/jquery1.7.1.min.js"></script> -->
+<!-- logbook -->
+<!--<script src="../js/DivDisplayFrame.js"></script>-->
+<!--<script src="../js/QueryListControl.js"></script>-->
+<!--<script src="../js/MessagePush.js"></script>-->
+<!--<script src="../js/InspectprojectList.js"></script>-->
+<script src="../js/jquery/jquery1.7.1.min.js"></script>
+<script src="../js/public.js"></script>
+<!-- jQuery -->
+<script>
+    var public = new Public();
+    public.header('我的消息', true, true);//显示顶部：标题名，左侧icon，右侧icon
+    public.footer();//显示底部
+    public.backBtn();
+    //初始化消息列表
+    appcan.ready(function () {
+        var top = $('.header').outerHeight();
+        var foot = $('.footer').outerHeight();
+        var topHeight = 30;
+        appcan.frame.open({
+            id : "listView",
+            url: "user_info_list_content.html",
+            top : top + topHeight,
+            left : 0
+        });
+        appcan.window.resizePopover('listView', 0, top + topHeight, window.outerWidth, window.outerHeight - top - foot - topHeight);
+        window.onorientationchange = window.onresize = function() {
+            appcan.window.resizePopover('listView', 0, top + topHeight, window.outerWidth, window.outerHeight - top - foot - topHeight);
+        }
+//        appcan.frame.sendToBack('listView');
+//        init();
+//        appcan.window.on('resume',function () {
+//            init();
+//        })
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+/*清除页面默认的内,外边距*/
+*{
+    padding:0;
+    margin:0;}
+body{height:100%;margin:0px;padding:0px}
+/* 隐藏百度地图的logo和版权声明*/
+.anchorBL{ display:none; }
+/*地图容器*/
+.map{width:100%;height: 100%;}
+.map .left_menu{width: 20%;height: 100%;float: left;}
+.map .left_menu .l_m_ztree{width:100%; height:75%;overflow: hidden;}
+.map .left_menu .l_m_ztree .title{width:100%;background:#00B83F;color: white;padding: 0.25em 0.5em;font-size: 1em;}
+.map .left_menu .l_m_ztree .list{width:100%;height:-moz-calc(100% - 1.5em);height:calc(100% - 1.5em);height:-webkit-calc(100% - 1.5em);overflow-y: auto;}
+.map .left_menu .l_m_ztree .list .l_content{box-sizing: border-box;width:100%;height: 100%;padding: 0.5em;font-size: 1em;}
+.l_content>li{line-height: 1.5em;}
+.l_content>li>.name{display: inline-block;width: calc(100% - 1.5em);white-space: nowrap;overflow: hidden;}
+.l_content>li>.right-icon{float: right;margin-top: 0.25em;}
+/*.map .left_menu .l_m_ztree .list .l_content div:hover{color: #00B83F;}*/
+/*.map .left_menu .l_m_ztree .list .l_content div:hover .icon{color: #00B83F;}*/
+/*.map .left_menu .l_m_ztree .list .l_content div:hover .yanjing1{display: none}*/
+/*.map .left_menu .l_m_ztree .list .l_content div:hover .yanjing{display: block}*/
+.map .left_menu .l_m_ztree .list .l_content div.mapActive{color: #00B83F;}
+.map .left_menu .l_m_ztree .list .l_content div.mapActive .icon{color: #00B83F;}
+.map .left_menu .l_m_ztree .list .l_content div.mapActive .yanjing1{display: none}
+.map .left_menu .l_m_ztree .list .l_content div.mapActive .yanjing{display: block}
+.map .left_menu .l_m_ztree .list .l_content div .yanjing{display: none}
+.map .left_menu .l_m_ztree .list .l_content div .yanjing1{display: block}
+.map .trainList {
+    display: flex;
+    justify-content: space-between;
+    font-size: 24px;
+    margin: .6em .8em;
+}
+
+.map .left_menu .l_m_query{width:100%;height:25%;overflow: hidden;}
+.map .left_menu .l_m_query .line{width:90%;height:0;margin: 0 auto;/*border-bottom:2px dotted cornflowerblue;*/}
+.map .left_menu .l_m_query .sbtn{width:100%;height: 100%; margin-top: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+.map .left_menu .l_m_query .sbtn ul{width:90%;margin: 0 auto;margin-bottom:5px;}
+.map .left_menu .l_m_query .sbtn ul:first-child{padding-top:5px;}
+.map .left_menu .l_m_query .sbtn ul li{list-style: none;width:100%;height:100%;display: block;margin: 0 0 0 0;}
+.map .left_menu .l_m_query .sbtn a{box-sizing: border-box;clear: both;text-decoration: none;outline: none;margin: 0 auto;padding: 0.25em 0.125em;display: block; text-align: center;width: 90%;vertical-align: middle;border-radius:0.25rem;background: #00B83F;  color: #FFF;font-size: 0.875em;margin-bottom: 0.5em;}
+.map .left_menu .l_m_query .sbtn .line{margin-bottom: 5px;}
+.map .left_menu .l_m_query .sbtn a:hover{background: #00B83F;}
+.map .left_menu .l_m_query .sbtn .input-btn-group {width: 90%;
+    margin: 0 auto;}
+.map .left_menu .l_m_query .sbtn .input-btn-group>.text-left {box-sizing: border-box;
+    display: inline-block;
+    width: 80%;
+    margin-bottom: 0.5em;
+    padding: 0 0.5em;
+    line-height: 1.75em;
+    height: 1.75em;
+    font-size: 0.875em;
+    vertical-align: middle;
+    border: 1px solid #00B83F !important;
+    border-radius: 0.25rem 0 0 0.25rem;}
+.map .left_menu .l_m_query .sbtn .input-btn-group>.btn-right {    display: inline-block;
+    width: 20%;
+    padding: 0.1em 0;
+    border-radius: 0 0.25rem 0.25rem 0;}
+.map .left_menu .l_m_query .sbtn .input-btn-group>.btn-right>.icon{color: #ffffff;font-size: 1.5em;}
+.map .right_container{width: 80%;height: 100%;float: right;border-left: 1px solid #6676ed;margin-left: -1px;}
+.map .right_container .r_c_map{width: 100%;height: 80%;border-bottom: 1px solid cornflowerblue;}
+.map .right_container .r_c_info{width: 100%;height: 20%;}
+.map .right_container .r_c_info div{overflow-x: auto;overflow-y: scroll;width: 100%;height: 100%;}
+.map .right_container .r_c_info table {
+    border-collapse: collapse;
+    font-family: "楷体";
+    font-size: 14px;
+    text-align: center;
+    width: 100%;
+    line-height: 17px;
+    font-size: 28px;
+    line-height: 28px;
+}
+.map .right_container .r_c_info th,td {padding:1.2px;}
+.map .right_container .r_c_info th {  background: #00B83F; border: 1px solid #777;  color: #fff;}
+.map .right_container .r_c_info td { border: 1px solid #777; }
+.map .right_container .r_c_info tbody tr:nth-child(even) { background: #00B83F;}
+.map .right_container .r_c_info tbody tr:hover{background: #feffb0;}
+.map .right_container .r_c_info tbody > tr:last-child{background: #fffe91;}
+/*表格右键菜单样式*/
+/*.menu{ height:60px; width:50px; border:1px solid gray; display: none; position:absolute; text-align:center; background:white; }
+  .menu ul,li{margin:0 auto; padding: 0; list-style-type: none; line-height: 20px; }
+  .menu li:hover{background: #feffb0;}*/
+/*自定义输入框*/
+input[type='text']{color: #555;height: 25px;line-height:15px;width:100%;padding: 0px 0px 0px 10px;border: 1px solid #bbcbe5;border-radius: 3px;background: #FBFBFB;outline: 0;-webkit-box-shadow: inset 1px 1px 2px rgba(238, 238, 238, 0.2);box-shadow: inset 1px 1px 2px rgba(238, 238, 238, 0.2);font: normal 14px/14px Arial, Helvetica, sans-serif; margin:0px;padding: 0px; }
+input[type='text']:focus{border:1px solid cornflowerblue;}
+
+.map .icon {
+    /* 通过设置 font-size 来改变图标大小 */
+    width: 1.5em; height: 1.5em;
+    /* 图标和文字相邻时，垂直对齐 */
+    vertical-align: -0.25em;
+    /* 通过设置 color 来改变 SVG 的颜色/fill */
+    fill: currentColor;
+    /* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
+       normalize.css 中也包含这行 */
+    overflow: hidden;
+    font-size: .75em;
+    color: gray;
+}

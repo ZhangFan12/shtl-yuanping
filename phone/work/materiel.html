@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>自轮运转特种设备运用管理系统</title>
+    <link rel="stylesheet" type="text/css" href="../css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/iconfont/iconfont.css">
+    <!-- <link rel="stylesheet" type="text/css" href="../css/logbook.css"/> -->
+</head>
+<body class="body">
+    <div id="ScrollContent">
+        <div class="block">
+            <div class="block-head text-black">
+                <span class="block-title">基础信息</span>
+                <!-- 计划提交按钮 -->
+                <i id="save_task" class="icon iconfont icon-fabu text-green"></i>
+            </div>
+            <div class='block-body'>
+                <table class="table-input">
+                    <tr>
+                        <td style="width: 5em;"><span class="input-label text_necessary">领件人:</span></td>
+                        <td style="width: calc(50% - 5em);"><input id="creater_id"  class="input-text bor-0 input-readonly" type="text" value="" readonly="true" /></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label text_necessary">领料时间:</span></td>
+                        <td><input id="createTime_id"  class="input-text bor-0 input-readonly" type="text" value="" readonly="true" /></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label text_necessary">机车:</span></td>
+                        <td><input id="engine_id" class="input-text select_otive" type="text" value="" readonly="true" /></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label text_necessary">审批人:</span></td>
+                        <td><input id="check_id" class="input-text check_select" type="text" value="" readonly="true" /></td>
+                    </tr>
+                    <tr>
+                        <td valign="top"><span id="div_reanson" class="input-label">用途:</span></td>
+                        <td colspan="3"><textarea id="reason" class="input-textarea" rows="3"></textarea></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <div class="block">
+            <div class="block-head text-black">
+                <span class="block-title">配料信息</span>
+            </div>
+            <div class='block-body'>
+                <table id="material_info" class="table-primary">
+                    <tr>
+                        <td width="25%">编码:</td>
+                        <td width="35%">名称:</td>
+                        <td width="25%">规格型号:</td>
+                        <td width="15%">数量:</td>
+                        <td><i id='add_material' class="icon iconfont icon-jiahao text-green" onclick="addMaterial2()"></i></td>
+                    </tr>
+                    <!-- <tr>
+                        <td><input id="material_0" type="text" class="materiel_select input-text" value='选择配料' readonly="true" /></td>
+                        <td><input type="text" class="input-text" /></td>
+                        <td><input type="text" class="input-text" /></td>
+                        <td><input type="number" min="0" class="input-text" /></td>
+                    </tr> -->
+                </table>
+            </div>
+        </div>
+	</div>
+    
+    <!-- appcan -->
+    <script src="../js/appcan.js"></script>
+    <script src="../js/appcan.control.js"></script>
+    <!-- <script src="../js/appcan.tab.js"></script> -->
+    <script src="../js/gsoft.core.js"></script>
+    <!-- jQuery -->
+    <script src="../js/jquery/jquery1.7.1.min.js"></script>
+    <!-- logbook -->
+    <script src="../js/public.js"></script>
+    <!-- <script src="../js/SelectDateTime.js"></script> -->
+    <script type="text/javascript" charset="utf-8">
+    var fDpid = '';  //主键ID   隐藏
+    var userId = '';  //用户ID   隐藏
+    var wpRecords;
+    // 获取服务器数据
+    appcan.ready(function() {
+        var public = new Public();
+        public.header('物资领料申请',true,true);//显示顶部:标题名，左侧icon，右侧icon
+        public.footer();//显示底部
+        public.backBtn();
+        selectPage();
+ 
+        var loginName = appcan.locStorage.getVal("loginName");
+        $('#creater_id').val(loginName);
+        var createTime = nowTime();
+        $('#createTime_id').val(createTime);
+                    
+        appcan.gsoft.ajaxUtil.ajax({
+            url : '/gltlDailyplanManager/getDailyPlan.json',
+            success : function(data) {
+                // alert(JSON.stringify(data.records[0].userName));
+                fDpid = data.records[0].fDpid;  //主键ID   隐藏
+                userId = data.records[0].userId;  //用户ID   隐藏
+                $('#fDpcode').val(data.records[0].fDpcode);  //计划编号  显示
+                $('#fDpcreateperson').val(data.records[0].userName);  //用户名  显示
+                $('#fDpname').val(data.records[0].fDpname);  //计划名称
+                $('#fDpcreatetime').val(data.records[0].fDpcreatetime);  //创建时间
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                appcan.window.openToast('服务器连接失败,请检查网络...', '2000');
+            }
+        });
+    })
+    //提交任务
+    var ajaxFlag = true;
+    appcan.button("#save_task", "ani-act", function() {
+        // alert(JSON.stringify(planData()));
+            if(ajaxFlag){
+            
+            for (var i=0; i < ($('.block').length-1); i++) {
+                            if ($('#engine_id').val() == '') {
+                                alert('请选择机车')
+                                return;
+                            }else if ($('#check_id').val() == '') {
+                                alert('请选择审核人');
+                                return;
+                            }
+                        }
+            
+          
+            
+             var checkId = $('#check_id').attr('name');              //审核人
+                var engineId = $('#engine_id').attr('name');            //机车
+                var text = $('#reason').val();                          //用途
+                var createPer= $('#creater_id').val();                  //创建人
+                var createTime = $('#createTime_id').val();             //创建时间
+                
+                fmtunit = new Object();
+                fmtunit = {checkId:checkId,engineId:engineId,text:text,createPer:createPer,createTime:createTime};
+                var Fmtunit = JSON.stringify(fmtunit);
+          //     alert(Fmtunit)  ;
+               
+               
+               var table = $('#material_info');
+
+               var rows = table.find('tr');
+               var records = new Array();       
+               for (var i=1; i < rows.length; i++) {
+                   var mate = new Object();
+                   var id  = rows.eq(i).find('input').eq(0).attr('name')
+                   var count = rows.eq(i).find('input').eq(3).val()
+                //   alert(rows.eq(i).find('input').eq(0).attr('name'));  //id
+                //   alert(rows.eq(i).find('input').eq(3).val());            //数量
+                   mate = {id:id,count:count}
+                   records [i-1]= mate;
+               };
+               var record = JSON.stringify(records);
+           //    alert(JSON.stringify(record));
+            
+            appcan.gsoft.ajaxUtil.ajax({
+                url : '/FmtunitManager/saveFmtunitApp.json',
+                data : "Fmtunit="+ Fmtunit+"&record="+record,
+                success : function(data) {
+                  //   alert(JSON.stringify(data));
+                    ajaxFlag = true;
+                    alert("任务发布成功！");
+                    appcan.window.close(-1);
+                   
+                  /*
+                    if (data.records[0].result == 'SUCCESS') {
+                                          alert("浠诲姟鍙戝竷鎴愬姛锛�);
+                                          appcan.window.close(-1);
+                                      } else if (data.records[0].result == 'ERROR'){
+                                          alert(data.records[0].message)
+                                      };*/
+                  
+                },
+                error : function(XMLHttpRequest, textStatus, errorThrown) {
+                    appcan.window.openToast('服务器连接失败,请检查网络...', '2000');
+                }
+            });
+         
+            ajaxFlag=false;
+        }else{
+            appcan.window.alert({
+                title: '提示',
+                content: '数据处理中，请勿重复提交！',
+                buttons: '确定'
+            });
+        }
+        
+    })
+    </script>
+</body>
+</html>

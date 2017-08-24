@@ -1,0 +1,100 @@
+/* Calendar Wrapper */
+.ui-datepicker {
+	/*background: #e6e6e6;*/
+}
+
+/* Calendar Header */
+.ui-datepicker-header {
+	position: relative;
+	/*background: #e6e6e6;*/
+	border-radius: 0.5em 0.5em 0 0;
+}
+.ui-datepicker-title {
+	padding: 0.5em;
+	text-align: center;
+	font-size: 1.5em;
+	color: #02a650;
+}
+.ui-datepicker-prev,
+.ui-datepicker-next {
+	box-sizing: content-box;
+	display: block;
+	position: absolute;
+    top: 1em;
+	width: 1.5em;
+    height: 1.5em;
+    text-indent: -9999px;
+    background-size: 100%;
+}
+.ui-datepicker-prev {
+    left: 1em;
+    background-image: url(icon-img/datepicker-prev.png);
+}
+.ui-datepicker-next {
+    right: 1em;
+    background-image: url(icon-img/datepicker-next.png);
+}
+/*Calendar Table*/
+.ui-datepicker-calendar {
+	width: 100%;
+	border-left: 1px solid #e6e6e6;
+	border-right: 1px solid #e6e6e6;
+}
+.ui-datepicker-calendar thead {
+	/*background: #e6e6e6;*/
+}
+.ui-datepicker-calendar thead th {
+	padding-bottom: .5em;
+    padding-top: .25em;
+    font-size: 0.875em;
+    font-weight: normal;
+}
+.ui-datepicker-calendar tbody {
+	text-align: center;
+	border-left: 1px solid #999;
+	border-right: 1px solid #999;
+	border: 1px solid #e8ebf4;
+    background: rgba(236, 255, 249, 0.44);
+}
+.ui-datepicker-calendar tbody tr {
+	border-bottom: 1px solid #e8ebf4;
+}
+.ui-datepicker-calendar tbody tr:last-child {
+	border-bottom: 0;
+}
+.ui-datepicker-calendar tbody td {
+	position: relative;
+	font-size: 1.25em;
+	border-right: 1px solid #e8ebf4;
+}
+.ui-datepicker-calendar tbody td:last-child {
+	border-right: 0;
+}
+.ui-datepicker-calendar tbody .highlight:after {	
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 1.5em;
+    height: 1.5em;
+    content: '';
+    background-image: url(icon-img/icon-chu.png);
+    background-size: 100%;
+}
+/*Calendar A*/
+.ui-state-default {
+	box-sizing: border-box;
+	display: inline-block;
+	padding: 0.25em 0;
+	width: 100%;
+	color: #999;
+}
+.ui-datepicker-other-month .ui-state-default {
+	color: #e6e6e6;
+}
+.ui-state-highlight {
+	/*color: #e2b03a;*/
+}
+.ui-state-active {
+	color: #e2b03a;
+}

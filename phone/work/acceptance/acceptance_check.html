@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <!-- <link rel="stylesheet" href="../../css/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../../css/ui-box.css">
+    <link rel="stylesheet" href="../../css/ui-base.css">
+    <link rel="stylesheet" href="../../css/ui-color.css">
+    <link rel="stylesheet" href="../../css/appcan.icon.css">
+    <link rel="stylesheet" href="../../css/appcan.control.css"> -->
+    
+    <link rel="stylesheet" type="text/css" href="../../css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="../../css/logbook.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/pictureUpload/css/IMGUP.css"/>
+    <style>
+        input, select, textarea {
+             background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body class="body">
+    <div id="ScrollContent">
+        <div id="codemapDetail">
+		 <!-- 隐藏信息 -->
+        <div style="display: none" id="hide_col">
+            <input id="deviceID" name="deviceID" type="text" class="ub-f1 gsoft-value">
+            <input id="businessID" name="businessID" type="text" class="ub-f1 gsoft-value">
+            <input id="flowNo" name="flowNo" type="text" class="ub-f1 gsoft-value">
+            <input id="apprType" name="apprType" type="text" class="ub-f1 ">
+        </div>
+        <!-- 基础信息 -->
+        <div class="block">
+            <div class="block-head text-black">
+                <span class="block-title">基础信息</span>
+            </div>
+            <div class='block-body'>
+                <table class="table-input" style="max-width: 50%;">
+                    <tr>
+                        <td style="width: 5em;"><span class="input-label">机车选择:</span></td>
+                        <td><input id="device" name="deviceNo" type="text" class="gsoft-value input-text" readonly="true"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 5em;"><span class="input-label">维保类型:</span></td>
+                        <td><select selectedindex="0" id="mType" name="mType" class="gsoft-value input-text" disabled="true">
+                            <option value=1>日常检查</option>
+                            <option value=2>周期保养</option>
+                            <option value=3>临时维修</option>
+                            <option value=4>重点大修</option>
+                        </select></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+       
+        <!-- 维保审批:设备信息 -->
+        <div class="block">
+            <div class="block-head text-black">
+                <span class="block-title">设备信息</span>
+            </div>
+            <div class="block-body">
+                <table class="table-input">
+                    <tr>
+                        <td style="width: 5em;"><span class="input-label">设备名称:</span></td>
+                        <td style="width:calc(50% - 5em);"><input id="deviceName" name="deviceName" type="text" class="gsoft-value input-text input-readonly" readonly="true"></td>
+                        <td style="width: 5em;"><span class="input-label">累计里程:</span></td>
+                        <td style="width:calc(50% - 5em);"><input id="sumRunKms" name="sumRunKms" type="text" class="gsoft-value input-text input-readonly" readonly="true"></td>
+                        
+                    </tr>
+                    <tr>
+                        <td><span class="input-label">设备编号:</span></td>
+                        <td><input id="deviceNo" name="deviceNo" type="text" class="gsoft-value input-text input-readonly" readonly="true" /></span></td>
+                        <td><span class="input-label">累计时间:</span></td>
+                        <td><input id="sumRunHours" name="sumRunHours" type="text" class="gsoft-value input-text input-readonly" readonly="true"></td>
+                    </tr>
+					<tr>
+                        <td><span class="input-label">维保部位:</span></td>
+                        <td><select selectedindex="0" id="repairPartType" name="repairPartType" class="gsoft-value input-text " disabled="true">
+                                <option value=1>整车</option>
+                                <option value=2>零部件</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr id="tr_repair">
+                        <td id="td_repair_part1"><span class="input-label text_necessary">零部件:</span></td>
+                            <td id="td_repair_part2"><select selectedindex="0" id="repairPartID" name="repairPartID" class="gsoft-value input-text" disabled="true">
+                            </select></td>
+                            <td><span class="input-label text_necessary">维修/更换</span></td>
+                            <td><select selectedindex="0" id="repairReplace" name="repairReplace" class="gsoft-value input-text" disabled="true">
+                                <option value=1>维修</option>
+                                <option value=2>更换</option>
+                            </select></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label">规格类型:</span></td>
+                        <td><input id="stdModel" name="stdModel" type="text" class="gsoft-value input-text input-readonly" readonly="true"></td>
+                        <td id="div_repair"><span class="input-label">修别:</span></td>
+                        <td id="div_repair2"><select selectedindex="0" id="rType" name="rType" class="gsoft-value input-text input-readonly" disabled="true">
+                            <option value=1>车轴探伤</option>
+                            <option value=2>车钩探伤</option>
+                            <option value=3>制动校验</option>
+                            <option value=4>换季保养</option>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <td id="tr_maintenance_unit"><span class="input-label">承修单位:</span></td>
+                        <td id="tr_maintenance_unit2"><select selectedindex="0" id="company" name="company" class="gsoft-value input-text input-readonly" disabled="true" >
+                        </select></td>
+                        <td id="tr_tmp_type"><span class="input-label">临修类型:</span></td>
+                        <td id="tr_tmp_type2"><select selectedindex="0" id="tmpType" name="tmpType" class="gsoft-value input-text input-readonly" disabled="true">
+                            <option value=1>维外</option>
+                            <option value=2>自修</option>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <td valign="top"><span id="div_reanson" class="input-label">原因:</span></td>
+                        <td colspan="3"><textarea id="reason" name="reason" readonly="true" class="gsoft-value input-textarea input-readonly" rows="3"></textarea></td>
+                    </tr>
+                </table>
+            </div>
+            <div id="pic_download1" class="block-foot" style="display: none">
+                <table class="table-input">
+                    <tr>
+                        <td style="width: 5em;"><span class="input-label">维保申请照片:</span></td>
+                        <td style="width:calc(100% -  5em);">
+                            <div class="div_mt_download">
+                                <div class="div_imglook">
+                                    <div id="downloadPicture1" class="lookimg bor-0">
+                                        <img src="../../img/photo-active.png">
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <!-- 验收信息 -->
+        <div class="block">
+            <div class="block-head text-black">
+                <span class="block-title">验收信息</span>
+            </div>
+            <div class="block-body">
+                <table class="table-input">
+                    <tr>
+                        <td style="width: 5em;"><span class="input-label">工作量:</span></td>
+                        <td style="width:calc(100% - 5em);">
+                            <input id="hours" name="hours" type="text" class="gsoft-value input-text" readonly="true">
+                        </td>
+                        <td style="width: 5em;"><span class="input-label">人/时</span></td>
+                        <td style="width:calc(100% - 5em);"></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label">维修情况:</span></td>
+                        <td colspan="3"><textarea id="authRmk" name="authRmk" readonly="true" class="gsoft-value input-textarea" readonly="true"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label">验收情况:</span></td>
+                        <td><select selectedindex="0" id="authView" name="authView" class="gsoft-value input-text" disabled="true">
+                            <option value=1>一般</option>
+                            <option value=2>良好</option>
+                            <option value=3>极好</option>
+                        </select></td>
+                        <td><span id="chooseUser" class="input-label">审批人:</span></td>
+                        <td><select selectedindex="0" id="check_user" class="gsoft-value input-text"></select></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!-- 用料信息 -->
+        <div id="div_material_info" class="block">
+            <div class="block-head text-black">
+                <span class="block-title">用料信息</span>
+            </div>
+            <div class="block-body">
+                <table id="material_info" class="table-primary">
+                    <!--
+                    <tr>
+                        <td>用料名称:</td>
+                        <td>规格型号:</td>
+                        <td>数量:</td>
+                        <td>单价:</td>
+                        <td>厂商:</td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="input-text" /></td>
+                        <td><input type="text" class="input-text" /></td>
+                        <td><input type="text" class="input-text" /></td>
+                        <td><input type="text" class="input-text" /></td>
+                        <td><input type="text" class="input-text" /></td>
+                        <td><i class="add_antiskid icon iconfont icon-jiahao text-green" onclick="addMaterial()"></i></td>
+                    </tr>
+                   -->
+                   
+                   <tr>
+                        <td width="25%">编码:</td>
+                        <td width="35%">名称:</td>
+                        <td width="25%">规格型号:</td>
+                        <td width="15%">数量:</td>
+                        <td><i id='add_material' class="icon iconfont icon-jiahao text-green" onclick="addMaterial()"></i></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!-- 照片上传 -->
+        <div class="block">
+            <div class="block-head text-black">
+                <span class="block-title">照片上传</span>
+            </div>
+            <div id="pic_download2" class="block-body">
+                <table class="table-input">
+                    <tr>
+                        <td style="width: 5em;"><span class="input-label">验收申请<br />照片:</span></td>
+                        <td style="width:calc(100% - 5em);">
+                            <div class="div_auth_upload">
+                                <div class="div_imglook">
+                                    <div id="downloadPicture2" class="lookimg bor-0">
+                                        <img src="../../img/photo-active.png">
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!-- 确认按钮 -->
+        <div class="btn-group">
+            <button id="nopass" class="btn btn-no">不同意</button><button id="pass" class="btn">同意</button>
+        </div>
+        </div>
+    </div>
+
+<script src="../../js/appcan.js"></script>
+<script src="../../js/appcan.control.js"></script>
+<script src="../../js/gsoft.core.js"></script>
+<script src="../../js/pictureUpload/jquery-1.7.2.min.js"></script>
+    <script src="../../js/public.js"></script>
+<script src="../../js/pictureUpload/IMGUP.js"></script>
+<script src="../../js/pictureUpload/pictrueUpload.js"></script>
+</body>
+<script>
+    var public = new Public();
+    public.header('维保验收审批',true,true);//显示顶部:标题名，左侧icon，右侧icon
+    public.footer();//显示底部
+    public.backBtn();
+    
+    appcan.ready(function () {
+        loadUsers();
+        
+        var pageParams = appcan.gsoft.parameterUtils.getPageParams();//alert(JSON.stringify(pageParams));
+        var apprStatus = pageParams.apprStatus;
+        if (apprStatus == 8) {
+            $("#chooseUser").hide();
+            $("#check_user").hide();
+        }
+        //下载图片
+        var flowNo = pageParams.flowNo;
+        
+        downloadMobileFile(flowNo,"1","div_mt_download",function(){
+            downloadMobileFile(flowNo,"2","div_auth_upload");
+        });
+        
+        var mtype = pageParams.mType;
+        judgeApprType(apprStatus);
+        mtype_change(mtype);
+        reparttype_change(pageParams.repairPartType,pageParams.deviceID);
+        loadMaintenanceUnit(pageParams.company);//加载维修单位
+        loadEngineParts(pageParams.deviceID,pageParams.repairPartID);
+        var items = pageParams.erItemList;
+        //alert(JSON.stringify(items));
+        //alert(items.length);
+        //alert(items[0].name);
+        if(items){
+            for(var i = 0;i<items.length;i++){
+                addMaterial1();
+                $('#material_info tr').eq(i+1).find('input').eq(0).val(items[i].materiel);
+                $('#material_info tr').eq(i+1).find('input').eq(1).val(items[i].name);
+                $('#material_info tr').eq(i+1).find('input').eq(2).val(items[i].model);
+                $('#material_info tr').eq(i+1).find('input').eq(3).val(items[i].count);
+            }
+            for (var i=0; i < ($('#material_info tr').length); i++) {
+              $('#material_info tr').eq(i).find('td').eq(4).remove();
+            };
+            $('input').attr('readonly','ture')
+        }
+        
+        if (pageParams) {
+            appcan.gsoft.recordUtils.fillInputRecord($('#codemapDetail'), pageParams);
+        }
+        
+    });
+    /**
+     * 加载审核人
+     */
+    function loadUsers() {
+        $("#chooseUser").hide();
+        $("#check_user").hide();
+        appcan.gsoft.ajaxUtil.ajax({
+            url: "/gltlUserManager/getDirectLeader.json",
+            data: "",
+            success: function (data) {
+                var users = data.records;
+                for (var i = 0; i < users.length; i++) {
+                    var op = '<option value=' + users[i].userId + '>' + users[i].fUname + '</option>';
+                    $("#check_user").append(op);
+                }
+            }
+        });
+    }
+    /**
+     * 加载维修单位
+     */
+    function loadMaintenanceUnit(company) {
+        appcan.gsoft.ajaxUtil.ajax({
+            url: "/codemapManager/getConvert.json",
+            data: "name=maintenance_unit",
+            success: function (data) {
+                //alert(JSON.stringify(data.record));
+                var units = data.record;
+                for (key in units) {
+                    if (units.hasOwnProperty(key)){
+                        var op = '<option value=' + key + '>' + units[key] + '</option>';
+                        $("#company").append(op);
+                    }
+                }
+                $("#company").val(company);
+            }
+        });
+    }
+    
+    /**
+     * 加载机车部件
+     */
+    function loadEngineParts(fEid,repairPartID) {
+        appcan.gsoft.ajaxUtil.ajax({
+            url: "/GltlEnginepartsManager/getGltlEnginepartsByEid.json",
+            data: "fEid="+fEid,
+            success: function (data) {
+                //alert(JSON.stringify(data.record));
+                var parts = data.records;
+                if(parts){
+                    for (var i = 0; i < parts.length; i++) {
+                        var op = '<option value=' + parts[i].fEpid + '>' + parts[i].fEpname + '</option>';
+                        $("#repairPartID").append(op);
+                    }
+                }
+                $("#repairPartID").val(repairPartID);
+            }
+        });
+    }
+    
+    /**
+     * 维保部位监听
+     */
+    function reparttype_change(repairPartType,deviceID) {
+        switch (parseInt(repairPartType)) {
+            case 1:
+                $("#tr_repair").hide();
+                break;
+            case 2:
+                $("#tr_repair").show();
+                //loadEngineParts(deviceID);
+                break;
+        }
+    }
+    
+    /**
+     *判断审批类型
+     */
+    function judgeApprType(status) {
+        appcan.gsoft.ajaxUtil.ajax({
+            url: "/eMainTainManager/getApprType.json",
+            data: "id=" + status,
+            success: function (data) {
+                $("#apprType").val(data.record.html)
+            }
+        });
+    }
+    /**
+     *同意审批
+     */
+    var passFlag = true;
+    appcan.button("#pass", "ani-act", function () {
+        var businessID = $("#businessID").val();
+        var engineID = $("#deviceID").val();
+        var flowNo = $("#flowNo").val();
+        var mType = $("#mType").val();
+        var flowReceiver = $("#check_user").val();
+        //alert(flowReceiver);
+        var apprType = $("#apprType").val();
+        if(passFlag){
+            appcan.gsoft.ajaxUtil.ajax({
+                url: "/eMainTainManager/approveEMainTain.json",
+                data: "businessID=" + businessID + "&flowNo=" + flowNo + "&mType=" + mType + "&apprType=" + apprType + "&isAgree=1&flowReceiver=" + flowReceiver + "&engineID=" + engineID,
+                success: function (data) {
+                    var record = data.record;
+                    if(record){
+                        var code = record.code;
+                        if(code = '000000'){
+                            appcan.window.confirm({
+                                title:'提示',
+                                content:'维保验收审批成功',
+                                buttons:['确定'],
+                                callback:function(err,data,dataType,optId){
+                                    
+                                    if(err){
+                                        //如果出错了
+                                        return;
+                                    }
+                                    //关闭当前窗口
+                                    appcan.window.close(-1);
+                                    passFlag = true;
+                                }
+                            });
+                        }else{
+                            appcan.window.alert({
+                                title: '提示',
+                                content: record.message,
+                                buttons: '确定'
+                            });
+                            passFlag = true;
+                        }
+                    }
+                    
+                }
+            });
+            passFlag = false;
+        }
+    });
+    /**
+     *不同意审批
+     */
+    var nopassFlag = true;
+    appcan.button("#nopass", "ani-act", function () {
+        var businessID = $("#businessID").val();
+        var engineID = $("#deviceID").val();
+        var flowNo = $("#flowNo").val();
+        var mType = $("#mType").val();
+        var flowReceiver = $("#check_user").val();
+        var apprType = $("#apprType").val();
+        if(nopassFlag){
+            appcan.gsoft.ajaxUtil.ajax({
+                url: "/eMainTainManager/approveEMainTain.json",
+                data: "businessID=" + businessID + "&flowNo=" + flowNo + "&mType=" + mType + "&apprType=" + apprType + "&isAgree=0&flowReceiver=" + flowReceiver + "&engineID=" + engineID,
+                success: function (data) {
+                    var record = data.record;
+                    if(record){
+                        var code = record.code;
+                        if(code = '000000'){
+                            appcan.window.confirm({
+                                title:'提示',
+                                content:'维保验收审批不同意成功',
+                                buttons:['确定'],
+                                callback:function(err,data,dataType,optId){
+                                    
+                                    if(err){
+                                        //如果出错了
+                                        return;
+                                    }
+                                    //关闭当前窗口
+                                    appcan.window.close(-1);
+                                    nopassFlag = true;
+                                }
+                            });
+                        }else{
+                            appcan.window.alert({
+                                title: '提示',
+                                content: record.message,
+                                buttons: '确定'
+                            });
+                            nopassFlag = true;
+                        }
+                    }
+                }
+            });
+            nopassFlag = false;
+        }
+    
+    });
+    
+    /**
+     * 临修维修类型监听
+     */
+    function tmptype_change() {
+        var type = $("#tmpType").val();
+        switch (parseInt(type)) {
+            case 1:
+                $("#tr_maintenance_unit").show();
+                break;
+            case 2:
+                $("#tr_maintenance_unit").hide();
+                break;
+        }
+
+    }
+    
+    /**
+     * 维保类型监听
+     */
+    function mtype_change(mtype) {
+        //alert(parseInt(mtype));
+        switch (parseInt(mtype)) {
+            case 1:
+                $("#div_reanson").hide();
+                $("#reason").hide();
+                $("#div_repair").hide();
+                $("#mupload").hide();
+                $("#pic_download1").hide();
+                $("#div_material_info").hide();
+                break;
+            case 2:
+                $(".input-label").attr('class','input-label');
+                $('#downloadPicture1').hide();
+                $('#downloadPicture2').hide();
+                $("#div_reanson").hide();
+                $("#reason").hide();
+                $("#div_repair").hide();
+                $("#div_repair2").hide();
+                $("#mupload").hide();
+                $("#pic_download1").hide();
+                $("#tr_tmp_type").hide();
+                $("#tr_tmp_type2").hide();
+                $("#tr_maintenance_unit").show();
+                $("#div_material_info").hide();
+                break;
+            case 3:
+                $(".input-label").attr('class','input-label');
+                $('#downloadPicture1').hide();
+                $('#downloadPicture2').hide();
+                $("#div_reanson").show();
+                $("#reason").show();
+                $("#div_repair").show();
+                $("#div_repair2").show();
+                $("#mupload").show();
+                $("#pic_download1").show();
+                $("#div_material_info").show();
+                $("#tr_tmp_type").show();
+                $("#tr_tmp_type2").show();
+                tmptype_change();
+                break;
+            case 4:
+                $(".input-label").attr('class','input-label');
+                $('#downloadPicture1').hide();
+                $('#downloadPicture2').hide();
+                $("#div_reanson").hide();
+                $("#reason").hide();
+                $("#div_repair").show();
+                $("#div_repair2").show();
+                $("#mupload").show();
+                $("#div_material_info").show();
+                $("#pic_download1").hide();
+                $("#tr_tmp_type").hide();
+                $("#tr_tmp_type2").hide();
+                $("#tr_maintenance_unit").show();
+                break;
+        }
+
+    }
+</script>
+</html>

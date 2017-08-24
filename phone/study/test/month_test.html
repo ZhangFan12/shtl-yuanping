@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport"
+              content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+        <title></title>
+        <link rel="stylesheet" href="css/test.css">
+        <link rel="stylesheet" type="text/css" href="../../css/public.css"/>
+        <link rel="stylesheet" type="text/css" href="../../css/iconfont/iconfont.css">
+         <script src="../../js/appcan.js"></script>
+        <script src="../../js/appcan.control.js"></script>
+        <script src="../../js/gsoft.core.js"></script>
+        <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+        <script src="../../js/public.js"></script>
+        <script type="text/javascript" src="js/month_test.js"></script>
+
+    </head>
+    <body>
+        <!--<div id="test"></div>-->
+
+        <div id="ScrollContent">
+            <div id="day_test"></div>
+        </div>
+
+    </body>
+    <script type="text/javascript">              
+        appcan.ready(function(){
+            var public = new Public();
+            public.header('每月一考', true, true);//显示顶部：标题名，左侧icon，右侧icon
+            public.footer();//显示底部
+            public.backBtn();
+            var test = new InitTest("day_test","f665f8ad-f080-4ec1-8748-c2a562ac46a4",1);
+        });
+    </script>
+</html>

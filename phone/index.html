@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="target-densitydpi=device-dpi,width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0,maximum-scale=1.0">
+    <title>自轮运转特种设备运用管理系统</title>
+    
+    <link rel="stylesheet" type="text/css" href="css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="css/iconfont/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="css/calendar.css">
+    <link rel="stylesheet" type="text/css" href="css/engine.css"/>
+    <!--------------------------机车地图-------------------------->
+    <link type="text/css" rel="stylesheet" href="engineMap/css/style.css"/>
+    <!--------------------------机车地图-------------------------->
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body class="body">
+    <div id="ScrollContent">
+        <div id="index" data-index="0">
+            <!-- 司机首页 -->
+            <div id="userRole1" style="display: none">
+                <div class="block">
+                    <div class="block-head text-black">
+                        <i class="icon iconfont icon-jichexinxi icon-none text-green"></i>
+                        <span class="block-title">机车运行信息</span>
+                        <span class="block-title-small">机车编号：<span id="fEbuildtime"></span></span>
+                    </div>
+                    <ul class="run clear">
+                        <li class="index-01">
+                            <div class="run-box">
+                                <div class="run-box1">
+                                    <p class="text-green"><span id="mileageMonth">0</span>km</p>
+                                    <p>截至目前当月行驶里程</p>
+                                </div>
+                                <ul class="run-box2 clear">
+                                    <!-- <li class="first"><i class="icon iconfont icon-wuliu text-green"></i></li> -->
+                                    <li class="second"><strong>KM</strong><br />总计行程里数</li>
+                                    <li class="third text-green"><span id="mileage">0</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="index-02">
+                            <div class="run-box">
+                                <div class="run-box1">
+                                    <p class="text-green"><span id="timeMonth">0</span>h</p>
+                                    <p>截至目前当月行驶时间</p>
+                                </div>
+                                <ul class="run-box2 clear">
+                                    <!-- <li class="first"><i class="icon iconfont icon-shizhongfill text-green"></i></li> -->
+                                    <li class="second"><strong>H</strong><br />总计行驶时间</li>
+                                    <li class="third text-green"><span id="time">0</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="index-03">
+                            <div class="run-box">
+                                <div class="run-box1">
+                                    <p class="text-green"><span id="fuelMonth">0</span>L</p>
+                                    <p>截至目前当月消耗燃油</p>
+                                </div>
+                                <ul class="run-box2 clear">
+                                    <!-- <li class="first"><i class="icon iconfont icon-oil text-green"></i></li> -->
+                                    <li class="second"><strong>L</strong><br />总计消耗燃油</li>
+                                    <li class="third text-green"><span id="fuel">0</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="block">
+                    <div class="block-head text-black">
+                        <i class="icon iconfont icon-jichedaxiu icon-none text-green"></i>
+                        <span class="block-title">机车整车检修</span>
+                        <!--<span class="block-title-small">机车状态：<span id="fEstatue">出车</span></span>-->
+                    </div>
+                    <div class="block-body locomotive clear">
+                        <div class="locomotive-left">
+                            <ul class="img">
+                                <li>
+                                    <img id="maintenance" src="img/locomotive-img01.png" alt="locomotive-img" />
+                                    <span class="img-titile">维保</span>
+                                </li>
+                                <li>
+                                    <img id="overhaul" src="img/locomotive-img01.png" alt="locomotive-img" />
+                                    <span class="img-titile">大修</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>                             
+                <div class="block">
+                    <div class="block-head text-black">
+                        <i class="icon iconfont icon-jichelinxiu icon-none text-green"></i>
+                        <span class="block-title">机车关键部位保养情况</span>
+                        <span class="block-title-small">机车状态：<span id="fEstatue">出车</span></span>
+                    </div>
+                    <div class="block-body locomotive clear">
+                        <div class="locomotive-right">
+                            <div class="container-box">
+                                <div id="engine_echart"></div>
+                            </div>
+                            <ul class="locomotive-right-legend">
+                                <li>车况良好</li>
+                                <li>预警</li>
+                                <li>请及时检修</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="block">
+                        <div class="block-head text-black">
+                            <i class="icon iconfont icon-sijixinxi icon-none text-green"></i>
+                            <!--<span class="block-title">司机信息</span>-->
+                            <span>司机信息&nbsp;<span id="driverName" class="color-green">(司机名字)</span></span>
+                            <span class="block-title-small">等级：<span id="fUdties">中级</span></span>
+                        </div>
+                        <ul class="run clear">
+                            <li class="index-01">
+                                <div class="run-box">
+                                    <div class="run-box1">
+                                        <p class="text-green"><span id="mileageMonth2">0</span>km</p>
+                                        <p>截至目前当月行驶里程</p>
+                                    </div>
+                                    <ul class="run-box2 clear">
+                                        <!-- <li class="first"><i class="icon iconfont icon-wuliu text-green"></i></li> -->
+                                        <li class="second"><strong>KM</strong><br/>总计行驶里程</li>
+                                        <li class="third text-green"><span id="mileage2">0</span></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="index-02">
+                                <div class="run-box">
+                                    <div class="run-box1">
+                                        <p class="text-green"><span id="timeMonth2">0</span>h</p>
+                                        <p>截至目前当月行驶时间</p>
+                                    </div>
+                                    <ul class="run-box2 clear">
+                                        <!-- <li class="first"><i class="icon iconfont icon-shizhongfill text-green"></i> -->
+                                        </li>
+                                        <li class="second"><strong>H</strong><br/>总计行驶时间</li>
+                                        <li class="third text-green"><span id="time2">0</span></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                </div>
+                <div class="block">
+                    <div class="calender-box">
+                        <div id="calendar"></div>
+                        <div class="calender-legend">
+                            <span class="legend-today">今天</span>
+                            <span class="legend-out">出车</span>
+                        </div>
+                    </div>
+                        <div class="driver-message-text">当月累计出车时间：
+                            <span id="countTime" class="text-green">0</span>天
+                        </div>
+                </div>
+            </div>
+            <!-- 管理首页 -->
+            <div id="userRole2" style="display: none">
+                <!-- 机车信息 -->
+                <div class="block">
+                    <div class="block-head text-black">
+                        <i class="icon iconfont icon-jichexinxi icon-none text-green"></i>
+                        <span class="block-title">机车信息</span>
+                        <i id="btn_car_map" class="icon iconfont icon-huwai text-green" style="font-size: 1.75em;"></i>
+                    </div>
+                    <div class="block-body">
+                        <!-- 机车列表容器div -->
+                        <div id="container" style="width:100%;height:500px;margin:20px auto;"></div>
+                    </div>
+                </div>
+                <!-- 机车运行信息 -->
+                <div class="block">
+                    <div class="block-head text-black">
+                        <i class="icon iconfont icon-jicheyunxing icon-none text-green"></i>
+                        <span class="block-title">运行信息</span>
+                        <span class="block-title-small"><span id="fEbuildtime"></span></span>
+                    </div>
+                    <ul class="run clear">
+                        <li class="index-01">
+                            <div class="run-box">
+                                <div class="run-box1">
+                                    <p class="text-green"><span id="mileageMonth">0</span>km</p>
+                                    <p>截至目前当月行驶里程</p>
+                                </div>
+                                <ul class="run-box2 clear">
+                                    <!-- <li class="first"><i class="icon iconfont icon-wuliu text-green"></i></li> -->
+                                    <li class="second"><strong>KM</strong><br />总计行程里数</li>
+                                    <li class="third text-green"><span id="mileage">0</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="index-02">
+                            <div class="run-box">
+                                <div class="run-box1">
+                                    <p class="text-green"><span id="timeMonth">0</span>h</p>
+                                    <p>截至目前当月行驶时间</p>
+                                </div>
+                                <ul class="run-box2 clear">
+                                    <!-- <li class="first"><i class="icon iconfont icon-shizhongfill text-green"></i></li> -->
+                                    <li class="second"><strong>H</strong><br />总计行驶时间</li>
+                                    <li class="third text-green"><span id="time">0</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="index-03">
+                            <div class="run-box">
+                                <div class="run-box1">
+                                    <p class="text-green"><span id="fuelMonth">0</span>L</p>
+                                    <p>截至目前当月消耗燃油</p>
+                                </div>
+                                <ul class="run-box2 clear">
+                                    <!-- <li class="first"><i class="icon iconfont icon-oil text-green"></i></li> -->
+                                    <li class="second"><strong>L</strong><br />总计消耗燃油</li>
+                                    <li class="third text-green"><span id="fuel">0</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="block">
+                        <div class="block-head text-black">
+                            <i class="icon iconfont icon-jichedaxiu icon-none text-green"></i>
+                            <span class="block-title">机车整车检修</span>
+                            <!--<span class="block-title-small">机车状态：<span id="fEstatue">出车</span></span>-->
+                        </div>
+                        <div class="block-body locomotive clear">
+                            <div class="locomotive-left">
+                                <ul class="img">
+                                    <li>
+                                        <img id="maintenance" src="img/locomotive-img01.png" alt="locomotive-img" />
+                                        <span class="img-titile">维保</span>
+                                    </li>
+                                    <li>
+                                        <img id="overhaul" src="img/locomotive-img01.png" alt="locomotive-img" />
+                                        <span class="img-titile">大修</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                </div>
+                <div class="block">
+                        <div class="block-head text-black">
+                            <i class="icon iconfont icon-jichelinxiu icon-none text-green"></i>
+                            <span class="block-title">机车关键部位保养情况</span>
+                            <span class="block-title-small">机车状态：<span id="fEstatue">出车</span></span>
+                        </div>
+                        <div class="block-body locomotive clear">
+                            <div class="locomotive-right">
+                                <div class="container-box">
+                                    <div id="engine_echart"></div>
+                                </div>
+                                <ul class="locomotive-right-legend">
+                                    <li>车况良好</li>
+                                    <li>预警</li>
+                                    <li>请及时检修</li>
+                                </ul>
+                            </div>
+                        </div>
+                </div>
+                <!-- 司机信息 -->
+                <div class="block">
+                    <div class="block-head text-black">
+                        <i class="icon iconfont icon-sijixinxi icon-none text-green"></i>
+                        <span class="block-title">司机信息</span>
+                    </div>
+                    <div class="block-body">
+                        <table class="driver-message-table" align="center" id="driver">
+                            
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 工作 -->
+        <div id="work" data-index="1" class="block" style="display: none">
+            <ul class="secondNav-list">
+                <li data-src="maintenance">
+                    <img src="img/index/daily-maintenance.png"/>
+                    <h3>日常维保</h3>
+                    <small>日常维保</small>
+                    <span><i class="icon iconfont icon-xiangyou1 fl-l text-gray"></i></span>
+                </li>
+                <li data-src="acceptance/detail">
+                    <img src="img/index/check-before-acceptance.png"/>
+                    <h3>维保验收</h3>
+                    <small>维保验收</small>
+                    <span class="select_list"><i class="icon iconfont fl-l font-size15 text-gray icon-xiangxia2"></i></span>
+                    <ul id="authApply" class="small-list">
+                        
+                    </ul>
+                </li>
+                <li data-src="task_confirm">
+                    <img src="img/index/task-confirmation.png"/>
+                    <h3>任务确认</h3>
+                    <small>任务确认</small>
+                    <span><i class="icon iconfont icon-xiangyou1 fl-l text-gray"></i></span>
+                </li>
+                <li data-src="task_implement">
+                    <img src="img/index/task-execution.png"/>
+                    <h3>任务执行</h3>
+                    <small>任务执行</small>
+                    <span><i class="icon iconfont icon-xiangyou1 fl-l text-gray"></i></span>
+                </li>
+                <li data-src="logbook">
+                    <img src="img/index/driving-log.png"/>
+                    <h3>行车日志</h3>
+                    <small>行车日志</small>
+                    <span><i class="icon iconfont icon-xiangyou1 fl-l text-gray"></i></span>
+                </li>
+                <li data-src="materiel">
+                    <img src="img/index/materiel.png"/>
+                    <h3>物资领料申请</h3>
+                    <small>物资领料申请</small>
+                    <span><i class="icon iconfont icon-xiangyou1 fl-l text-gray"></i></span>
+                </li>
+                <li data-src="maintain/approvallist">
+                    <img src="img/index/examined-and-approved.png"/>
+                    <h3>维保申请审批</h3>
+                    <small>维保申请审批</small>
+                    <span class="select_list"><i class="icon iconfont fl-l font-size15 text-gray icon-xiangxia2"></i></span>
+                    <ul id="maintainlist" class="small-list">
+                        <!-- <li data-src="#">
+                            <h4>维保申请审批</h4>
+                            <small>维保申请审批</small>
+                            <span class="bige"><i class="icon iconfont icon-xiangyou1 fl-l text-gray"></i></span>
+                        </li>
+                        <li data-src="#">
+                            <h4>维保申请审批</h4>
+                            <small>维保申请审批</small>
+                            <span class="bige"><i class="icon iconfont icon-xiangyou1 fl-l text-gray"></i></span>
+                        </li> -->
+                    </ul>
+                </li>
+                <li>
+                    <img src="img/index/examined-and-approved2.png"/>
+                    <h3>维保验收审批</h3>
+                    <small>维保验收审批</small>
+                    <span class="select_list"><i class="icon iconfont fl-l text-gray icon-xiangxia2"></i></span>
+                    <ul id="authlist" class="small-list">
+                        
+                    </ul>
+                </li>
+                <li data-src="plan">
+                    <img src="img/index/driving-plan.png"/>
+                    <h3>行车计划</h3>
+                    <small>行车计划</small>
+                    <span><i class="icon iconfont icon-xiangyou1 fl-l text-gray"></i></span>
+                </li>
+                <li data-src="tmpTsk">
+                    <img src="img/index/temporary-dispatch.png"/>
+                    <h3>临时出车</h3>
+                    <small>临时出车</small>
+                    <span><i class="icon iconfont icon-xiangyou1 fl-l text-gray"></i></span>
+                </li>
+            </ul>
+        </div>
+        <!-- 学习 -->
+        <div id="study" data-index="2" class="block" style="display: none">
+            <ul class="secondNav-list">
+                <li data-src="day_test">
+                    <img src="img/index/daily-answer.png"/>
+                    <h3>每日答题</h3>
+                    <small>每日答题</small>
+                    <span><i class="icon iconfont icon-xiangyou1 fl-l text-gray"></i></span>
+                </li>
+                <!-- <li data-src="week_test" style='display: none;'>
+                    <img src="img/index/weekly-knowledge.png"/>
+                    <h3>每周知识</h3>
+                    <small>每周知识</small>
+                    <span><i class="icon iconfont icon-xiangyou1 fl-l text-gray"></i></span>
+                </li> -->
+                <li data-src="month_test">
+                    <img src="img/index/monthly-exam.png"/>
+                    <h3>每月一考</h3>
+                    <small>每月一考</small>
+                    <span><i class="icon iconfont icon-xiangyou1 fl-l text-gray"></i></span>
+                </li>
+                <!-- <li data-src="rules">
+                    <img src="img/index/rules-regulations.png"/>
+                    <h3>规章制度</h3>
+                    <small>规章制度</small>
+                    <span><i class="icon iconfont icon-xiangyou1 fl-l text-gray"></i></span>
+                </li>
+                <li data-src="danger">
+                    <img src="img/index/hazard-source-query.png"/>
+                    <h3>危险源查询</h3>
+                    <small>危险源查询</small>
+                    <span><i class="icon iconfont icon-xiangyou1 fl-l text-gray"></i></span>
+                </li> -->
+            </ul>
+        </div>
+        <!-- 我的 -->
+        <div id="user" data-index="3" style="display: none">
+            <div class="user-message">
+                <div class="user-message-body">
+                    <img id="user_message" data-src="user_message" src="img/drive-img-default.png" />
+                    <button id="uploadData"><i class="icon iconfont icon-tongbu"></i>数据上传</button>
+                </div>
+                <div class="user-message-footer">
+                    <span id="driverName2">张一鸣</span>
+                    <span><i class="icon iconfont icon-siji"></i><span id="user_type_name">副司机</span></span>
+                </div>
+            </div>
+            <ul class="block secondNav-list oneline-list">
+                <!-- <li data-src="user_message">
+                    <img src="img/index/my/personal-information.png"/>
+                    <h3>个人信息</h3>
+                    <span><i class="icon iconfont icon-xiangyou1 fl-l text-gray"></i></span>
+                </li> -->
+                <li data-src="work_record_list">
+                    <img src="img/index/my/work-record.png"/>
+                    <h3>工作记录</h3>
+                    <!-- <small>工作记录</small> -->
+                    <span><i class="icon iconfont icon-xiangyou1 fl-l text-gray"></i></span>
+                </li> 
+                <li data-src="user_info_list">
+                    <img src="img/index/my/my-news.png"/>
+                    <h3>我的消息</h3>
+                    <!--<small>我的消息</small>-->
+                    <span><i class="icon iconfont icon-xiangyou1 fl-l text-gray"></i></span>
+                </li>
+                <li data-src="study_result_list">
+                    <img src="img/index/my/academic-record.png"/>
+                    <h3>学习成绩</h3>
+                    <!--<small>学习成绩</small>-->
+                    <span><i class="icon iconfont icon-xiangyou1 fl-l text-gray"></i></span>
+                </li>
+                <li data-src="drive_message">
+                    <img src="img/index/my/set-off.png"/>
+                    <h3>出乘信息</h3>
+                    <!-- <small>出乘信息</small> -->
+                    <span><i class="icon iconfont icon-xiangyou1 fl-l text-gray"></i></span>
+                </li>
+                <li data-src="drive_list">
+                    <img src="img/index/my/driver-information.png"/>
+                    <h3>司机信息</h3>
+                    <!--<small>学习成绩</small>-->
+                    <span><i class="icon iconfont icon-xiangyou1 fl-l text-gray"></i></span>
+                </li>
+                <li data-src="password">
+                    <img src="img/index/my/modify-password.png"/>
+                    <h3>修改密码</h3>
+                    <!--<small>修改密码</small>-->
+                    <span><i class="icon iconfont icon-xiangyou1 fl-l text-gray"></i></span>
+                </li>
+            </ul>
+            <button id="logout" class="btn btn-block">注销</button>
+        </div>
+    </div>
+
+    <!-- appcan -->
+    <script src="js/appcan.js"></script>
+    <script src="js/appcan.control.js"></script>
+    <script src="js/gsoft.core.js"></script>
+    <!-- jQuery -->
+    <script src="js/jquery/jquery1.7.1.min.js"></script>
+    <!-- jQuery UI -->
+    <script src="js/jquery/jquery-ui-datepicker.min.js"></script>
+    <!-- highcharts -->
+    <script src="js/highcharts/highcharts.js"></script>
+    <script src="js/highcharts/modules/exporting.js"></script>
+    <!-- engine -->
+    <script src="js/public.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/DivDisplayFrame2.js"></script>
+    <script src="js/JL_Runlines.js"></script>
+    <!-- <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=Zxdkwj3oSgdd0iy2pW6VgnGbEWBicsCf"></script> -->
+    <!-- <script type ="text/javascript" src ="engineMap/js/JL_MapControlByBaidu.js"></script> -->
+    <!-- <script type="text/javascript" src="engineMap/iconfont/iconfont.js"></script> -->
+    <!-- <script src="js/SelectDateTime.js"></script> -->
+    
+    <script src="js/gltl_ORM/DataAccess.js"></script>
+    <script src="js/gltl_ORM/gltl_user.js"></script>
+    <script src="js/gltl_ORM/gltl_taskplan.js"></script>
+    <script src="js/gltl_ORM/gltl_engine.js"></script>
+    <script src="js/gltl_ORM/gltl_station.js"></script>
+    <script src="js/gltl_ORM/gltl_workingprocedure.js"></script>
+    <script src="js/gltl_ORM/gltl_workingproceduregroup.js"></script>
+    <script src="js/gltl_ORM/gltl_workingproceduregroupitem.js"></script>
+    <script src="js/gltl_ORM/gltl_dictionary.js"></script>
+    <script src="js/gltl_ORM/gltl_enginemaintian.js"></script>
+    <script src="js/gltl_ORM/gltl_flownode.js"></script>
+    <script src="js/gltl_ORM/gltl_messagepush.js"></script>
+    <script src="js/gltl_ORM/gltl_enginerepair.js"></script>
+    <script src="js/gltl_ORM/gltl_enginerepairextend.js"></script>
+    <script src="js/gltl_ORM/gltl_usergroup.js"></script>
+    <script src="js/gltl_ORM/gltl_dangersource.js"></script>
+    <script src="js/gltl_ORM/gltl_runlineinstance.js"></script>
+    <script src="js/gltl_ORM/gltl_workingprocedurelog.js"></script>
+    <script src="js/gltl_ORM/gltl_runlineparking.js"></script>
+    <script src="js/gltl_ORM/gltl_runlineinstanceextend.js"></script>
+    <script src="js/gltl_ORM/gltl_runlineinstanceitem.js"></script>
+    <script type="text/javascript" charset="utf-8">
+    appcan.ready(function() {
+        // setTimeout(function(){
+        // alert(localStorage.getItem('g_DataAccessBIsOpen'));
+        
+        if (localStorage.getItem('online') == 'online'){
+            if (localStorage.getItem('g_DataAccessBIsOpen') == 'true') {
+                /*
+                 * 在线登录，下载基础数据
+                 * gltl_taskplan  任务
+                 * gltl_user        用户
+                 * gltl_engine     机车
+                 * gltl_station     站点
+                 * gltl_workingprocedure  工序
+                 * gltl_workingproceduregroup 工序组
+                 * gltl_workingproceduregroupitem  工序与工序组中间表
+                 * gltl_dictionary 数据字典
+                 */
+              //  alert("login seccess index.html");
+                
+                var taskplan = new gltl_taskplan();
+                taskplan.DownLoadEx();
+                
+                var user = new gltl_user();
+                user.DownLoadEx();
+                
+                var engine = new gltl_engine();
+                engine.DownLoadEx();
+                
+                var station = new gltl_station();
+                station.DownLoadEx();
+                
+                var workingprocedure = new gltl_workingprocedure();
+                workingprocedure.DownLoadEx();
+                
+                var workingproceduregroup = new gltl_workingproceduregroup();
+                workingproceduregroup.DownLoadEx();
+                
+                var workingproceduregroupitem = new gltl_workingproceduregroupitem();
+                workingproceduregroupitem.DownLoadEx();
+                
+                var dictionary = new gltl_dictionary();
+                dictionary.DownLoadEx();
+                
+                var emt = new gltl_enginemaintian();
+                emt.DownLoadEx();
+                
+                var fn = new gltl_flownode();
+                fn.DownLoadEx();
+                
+                var msgh = new gltl_messagepush();
+                msgh.DownLoadEx();
+                
+                var er = new gltl_enginerepair();
+                er.DownLoadEx();
+                
+                var ertend = new gltl_enginerepairextend();
+                ertend.DownLoadEx();
+                
+                var usgroup = new gltl_usergroup();
+                usgroup.DownLoadEx();
+                
+                var dangersource = new gltl_dangersource();
+                dangersource.DownLoadEx();
+                
+                
+                
+            }else{
+                alert('数据库打开失败!');
+                return;
+            }
+        }
+       
+    })
+    </script>
+    <!-- index -->
+    <!--<script src="js/DivDisplayFrame.js"></script>-->
+    <!--<script src="js/QueryListControl.js"></script>-->
+    <!--<script src="js/MessagePush.js"></script>-->
+</body>
+</html>

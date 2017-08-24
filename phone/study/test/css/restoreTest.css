@@ -1,0 +1,129 @@
+*{padding:0;margin:0;}
+/* Download by http://www.codefans.net*/
+/* body{
+font-size:14px;
+background-color:#F9FCFD;
+} */
+
+.highlight{ background-color:#FCFFD7;}
+.qselected{background-color:#FFEBD7;}
+
+
+#check_answer {
+   background-color: #0099FF; /* Green */
+   border: none;
+   color: white;
+   font-family:Arial;
+    padding: 0.5em 1em;
+   text-align: center;
+   text-decoration: none;
+   display: inline-block;
+    font-size: 1em;
+    margin: 0.75em 0;
+   cursor: pointer;
+}
+
+.div_topic{
+padding:0.5em;
+border:#73AFD0 dashed;
+border-width: 0 0 1px 0;
+background-color:#F9FCFD;
+}
+
+.div_topic.odd{background-color: #E0EEF5;}
+
+.div_topic h4{
+font-size:1em;
+color:#22536A;
+display:block;
+padding:0.5em;
+}
+
+.div_topic p{
+display:block;
+padding:0.5em;
+}
+#tof_div{
+display:block;
+padding:0.5em;
+}
+
+.div_topic h4 span{
+padding-left: 1.5em;
+color:#FF0000;
+display:none;
+}
+
+.do_answer {
+display:none;
+}
+
+.op_answer {
+padding-left: 1.5em;
+color:#FF0000;
+display:none;
+}
+
+.tof_option{
+}
+.tof_input{
+}
+
+#fixedLayer {
+width:100%;
+background-color: #A3CBE0;
+border:1px solid #73AFD0;
+position:absolute;
+left:0px;
+top:0px;
+height: 100px;
+z-index:99999;
+
+}
+
+#answer_last {
+width:150px;
+padding:10px;
+background-color:#FFCC00;
+border:1px dashed #888313;
+position:fixed;
+right:0px;
+top:42px;
+display:none;
+}
+
+#fixedLayer div{
+padding:10px;
+display:inline;
+}
+
+#topic_num{
+width:30px;
+text-align:center;
+}
+
+#topic_right{
+float:right;
+margin-right:10px;
+}
+
+#status{
+color:#FF0000;
+font-size:1em;
+font-weight:bold;}
+
+#Fen{
+	/* width: 155px; */
+	text-align: center;
+	}
+#XS{
+	font-size: 2em;
+}
+#PINGMU{
+	width:100px;
+	height:60px;
+	margin:0px 0px 0px 0px;
+	position: relative;
+	/* border: 2px solid orange; */
+	padding:2cm 2cm 2cm 2cm;
+}

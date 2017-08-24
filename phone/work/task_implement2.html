@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>自轮运转特种设备运用管理系统</title>
+    
+    <link rel="stylesheet" type="text/css" href="../css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/iconfont/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="../css/logbook.css"/>
+</head>
+<body class="body">
+    <div id="ScrollContent">
+        <!-- 基础信息 -->
+        <div class="block">
+            <div class="block-head text-black">
+                <span class="block-title">基础信息</span>
+            </div>
+            <div class="block-body">
+                <table class="table-input">
+                    <tr>
+                        <td style="width:5em;"><span class="input-label">任务名称:</span></td>
+                        <td style="width:calc(100% - 5em);"><span id="taskName" class="select_otive input-text text-gray bor-0">任务名称</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-label">车辆编组:</span></td>
+                        <td><span id="carGroup" class="input-text text-gray bor-0">车辆编组</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!-- 日常检查:检查项目 -->
+        <div class="block">
+            <div id="listview1" class="block-head text-black">
+                <span class="block-title">检查项目</span>
+                <label id="llistview1" class="fl-r">
+                    <input type="checkbox"></input>
+                    <span>全选</span>
+                </label>
+            </div>
+            <ul id="listview2" class="task-implement-list font-size0875"></ul>
+        </div>
+        <!-- 确认按钮 -->
+        <button id="confirm" class="btn btn-block">检查确认</button>
+    </div>
+    <!-- appcan -->
+    <script src="../js/appcan.js"></script>
+    <script src="../js/appcan.control.js"></script>
+    <script src="../js/appcan.tab.js"></script>
+    <script src="../js/gsoft.core.js"></script>
+    <!-- jQuery -->
+    <script src="../js/jquery/jquery1.7.1.min.js"></script>
+    <!-- logbook -->
+    <script src="../js/DivDisplayFrame.js"></script>
+    <script src="../js/InspectprojectList.js"></script>
+    <script src="../js/public.js"></script>
+    <script type="text/javascript" charset="utf-8">
+    appcan.ready(function() {
+        var public = new Public();
+        public.header('回库检查',true,true);//显示顶部:标题名，左侧icon，右侧icon
+        public.footer();//显示底部
+        public.backBtn();
+        
+        var taskId = localStorage.getItem('taskId');
+        if (taskId) {
+            appcan.gsoft.ajaxUtil.ajax({
+                url : '/gltlTaskplanManager/getTaskCheckItems.json',
+                data : 'type=3&id=' + taskId,//3
+                success : function(data) {
+                    //alert(JSON.stringify(data));
+                    //alert(data.records[0].taskId);//任务ID
+                    //alert(data.records[0].carGroup);//车辆编组
+                    //alert(data.records[0].taskName);//任务名称
+                    //alert(JSON.stringify(data.records[0].checkItems));//检查项
+                    //alert(data.records[0].checkItems[0].id);//检查项id
+                    //alert(data.records[0].checkItems[0].mark);//检查项内容
+                    //alert(data.records[0].checkItems[0].ipType);//检查项ipType
+                    //alert(data.records[0].checkItems[0].engineType);//检查项engineType
+                    //alert(data.records[0].checkItems[0].index);//检查项index
+                    
+                    taskId = data.records[0].taskId;//任务ID
+                    
+                    $('#taskName').html(data.records[0].taskName);
+                    $('#carGroup').html(data.records[0].carGroup);
+                    
+                    $("#listview1").click(function(){
+                         if($("#listview1").find('input[type="checkbox"]').is(':checked')){
+                            $("#listview2").find('input[type="checkbox"]').each(function(){
+                                $(this).prop("checked", true);
+                            });
+                         }else{                                        
+                            $("#listview2").find('input[type="checkbox"]').each(function(){
+                                $(this).prop("checked", false);
+                            });
+                         }
+                    })
+                    $("#listview1 input").change(function(){
+                        if($("#listview1").find('input[type="checkbox"]').is(':checked')){
+                            $("#listview2").find('input[type="checkbox"]').each(function(){
+                                $(this).prop("checked", true);
+                            });
+                        }else{                                        
+                            $("#listview2").find('input[type="checkbox"]').each(function(){
+                                $(this).prop("checked", false);
+                            });
+                        }
+                    });
+                    
+                    var records = data.records[0].checkItems;
+                    var listData = '';
+                    for (var i in records) {
+                        var record = records[i];
+                        listData += '<li><label>' +
+                                '<input type ="checkbox" id="'+record.id+'" />' +
+                                '<span>' + (i+1) + '、' + record.mark + '</span>' +
+                            '</label></li>';
+                    }
+                    $('#listview2').append(listData);
+                },
+                error : function(XMLHttpRequest, textStatus, errorThrown) {
+                    appcan.window.openToast('服务器连接失败,请检查网络...', '2000');
+                }
+            });
+        }else {
+            //alert('目前没有任务执行')
+        }
+        var ajaxFlag = true;
+        appcan.button("#confirm", "ani-act", function() {
+            var checkFlag = checkAll();
+            if(checkFlag){
+                if(ajaxFlag){
+                    appcan.gsoft.ajaxUtil.ajax({
+                        url : '/gltlTaskplanManager/outCheck.json',
+                        data : 'taskId='+taskId+'&checktype=3',  // checktype1/2
+                        success : function(data) {
+                            ajaxFlag = true;
+                            //alert(JSON.stringify(data));
+                            if(data.record.html == 'SUCCESS'){
+                                alert('回库检查确认成功');
+                                appcan.window.close(-1);
+                            }
+                        },
+                        error : function(XMLHttpRequest, textStatus, errorThrown) {
+                            appcan.window.openToast('服务器连接失败,请检查网络...', '2000');
+                        }
+                    });
+                    ajaxFlag=false;
+                }else{
+                    appcan.window.alert({
+                        title: '提示',
+                        content: '数据处理中，请勿重复提交！',
+                        buttons: '确定'
+                    });
+                }
+            }
+        })
+        
+    })
+    function checkAll(){
+        var checkArry = $('#listview2 input');
+        for (var i=0; i < checkArry.length; i++) {
+            if (!checkArry.eq(i).attr('checked')) {
+                alert('请全部检查完成');
+                return false;
+            };
+            return true;
+        };
+    }
+    </script>
+</body>
+</html>

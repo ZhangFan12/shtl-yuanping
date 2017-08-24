@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>自轮运转特种设备运用管理系统</title>
+    
+    <link rel="stylesheet" type="text/css" href="../css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/iconfont/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="../css/calendar.css">
+    <link rel="stylesheet" type="text/css" href="../css/index.css"/>
+</head>
+<body class="body">
+    <div id="ScrollContent">
+        <!-- 司机信息 -->
+        <div class="block">
+            <div class="block-head text-black">
+                <!--<span class="block-title">司机信息</span>-->
+                <span>司机信息&nbsp;<span id="driverName" class="color-green"></span></span>
+                <span class="block-title-small">等级：<span id="fUdties"></span></span>
+            </div>
+            <ul class="run clear">
+                <li class="index-01">
+                    <div class="run-box">
+                        <div class="run-box1">
+                            <p class="text-green"><span id="mileageMonth2">0</span>km</p>
+                            <p>截至目前当月行驶里程</p>
+                        </div>
+                        <ul class="run-box2 clear">
+                            <!-- <li class="first"><i class="icon iconfont icon-wuliu text-green"></i></li> -->
+                            <li class="second"><strong>KM</strong><br/>总计行驶里程</li>
+                            <li class="third text-green"><span id="mileage2">0</span></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="index-02">
+                    <div class="run-box">
+                        <div class="run-box1">
+                            <p class="text-green"><span id="timeMonth2">0</span>h</p>
+                            <p>截至目前当月行驶时间</p>
+                        </div>
+                        <ul class="run-box2 clear">
+                            <!-- <li class="first"><i class="icon iconfont icon-shizhongfill text-green"></i> -->
+                            </li>
+                            <li class="second"><strong>H</strong><br/>总计行驶时间</li>
+                            <li class="third text-green"><span id="time2">0</span></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="block">
+            <div class="calender-box">
+                <div id="calendar"></div>
+                <div class="calender-legend">
+                    <span class="legend-today">今天</span>
+                    <span class="legend-out">出车</span>
+                </div>
+            </div>
+            <div class="driver-message-text">当月累计出车时间：
+                <span id="countTime" class="text-green">0</span>天
+            </div>
+        </div>
+    </div>
+    
+    <script src="../js/appcan.js"></script>
+    <script src="../js/appcan.control.js"></script>
+    <script src="../js/gsoft.core.js"></script>
+
+    <script src="../js/jquery/jquery1.7.1.min.js"></script>
+    <script src="../js/jquery/jquery-ui-datepicker.min.js"></script>
+
+    <script src="../js/public.js"></script>
+    <script type="text/javascript" charset="utf-8">
+    var public = new Public();
+    public.header('出乘信息',true,true);//显示顶部：标题名，左侧icon，右侧icon
+    public.footer();//显示底部
+    public.backBtn();
+    
+    appcan.ready(function() {
+        // var sessionStorage = window.sessionStorage;  
+        var fUid = localStorage.getItem('fUid');
+        if(fUid!=null&&fUid!=""){
+             var startTime = nowTime() + ' 00:00:00';
+             var endTime =  nowTime() + ' 23:59:59';
+                appcan.gsoft.ajaxUtil.ajax({
+                    url : "/locomotiveInfoManager/getMileage.json",
+                    data:'userId='+fUid,
+                    success : function(data) {
+                        // console.log(JSON.stringify(data));
+                        document.getElementById("mileage2").innerHTML = data.records[0].mileage;
+                        document.getElementById("time2").innerHTML = data.records[0].time;
+                        document.getElementById("mileageMonth2").innerHTML = data.records[0].mileageMonth;
+                        document.getElementById("timeMonth2").innerHTML = data.records[0].timeMonth;
+                    },
+                    error : function(XMLHttpRequest, textStatus, errorThrown) {
+                        appcan.window.openToast("服务器连接失败,请检查网络...", '2000');
+                    }
+                });
+                appcan.gsoft.ajaxUtil.ajax({
+                    url : "/locomotiveInfoManager/getEngineByFeid.json",
+                    data:'userId='+fUid,
+                    success : function(data) {
+                        // console.log(JSON.stringify(data));
+                        document.getElementById("fUdties").innerHTML = data.record.engine.fUdties;  //人员等级
+                        document.getElementById("driverName").innerHTML = '（' + data.record.engine.fUname + '）';  //人员等级
+                    },
+                    error : function(XMLHttpRequest, textStatus, errorThrown) {
+                        appcan.window.openToast("服务器连接失败,请检查网络...", '2000');
+                    }
+                });
+                //获取日历数据
+                appcan.gsoft.ajaxUtil.ajax({
+                    url : "/locomotiveInfoManager/getMonthPlan.json",
+                    data:'userId='+fUid,
+                    success : function(data) {
+                        // alert(data);
+                        document.getElementById("countTime").innerHTML = data.records[0]==null?"0":data.records[0].countTime;
+                        var dates = new Array();
+                        for (var i=0; i < data.records.length; i++) {
+                            a = data.records[i].glTime.split('-'); //修改时间格式
+                            dates[i] = a[1]+'/'+a[2]+'/'+a[0]
+                        };
+                        //alert(dates);
+                        rili(dates)
+                    },
+                    error : function(XMLHttpRequest, textStatus, errorThrown) {
+                        appcan.window.openToast("服务器连接失败,请检查网络...", '2000');
+                    }
+                });
+        }else{
+            console.log('321');
+             var startTime = nowTime() + ' 00:00:00';
+             var endTime =  nowTime() + ' 23:59:59';
+                appcan.gsoft.ajaxUtil.ajax({
+                    url : "/locomotiveInfoManager/getMileage.json",
+                    success : function(data) {
+                        // alert(JSON.stringify(data));
+                        document.getElementById("mileage2").innerHTML = data.records[0].mileage;
+                        document.getElementById("time2").innerHTML = data.records[0].time;
+                        document.getElementById("mileageMonth2").innerHTML = data.records[0].mileageMonth;
+                        document.getElementById("timeMonth2").innerHTML = data.records[0].timeMonth;
+                    },
+                    error : function(XMLHttpRequest, textStatus, errorThrown) {
+                        appcan.window.openToast("服务器连接失败,请检查网络...", '2000');
+                    }
+                });
+                appcan.gsoft.ajaxUtil.ajax({
+                    url : "/locomotiveInfoManager/getEngineByFeid.json",
+                    success : function(data) {
+                        // alert(JSON.stringify(data));
+                        document.getElementById("fUdties").innerHTML = data.record.engine.fUdties;  //人员等级 
+                        document.getElementById("driverName").innerHTML = '（' + data.record.engine.fUname + '）';  //人员等级
+                    },
+                    error : function(XMLHttpRequest, textStatus, errorThrown) {
+                        appcan.window.openToast("服务器连接失败,请检查网络...", '2000');
+                    }
+                });
+                //获取日历数据
+                appcan.gsoft.ajaxUtil.ajax({
+                    url : "/locomotiveInfoManager/getMonthPlan.json",
+                    success : function(data) {
+                        // alert(data);
+                        document.getElementById("countTime").innerHTML = data.records[0]==null?"0":data.records[0].countTime;
+                        var dates = new Array();
+                        for (var i=0; i < data.records.length; i++) {
+                            a = data.records[i].glTime.split('-'); //修改时间格式
+                            dates[i] = a[1]+'/'+a[2]+'/'+a[0]
+                        };
+                        //alert(dates);
+                        rili(dates)
+                    },
+                    error : function(XMLHttpRequest, textStatus, errorThrown) {
+                        appcan.window.openToast("服务器连接失败,请检查网络...", '2000');
+                    }
+                });
+        }
+        
+        sessionStorage.removeItem('fUid');
+        fUid="";
+    })
+    </script>
+</body>
+</html>
